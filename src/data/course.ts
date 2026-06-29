@@ -3340,10 +3340,10 @@ export const courseModules: CourseModule[] = [
   {
     id: 5,
     slug: "orchestration",
-    label: "Module 5",
+    label: "Bonus Module",
     title: "Orchestrating agent workflows",
     description:
-      "When a single agent isn't enough. The five workflow patterns, single-agent vs multi-agent tradeoffs, subagents, the orchestrator-workers pattern, and when to scale.",
+      "Bonus content. When a single agent isn't enough: the five workflow patterns, single-agent vs multi-agent tradeoffs, subagents, the orchestrator-workers pattern, and when to scale.",
     keyMessage:
       "Start simple. A single agent with good context handles 80% of tasks. Scale to orchestration only when the task demands it — and know the patterns when it does.",
     slides: module5Slides,
