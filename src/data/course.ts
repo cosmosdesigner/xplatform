@@ -3127,6 +3127,169 @@ const module4Slides: Slide[] = [
   },
 ];
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   MODULE 5 — Orchestrating Agent Workflows
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const module5Slides: Slide[] = [
+  {
+    number: 1,
+    title: "The five workflow patterns",
+    headline: "Not every task\nneeds an agent.\nMost need\na workflow.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "Anthropic's research with dozens of production teams found that the most successful implementations use simple, composable patterns — not complex multi-agent frameworks. Before reaching for agents, understand the five workflow patterns that solve most problems.",
+      },
+      {
+        type: "comparison",
+        headers: ["Pattern", "When to use"],
+        rows: [
+          ["Prompt Chaining", "Task decomposes into fixed sequential steps. Each LLM call processes the output of the previous one. Example: generate code → review it → fix issues."],
+          ["Routing", "Input needs classification before specialised handling. Different task types → different prompts/tools. Example: bug report → debug flow, feature request → planning flow."],
+          ["Parallelisation", "Independent subtasks can run simultaneously (sectioning) or the same task needs multiple perspectives (voting). Example: review code for bugs AND security AND performance in parallel."],
+          ["Orchestrator-Workers", "You can't predict subtasks in advance. A central LLM dynamically breaks down work, delegates to workers, synthesises results. Example: 'refactor this module' → discovers which files need changes."],
+          ["Evaluator-Optimizer", "Output can be iteratively improved. One LLM generates, another evaluates and provides feedback in a loop. Example: write tests → run them → fix failures → repeat."],
+        ],
+      },
+      {
+        type: "callout",
+        variant: "rule",
+        title: "Anthropic's core advice",
+        text: "Start with the simplest solution possible. Only increase complexity when it demonstrably improves outcomes. A single LLM call with good context often outperforms an elaborate multi-agent system.",
+      },
+    ],
+  },
+  {
+    number: 2,
+    title: "Single-agent vs multi-agent",
+    headline: "Multi-agent\nsounds better.\nSingle-agent\nusually IS better.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "Cognition (builders of Devin) published a clear warning in June 2025: 'Don't Build Multi-Agents.' Their two principles explain why most multi-agent architectures fail in practice.",
+      },
+      {
+        type: "subheading",
+        text: "Principle 1: Share context",
+      },
+      {
+        type: "paragraph",
+        text: "When you split work across agents, each agent loses context about what the others decided. Subtask 1 might build a Mario-style background while Subtask 2 builds a Flappy Bird character — because neither saw the other's decisions. Sharing full agent traces (not just final outputs) is essential, but expensive.",
+      },
+      {
+        type: "subheading",
+        text: "Principle 2: Actions carry implicit decisions",
+      },
+      {
+        type: "paragraph",
+        text: "Every action an agent takes embodies decisions that weren't explicitly stated. Agent A chose a visual style. Agent B chose a different one. Neither was wrong individually, but together they're inconsistent. Parallel agents with separate contexts will make conflicting implicit decisions.",
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        title: "The tradeoff",
+        text: "Anthropic's multi-agent research system outperformed single-agent by 90% — but used 15x more tokens. Multi-agent works when: the value justifies the cost, the work is truly parallelisable, and information exceeds a single context window. For most coding tasks, a single agent with good context wins.",
+      },
+    ],
+  },
+  {
+    number: 3,
+    title: "Subagents in practice",
+    headline: "Not multi-agent.\nDelegated work\nwith isolated context.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "Subagents are the practical middle ground. They're not autonomous collaborators — they're delegated workers with their own context window that return results to the parent. The key difference from multi-agent: subagents don't coordinate with each other. They report to the parent.",
+      },
+      {
+        type: "comparison",
+        headers: ["Built-in subagent", "What it does"],
+        rows: [
+          ["Explore", "Fast, read-only search. Uses Haiku for speed. Keeps exploration results out of your main context."],
+          ["Plan", "Research agent for plan mode. Gathers codebase context without making changes."],
+          ["General-purpose", "Full capabilities. Used for complex multi-step tasks that need both exploration and action."],
+        ],
+      },
+      {
+        type: "subheading",
+        text: "Custom subagents",
+      },
+      {
+        type: "code",
+        caption: "Creating a custom subagent (~/.claude/agents/reviewer.md)",
+        code: "---\nname: code-reviewer\ndescription: Reviews code for quality and best practices\ntools: Read, Grep, Glob, Bash\nmodel: sonnet\nmemory: user\n---\n\nYou are a senior code reviewer. Analyse code for:\n- Logic errors and edge cases\n- Security vulnerabilities\n- Performance issues\n- Consistency with project patterns\n\nProvide specific, actionable feedback with line references.",
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "The Writer/Reviewer pattern",
+        text: "The most valuable subagent pattern: one agent implements (Session A), then a fresh subagent reviews with clean context (Session B). The reviewer has no bias toward the code it just wrote. This catches things the writer missed because the reviewer evaluates the result, not the intent.",
+      },
+    ],
+  },
+  {
+    number: 4,
+    title: "The orchestrator-workers pattern",
+    headline: "One coordinator.\nMultiple specialists.\nEvidence-gated\nhandoffs.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "The most sophisticated workflow pattern is orchestrator-workers: a central agent classifies tasks, delegates to specialists, enforces quality gates, and loops back on failures. This is the pattern used by production coding systems — and it's the pattern behind this course site's own development.",
+      },
+      {
+        type: "code",
+        caption: "How the orchestrator works (simplified)",
+        code: "1. CLASSIFY the task (ui-feature, bug-fix, refactor...)\n2. SELECT the workflow based on classification\n3. DELEGATE to specialists in sequence:\n   explore → design-system → architect → implementer\n4. ENFORCE gates between steps:\n   - DS Contract must exist before implementer runs\n   - Implementation plan must exist before coding starts\n5. RUN post-checks:\n   review → a11y → design-system (final) → verify\n6. LOOP BACK on failures:\n   review finds Critical → back to implementer → re-review\n7. PRODUCE structured evidence of everything that happened",
+      },
+      {
+        type: "callout",
+        variant: "rule",
+        title: "Hard stops",
+        text: "The orchestrator's most important job is BLOCKING progress when prerequisites aren't met — not just routing work. 'No implementation before DS Contract exists' is a hard stop, not a suggestion. The gate enforcement is what makes orchestrated workflows reliable.",
+      },
+    ],
+  },
+  {
+    number: 5,
+    title: "When to scale beyond single-agent",
+    headline: "The decision\nframework.",
+    sections: [
+      {
+        type: "comparison",
+        headers: ["Stay single-agent when", "Scale to multi-agent when"],
+        rows: [
+          ["The task fits in one context window", "Information exceeds a single context window"],
+          ["Steps are sequential and dependent", "Subtasks are truly independent and parallelisable"],
+          ["Quick iteration matters more than thoroughness", "Thoroughness matters more than speed"],
+          ["Token cost needs to stay low", "The value justifies 10-15x token cost"],
+          ["You need consistent style/decisions", "Different subtasks need different specialisation"],
+          ["You can verify the result quickly", "Verification itself needs specialised agents"],
+        ],
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "The practical progression",
+        text: "1. Single agent with good AGENTS.md → handles 80% of tasks\n2. Single agent with subagents for exploration → handles 95% of tasks\n3. Orchestrator with specialist subagents → handles complex multi-file features\n4. Agent teams with parallel workers → handles research-scale problems\n\nMost developers never need to go beyond step 2. Step 3 is for team leads building workflows. Step 4 is for platform engineers.",
+      },
+    ],
+  },
+  {
+    number: 6,
+    title: "Exercise: design an orchestrated workflow",
+    headline: "Your turn.\nDesign the\ndelegation chain.",
+    sections: [
+      {
+        type: "callout",
+        variant: "exercise",
+        title: "Exercise: Design an orchestrated workflow for your project",
+        text: "Pick a complex task type your team does regularly (e.g., 'add a new API endpoint', 'build a new page', 'fix a production bug').\n\n1. CLASSIFY — what type of task is it? What subtasks does it involve?\n2. SEQUENCE — what order should specialists work in? What depends on what?\n3. GATES — what must exist before each step can proceed? What are the hard stops?\n4. FAILURE LOOPS — when a post-check fails, where does work route back to?\n5. SUBAGENTS — which steps benefit from isolated context? Which need the full picture?\n6. EVIDENCE — what should the final report include?\n\nDraw the workflow as a diagram:\n- Boxes for each specialist step\n- Arrows for the happy path\n- Dotted arrows for failure loop-backs\n- Diamond shapes for gates/decisions\n\nCompare with a colleague — did you sequence the same way?\n\nTime: 30 minutes",
+      },
+    ],
+  },
+];
+
 /* ─── Export all modules ────────────────────────────────────────────────── */
 
 export const courseModules: CourseModule[] = [
@@ -3173,5 +3336,16 @@ export const courseModules: CourseModule[] = [
     keyMessage:
       "Mental model + workflow + project instrumentation = professional AI-assisted development. Build it to prove it.",
     slides: module4Slides,
+  },
+  {
+    id: 5,
+    slug: "orchestration",
+    label: "Module 5",
+    title: "Orchestrating agent workflows",
+    description:
+      "When a single agent isn't enough. The five workflow patterns, single-agent vs multi-agent tradeoffs, subagents, the orchestrator-workers pattern, and when to scale.",
+    keyMessage:
+      "Start simple. A single agent with good context handles 80% of tasks. Scale to orchestration only when the task demands it — and know the patterns when it does.",
+    slides: module5Slides,
   },
 ];

@@ -43,10 +43,10 @@ export const courses: Course[] = [
     title: "AI Coding Agents",
     subtitle: "Done Right.",
     description:
-      "The mental model, the daily workflow, and the project conventions that turn an AI agent into a reliable development partner. Four modules from theory to building a real application.",
+      "The mental model, the daily workflow, the project conventions, and orchestration patterns that turn an AI agent into a reliable development partner. Five modules from theory to orchestrating agent workflows.",
     status: "available",
-    modules: 4,
-    exercises: 20,
+    modules: 5,
+    exercises: 21,
     frameworks: 5,
     duration: "8-12 hours",
     tags: [
