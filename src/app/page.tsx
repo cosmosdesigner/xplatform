@@ -7,6 +7,7 @@ import { courses, type Course } from "@/data/catalog";
 import { cn } from "@/lib/utils";
 import {
   ArrowRight,
+  ArrowDown,
   BookOpen,
   GraduationCap,
   Layers,
@@ -210,16 +211,16 @@ export default function HomePage() {
 
       {/* Hero */}
       <section
-        className="relative min-h-[85vh] flex flex-col items-center justify-center text-center overflow-hidden"
+        className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden"
         aria-label="Welcome"
       >
-        {/* Radial glow */}
+        {/* Dual radial glows */}
         <div
           className="pointer-events-none absolute inset-0"
           aria-hidden="true"
           style={{
             background:
-              "radial-gradient(ellipse 70% 50% at 50% 30%, rgba(222,49,99,0.08) 0%, transparent 70%)",
+              "radial-gradient(ellipse 50% 60% at 30% 20%, rgba(99,102,241,0.06) 0%, transparent 70%), radial-gradient(ellipse 50% 60% at 70% 30%, rgba(222,49,99,0.06) 0%, transparent 70%)",
           }}
         />
 
@@ -230,14 +231,14 @@ export default function HomePage() {
           style={{
             backgroundImage:
               "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
-            backgroundSize: "80px 80px",
+            backgroundSize: "60px 60px",
           }}
         />
 
         <Container>
           <div
             ref={heroRef}
-            className="reveal relative z-10 flex flex-col items-center gap-6 py-28"
+            className="reveal relative z-10 flex flex-col items-center text-center gap-6 pt-28 pb-12"
           >
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-3">
@@ -248,76 +249,133 @@ export default function HomePage() {
               <span className="h-px w-8 bg-[#de3163]" aria-hidden="true" />
             </div>
 
-            {/* Logo mark */}
-            <div className="h-16 w-16 rounded-[12px] bg-[#de3163]/10 border border-[#de3163]/20 flex items-center justify-center">
-              <GraduationCap
-                className="h-8 w-8 text-[#de3163]"
-                aria-hidden="true"
-              />
-            </div>
-
-            {/* Title */}
+            {/* Title — two-tone */}
             <h1
-              className="text-[#ededed] font-semibold leading-[0.95] tracking-[-0.04em] max-w-3xl"
-              style={{ fontSize: "clamp(42px, 7vw, 80px)" }}
+              className="font-semibold leading-[0.95] tracking-[-0.04em] max-w-3xl"
+              style={{ fontSize: "clamp(48px, 8vw, 88px)" }}
             >
-              XPlatform Academy
+              <span className="text-[#ededed]">XPlatform</span>
+              <br />
+              <span className="text-[#a0a0a0]">Academy</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="max-w-[520px] text-[18px] md:text-[20px] text-[#a0a0a0] leading-[1.65] mt-1">
+            <p className="max-w-[480px] text-[18px] md:text-[20px] text-[#a0a0a0] leading-[1.65] mt-1">
               Enterprise courses for AI-assisted development.
-              <br />
-              Learn to work with AI coding agents professionally,
-              safely, and at scale.
+              Built for the way you already work.
             </p>
-
-            {/* Stats */}
-            <div className="flex items-center gap-8 mt-4 text-[#454545]">
-              <span className="flex flex-col items-center gap-1">
-                <span className="font-mono text-[24px] font-bold text-[#ededed]">
-                  {courses.length}
-                </span>
-                <span className="text-[11px] font-mono tracking-wider uppercase">
-                  Courses
-                </span>
-              </span>
-              <span
-                className="h-8 w-px bg-[#2e2e2e]"
-                aria-hidden="true"
-              />
-              <span className="flex flex-col items-center gap-1">
-                <span className="font-mono text-[24px] font-bold text-[#ededed]">
-                  {courses.filter((c) => c.status === "available").length}
-                </span>
-                <span className="text-[11px] font-mono tracking-wider uppercase">
-                  Available
-                </span>
-              </span>
-              <span
-                className="h-8 w-px bg-[#2e2e2e]"
-                aria-hidden="true"
-              />
-              <span className="flex flex-col items-center gap-1">
-                <span className="font-mono text-[24px] font-bold text-[#ededed]">
-                  {courses.reduce((sum, c) => sum + c.modules, 0)}
-                </span>
-                <span className="text-[11px] font-mono tracking-wider uppercase">
-                  Modules
-                </span>
-              </span>
-            </div>
 
             {/* CTA */}
             <button
               onClick={handleScrollToCourses}
-              className="mt-6 h-11 px-6 rounded-[6px] bg-[#ededed] text-[#080808] text-sm font-medium hover:bg-[#d4d4d4] transition-colors duration-150 inline-flex items-center gap-2"
+              className="mt-2 h-11 px-6 rounded-[6px] bg-[#ededed] text-[#080808] text-sm font-medium hover:bg-[#d4d4d4] transition-colors duration-150 inline-flex items-center gap-2"
             >
-              Browse courses
+              Start learning
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
+
+          {/* Gradient divider */}
+          <div
+            className="h-px w-full max-w-[600px] mx-auto my-8"
+            style={{
+              background:
+                "linear-gradient(to right, transparent, #de3163, transparent)",
+            }}
+            aria-hidden="true"
+          />
+
+          {/* Course strip */}
+          <nav
+            aria-label="Course quick navigation"
+            className="relative z-10 pb-16"
+          >
+            <div className="flex gap-3 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 -mx-2 px-2 md:justify-center md:overflow-x-visible md:snap-none">
+              {courses.map((course) => {
+                const isAvailable = course.status === "available";
+                const tile = (
+                  <div
+                    className={cn(
+                      "snap-start shrink-0 w-[180px] md:w-[200px] rounded-[6px] border overflow-hidden transition-[border-color,background-color] duration-150 group",
+                      isAvailable
+                        ? "border-[#2e2e2e] bg-[#0f0f0f] hover:bg-[#111] cursor-pointer"
+                        : "border-[#1f1f1f] bg-[#0a0a0a] opacity-50 cursor-default border-dashed"
+                    )}
+                  >
+                    {/* Accent top bar */}
+                    <div
+                      className="h-1 w-full"
+                      style={{
+                        backgroundColor: isAvailable
+                          ? course.accent
+                          : "#2e2e2e",
+                      }}
+                      aria-hidden="true"
+                    />
+
+                    <div className="p-4">
+                      {/* Course title */}
+                      <p className="text-[14px] font-semibold text-[#ededed] leading-[1.3] tracking-[-0.01em]">
+                        {course.title}
+                      </p>
+
+                      {/* Module count */}
+                      <p className="mt-2 font-mono text-[11px] text-[#454545] tracking-wider uppercase">
+                        {course.modules} modules
+                      </p>
+
+                      {/* Status */}
+                      <span
+                        className={cn(
+                          "mt-3 inline-block font-mono text-[10px] tracking-widest uppercase px-2 py-0.5 rounded-full border",
+                          isAvailable
+                            ? "border-emerald-500/30 text-emerald-400/80"
+                            : "border-[#2e2e2e] text-[#454545]"
+                        )}
+                      >
+                        {isAvailable ? "Available" : "Coming soon"}
+                      </span>
+                    </div>
+                  </div>
+                );
+
+                if (isAvailable) {
+                  return (
+                    <Link
+                      key={course.id}
+                      href={course.href}
+                      className="snap-start shrink-0"
+                    >
+                      {tile}
+                    </Link>
+                  );
+                }
+
+                return (
+                  <div key={course.id} aria-disabled="true">
+                    {tile}
+                  </div>
+                );
+              })}
+            </div>
+          </nav>
         </Container>
+
+        {/* Scroll hint */}
+        <button
+          onClick={handleScrollToCourses}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0 text-[#454545] hover:text-[#878787] transition-colors duration-200"
+          aria-label="Scroll to course catalog"
+        >
+          <div
+            className="h-10 w-px bg-gradient-to-b from-transparent to-[#2e2e2e]"
+            aria-hidden="true"
+          />
+          <ArrowDown
+            className="h-4 w-4 animate-bounce"
+            aria-hidden="true"
+          />
+        </button>
       </section>
 
       {/* Course grid */}
