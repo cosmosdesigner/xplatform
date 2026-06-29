@@ -21,8 +21,8 @@ export const courses: Course[] = [
     title: "Loom v2",
     subtitle: "How We Deliver.",
     description:
-      "The 16-point operational model for continuous feature delivery. From batch cycles to flow-based execution with clear ownership, validation gates, and independent deployments. Start here — this is how every XPlatform team works.",
-    status: "available",
+      "The 16-point operational model for continuous feature delivery. From batch cycles to flow-based execution with clear ownership, validation gates, and independent deployments.",
+    status: "coming-soon",
     modules: 5,
     exercises: 0,
     frameworks: 16,

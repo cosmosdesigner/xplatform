@@ -417,10 +417,10 @@ export default function HomePage() {
               Agents — the foundation for everything that follows.
             </p>
             <Link
-              href="/courses/loom-v2"
+              href="/courses/ai-harnesses"
               className="mt-2 h-11 px-6 rounded-[6px] bg-[#ededed] text-[#080808] text-sm font-medium hover:bg-[#d4d4d4] transition-colors duration-150 inline-flex items-center gap-2"
             >
-              Start with Loom v2
+              Start with AI Harnesses
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
