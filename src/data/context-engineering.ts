@@ -195,6 +195,72 @@ const module1Slides: Slide[] = [
       },
     ] as ContentBlock[],
   },
+  {
+    number: 7,
+    title: "The formal definition",
+    headline: "A system,\nnot a string.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "Phil Schmid of Hugging Face distils context engineering into a single sentence: 'The discipline of designing and building dynamic systems that provide the right information and tools, in the right format, at the right time, to give an LLM everything it needs to accomplish a task.'",
+      },
+      {
+        type: "subheading",
+        text: "Four properties of context engineering",
+      },
+      {
+        type: "bullets",
+        items: [
+          "It's a SYSTEM, not a string — the final prompt is assembled programmatically from multiple sources at runtime, not typed by a human",
+          "It's DYNAMIC — different context is loaded depending on the task, the state, and the moment. A frontend task loads different context than a backend task",
+          "It's about the RIGHT information at the RIGHT time — not all information, not no information, but precisely what the agent needs for this specific step",
+          "FORMAT MATTERS — how you present information affects comprehension. Summaries beat raw dumps. Structured data beats prose. Section headers beat walls of text",
+        ],
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "The cheap demo vs. the magical agent",
+        text: "A 'cheap demo' agent sees only the user's message and nothing else. Its code works but the output is generic and unhelpful.\n\nA 'magical' agent has rich context loaded before the LLM call: your calendar, your past interactions, your project's conventions, your design system, your test runner. The magic isn't a smarter model — it's better context.",
+      },
+      {
+        type: "quote",
+        text: "Prompt engineering was about coming up with a magical sentence. Context engineering is about writing the full screenplay for the AI.",
+        attribution: "Addy Osmani, O'Reilly",
+      },
+    ] as ContentBlock[],
+  },
+  {
+    number: 8,
+    title: "How contexts fail",
+    headline: "Four ways\nyour context\nwill break.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "Drew Breunig documented four specific failure modes that occur when context windows grow. Understanding these is essential because longer contexts do not automatically produce better results — they create new failure modes that are especially dangerous for agents.",
+      },
+      {
+        type: "comparison",
+        headers: ["Failure mode", "What happens"],
+        rows: [
+          ["Context Poisoning", "A hallucination or error makes it into the context (e.g., a scratchpad, a summary) and is repeatedly referenced. The agent develops nonsensical strategies pursuing goals that cannot be met."],
+          ["Context Distraction", "As context grows beyond ~100k tokens, the agent favours repeating past actions from its extensive history rather than synthesising novel plans. It leans on what it sees instead of what it knows."],
+          ["Context Confusion", "Superfluous information (irrelevant tool definitions, unrelated documents) is used by the model to generate low-quality responses. Every model performs worse when given more than one tool."],
+          ["Context Clash", "Information gathered in stages conflicts with itself. Early incorrect attempts remain in context and influence the final answer. One study showed a 39% accuracy drop when information was sharded across messages."],
+        ],
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        title: "The million-token trap",
+        text: "Frontier models support up to 1 million tokens, but the Gemini 2.5 technical report found that agents began repeating past actions instead of planning new ones after ~100k tokens. Smaller models hit their distraction ceiling even earlier — Llama 3.1 405B at around 32k tokens. Bigger windows are not better windows.",
+      },
+      {
+        type: "paragraph",
+        text: "These failures hit agents hardest because agents operate in exactly the scenarios where contexts balloon: gathering information from multiple sources, making sequential tool calls, engaging in multi-turn reasoning, and accumulating extensive histories.",
+      },
+    ] as ContentBlock[],
+  },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -381,6 +447,64 @@ const module2Slides: Slide[] = [
         variant: "exercise",
         title: "Exercise: Write an AGENTS.md for your project",
         text: "Open your real project. Create (or improve) an AGENTS.md file.\n\nInclude:\n1. Stack — exact frameworks, versions, and key libraries\n2. Commands — dev, build, test, lint, typecheck\n3. Architecture — folder structure with what lives where\n4. Conventions — 5-10 rules specific to your project\n5. Anti-patterns — 3-5 things the agent should never do\n6. Definition of Done — what 'finished' means\n\nEvaluation criteria:\n- Is every rule specific enough to verify in a diff?\n- Would removing any rule cause the agent to make mistakes?\n- Is anything included that the agent could figure out on its own?\n\nTime: 30 minutes",
+      },
+    ] as ContentBlock[],
+  },
+  {
+    number: 8,
+    title: "Verification as context",
+    headline: "Give the agent\na check it can run.\nThat changes\neverything.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "Anthropic's number one best practice for Claude Code is: give the agent a way to verify its own work. A test suite, a build command, a linter, a screenshot comparison. Without a check, 'looks done' is the only signal — and you become the verification loop.",
+      },
+      {
+        type: "comparison",
+        headers: ["Without verification context", "With verification context"],
+        rows: [
+          ["'Implement a function that validates emails'", "'Write validateEmail. Test cases: user@example.com → true, invalid → false. Run the tests after implementing.'"],
+          ["'Make the dashboard look better'", "'Implement this design. Take a screenshot and compare it to the original. List differences and fix them.'"],
+          ["'The build is failing'", "'The build fails with this error: [paste]. Fix it and verify the build succeeds. Address root cause, don't suppress.'"],
+        ],
+      },
+      {
+        type: "callout",
+        variant: "rule",
+        title: "Verification is context",
+        text: "The test command, the build command, the lint command — these are context. They tell the agent what 'done' means. Put them in your AGENTS.md. The agent can't verify what it doesn't know how to check.",
+      },
+    ] as ContentBlock[],
+  },
+  {
+    number: 9,
+    title: "Format and structure matter",
+    headline: "How you present\ninformation\nis as important\nas what you include.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "It's not just what you include in the context — it's how you present it. A huge blob of unstructured text will confuse the model, while a well-organised input guides it. The 12-Factor Agents project showed that the same information in a custom format used 40% fewer tokens than standard message format.",
+      },
+      {
+        type: "subheading",
+        text: "Formatting principles",
+      },
+      {
+        type: "bullets",
+        items: [
+          "Use section headers to separate context types ('Relevant code:', 'Error log:', 'User request:')",
+          "Use structured formats (markdown tables, JSON, YAML) when data has clear structure",
+          "Summarise long texts — a concise summary beats a raw dump of 1000 lines",
+          "Show only relevant portions — the last 5 error lines, not 100 lines of stack trace",
+          "Use XML-style tags for custom context formats: <slack_message>...</slack_message>",
+          "Prefix reference material clearly: 'Here is the relevant documentation:' in quotes",
+        ],
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "Information density",
+        text: "The 12-Factor Agents project demonstrated that custom context formats (using XML tags and YAML instead of standard chat message arrays) achieved the same semantic content with significantly fewer tokens. More information density = more room for actual reasoning.",
       },
     ] as ContentBlock[],
   },
@@ -582,6 +706,75 @@ const module3Slides: Slide[] = [
       },
     ] as ContentBlock[],
   },
+  {
+    number: 8,
+    title: "The four operations",
+    headline: "Write. Select.\nCompress. Isolate.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "LangChain's research identifies four fundamental operations of context engineering. Every technique you'll encounter — from AGENTS.md to subagents to auto-compact — maps to one of these four operations on the context window.",
+      },
+      {
+        type: "comparison",
+        headers: ["Operation", "What it means"],
+        rows: [
+          ["Write", "Save context OUTSIDE the window for later use — scratchpads, MEMORY.md files, state objects, notes-to-self. The agent creates context it can retrieve later."],
+          ["Select", "Pull context INTO the window — RAG retrieval, memory lookup, file reads, MCP tool calls. Choosing what to load from external sources."],
+          ["Compress", "Retain only the tokens that matter — summarisation, trimming old messages, post-processing tool output. Keeping the window lean."],
+          ["Isolate", "Split context across boundaries — subagents with separate windows, sandboxed environments, state schemas that hide fields from the LLM until needed."],
+        ],
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "The taxonomy in practice",
+        text: "AGENTS.md is a Write (you wrote it) + Select (loaded at session start).\nSubagents are Isolate (separate context) + Compress (report back a summary).\n/compact is Compress (summarise and trim).\nMCP is Select (pull in dynamic data).\n\nEvery context technique is a combination of these four operations.",
+      },
+    ] as ContentBlock[],
+  },
+  {
+    number: 9,
+    title: "Scratchpads and memory",
+    headline: "Short-term notes.\nLong-term patterns.\nThe agent remembers.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "When humans solve complex tasks, we take notes. Agents are gaining the same capability through scratchpads (within-session notes) and memory systems (cross-session learning). These are Write operations — saving context outside the window for later retrieval.",
+      },
+      {
+        type: "subheading",
+        text: "Scratchpads (short-term, within a session)",
+      },
+      {
+        type: "bullets",
+        items: [
+          "Anthropic's multi-agent researcher saves its plan to a scratchpad because context may be truncated at 200k tokens",
+          "Can be a tool call that writes to a file, or a field in the agent's state object",
+          "Useful for multi-step plans, intermediate findings, and decisions that need to survive compaction",
+        ],
+      },
+      {
+        type: "subheading",
+        text: "Memory (long-term, across sessions)",
+      },
+      {
+        type: "bullets",
+        items: [
+          "MEMORY.md files — persistent learnings stored per project, loaded in future sessions",
+          "Claude Code, Cursor, and Windsurf all have built-in memory systems",
+          "Three memory types: episodic (past examples), procedural (how-to instructions), semantic (facts and relationships)",
+          "The feedback rule: if you correct the agent twice for the same mistake, write it to memory — don't keep correcting",
+        ],
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        title: "Memory selection is hard",
+        text: "Simon Willison shared an example where ChatGPT fetched his location from memories and unexpectedly injected it into an image request. Selecting the RIGHT memory for the RIGHT task is a challenge. Not all stored context should be loaded — relevance filtering is essential.",
+      },
+    ] as ContentBlock[],
+  },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -749,6 +942,74 @@ const module4Slides: Slide[] = [
       },
     ] as ContentBlock[],
   },
+  {
+    number: 7,
+    title: "Context compression techniques",
+    headline: "Retain only\nthe tokens\nthat matter.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "As agent conversations span hundreds of turns with token-heavy tool calls, compression becomes essential. Compression is about retaining the signal while discarding the noise — keeping the context window effective without losing critical information.",
+      },
+      {
+        type: "subheading",
+        text: "Compression strategies",
+      },
+      {
+        type: "comparison",
+        headers: ["Strategy", "When to use"],
+        rows: [
+          ["Auto-compact (summarise full trajectory)", "Claude Code runs this at 95% window capacity — summarises the entire conversation, preserving key decisions and code changes"],
+          ["/compact with focus instructions", "Manual trigger: '/compact Focus on the API changes' — tells the summariser what to preserve"],
+          ["Tool output post-processing", "Summarise heavy tool outputs (search results, file listings) before they enter context. A 1000-line search result becomes a 20-line summary"],
+          ["Trimming old messages", "Remove older messages from the conversation list using heuristic rules (keep last N turns, or keep only messages with tool calls)"],
+          ["Hierarchical summarisation", "Summarise in layers: first summarise each section, then summarise the summaries. Anthropic uses this for monitoring computer use agents"],
+        ],
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        title: "The compression trap",
+        text: "Summarisation can lose critical details. Cognition (Devin) uses a fine-tuned model specifically for summarisation because generic summarisation kept losing important implementation decisions. If specific events or decisions must be captured, instruct the compressor: 'When compacting, always preserve the full list of modified files and test commands.'",
+      },
+    ] as ContentBlock[],
+  },
+  {
+    number: 8,
+    title: "Own your context window",
+    headline: "The context window\nis your primary\ninterface with\nthe LLM.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "The 12-Factor Agents project makes a powerful argument: you don't have to use standard message-based formats for conveying context to an LLM. At any given point, your input to an LLM agent is 'here's what happened so far — what's the next step?' How you structure that input matters enormously.",
+      },
+      {
+        type: "code",
+        caption: "Custom context format (XML-style, more token-efficient)",
+        code: "<slack_message>\n    From: @alex\n    Channel: #deployments\n    Text: Can you deploy the backend?\n</slack_message>\n\n<list_git_tags_result>\n    tags:\n      - name: \"v1.2.3\"\n        commit: \"abc123\"\n      - name: \"v1.2.2\"\n        commit: \"def456\"\n</list_git_tags_result>\n\nWhat's the next step?",
+      },
+      {
+        type: "subheading",
+        text: "Benefits of owning your context format",
+      },
+      {
+        type: "bullets",
+        items: [
+          "Information density — structure information to maximise the LLM's understanding per token",
+          "Error handling — include error information in formats that help the LLM recover, then hide resolved errors",
+          "Safety — control what gets passed to the LLM, filtering sensitive data",
+          "Flexibility — adapt the format as you learn what works best",
+          "Token efficiency — custom formats consistently use fewer tokens than standard message arrays",
+        ],
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "The principle",
+        text: "Context includes: prompts, instructions, RAG documents, history, tool calls, and memory. Taking control of how you structure and present information can dramatically improve your agent's performance. The context window is your primary interface with the LLM — treat it like you would treat any critical API.",
+      },
+    ] as ContentBlock[],
+  },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -814,6 +1075,28 @@ export const contextFrameworks = [
       "External system failures → status: failed",
       "Stale context (>30 days) → warning + re-read trigger",
       "Never silently resolve — always surface for human decision",
+    ],
+  },
+  {
+    id: "context-failures",
+    title: "Context Failure Modes",
+    description: "Four ways contexts break, named by Drew Breunig.",
+    items: [
+      "Context Poisoning — hallucination enters context, is repeatedly referenced, causes cascading errors",
+      "Context Distraction — agent favours repeating past actions over synthesising new plans (>100k tokens)",
+      "Context Confusion — irrelevant tools/documents get used to generate low-quality responses",
+      "Context Clash — information gathered in stages contradicts itself, causing 39% accuracy drops",
+    ],
+  },
+  {
+    id: "four-operations",
+    title: "Write / Select / Compress / Isolate",
+    description: "LangChain's four fundamental operations on the context window.",
+    items: [
+      "Write — save context outside the window (scratchpads, MEMORY.md, state objects)",
+      "Select — pull context into the window (RAG, memory lookup, file reads, MCP calls)",
+      "Compress — retain only what matters (summarise, trim, post-process tool output)",
+      "Isolate — split context across boundaries (subagents, sandboxes, state schemas)",
     ],
   },
 ];

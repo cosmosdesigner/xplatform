@@ -41,7 +41,7 @@ function ContextFrameworksSection() {
             Key frameworks
           </p>
           <h2 className="text-[32px] md:text-[42px] font-semibold tracking-[-0.03em] text-[#ededed] leading-[1.15]">
-            5 models.
+            7 models.
             <br />
             <span className="text-[#878787]">One context architecture.</span>
           </h2>
@@ -177,7 +177,7 @@ function ContextHero() {
           <p className="max-w-[560px] text-[18px] md:text-[20px] text-[#a0a0a0] leading-[1.65] mt-2">
             The art and science of structuring what AI coding agents see.
             From AGENTS.md to enterprise context architectures
-            — 4 modules, 26 slides, real-world patterns.
+            — 4 modules, 34 slides, real-world patterns.
           </p>
 
           {/* Module badges */}
@@ -208,7 +208,7 @@ function ContextHero() {
             />
             <span className="flex flex-col items-center gap-1">
               <span className="font-mono text-[24px] font-bold text-[#ededed]">
-                26
+                34
               </span>
               <span className="text-[11px] font-mono tracking-wider uppercase">
                 Slides

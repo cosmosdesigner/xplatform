@@ -70,7 +70,7 @@ export const courses: Course[] = [
     status: "available",
     modules: 4,
     exercises: 6,
-    frameworks: 5,
+    frameworks: 7,
     duration: "6-8 hours",
     tags: ["Context Stack", "AGENTS.md", "Skills", "MCP", "Enterprise"],
     href: "/courses/context-engineering",
