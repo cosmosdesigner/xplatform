@@ -221,6 +221,8 @@ function ModuleCard({
   const triggerId = useId();
   const [presenting, setPresenting] = useState(false);
   const presentBtnRef = useRef<HTMLButtonElement>(null);
+  const isBonus = module.label.toLowerCase().includes("bonus");
+  const accentColor = accent ?? "#de3163";
 
   return (
     <article
@@ -228,24 +230,40 @@ function ModuleCard({
         "rounded-[6px] border overflow-hidden transition-[border-color,background-color,box-shadow] duration-150",
         isOpen
           ? "border-[#454545] bg-[#0c0c0c]"
-          : "border-[#2e2e2e] bg-[#0f0f0f] hover:border-[#454545] hover:bg-[#111]"
+          : isBonus
+            ? "bg-[#0f0f0f] hover:bg-[#111]"
+            : "border-[#2e2e2e] bg-[#0f0f0f] hover:border-[#454545] hover:bg-[#111]"
       )}
-      style={
-        isOpen
-          ? {
-              boxShadow: `0 0 0 1px rgba(255,255,255,0.04), 0 0 60px -20px ${accent ?? "#de3163"}26`,
-            }
-          : undefined
-      }
+      style={{
+        ...(isBonus && !isOpen
+          ? { borderColor: `${accentColor}30`, boxShadow: `0 0 30px -10px ${accentColor}20` }
+          : {}),
+        ...(isOpen
+          ? { boxShadow: `0 0 0 1px rgba(255,255,255,0.04), 0 0 60px -20px ${accentColor}26` }
+          : {}),
+        ...(isBonus && isOpen
+          ? { borderColor: `${accentColor}50`, boxShadow: `0 0 0 1px ${accentColor}15, 0 0 60px -15px ${accentColor}30` }
+          : {}),
+      }}
     >
+      {/* Accent top bar for bonus modules */}
+      {isBonus && (
+        <div
+          className="h-1 w-full"
+          style={{ backgroundColor: accentColor }}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Module header */}
       <div className="w-full flex items-start gap-5 p-6 md:p-8">
         {/* Module number */}
         <span
-          className="font-mono text-[11px] tracking-widest text-[#454545] mt-1 shrink-0 uppercase"
+          className="font-mono text-[11px] tracking-widest mt-1 shrink-0 uppercase"
+          style={isBonus ? { color: accentColor } : { color: "#454545" }}
           aria-hidden="true"
         >
-          {String(module.id).padStart(2, "0")}
+          {isBonus ? "\u2605" : String(module.id).padStart(2, "0")}
         </span>
 
         <div className="flex-1 min-w-0">
@@ -258,7 +276,10 @@ function ModuleCard({
             className="w-full text-left group"
           >
             {/* Label */}
-            <span className="font-mono text-[11px] tracking-widest text-[#454545] uppercase">
+            <span
+              className="font-mono text-[11px] tracking-widest uppercase"
+              style={isBonus ? { color: accentColor } : { color: "#454545" }}
+            >
               {module.label}
             </span>
 
