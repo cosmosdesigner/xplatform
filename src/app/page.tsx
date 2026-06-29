@@ -7,7 +7,7 @@ import { courses, type Course } from "@/data/catalog";
 import { cn } from "@/lib/utils";
 import {
   ArrowRight,
-  ArrowDown,
+  ArrowUpRight,
   BookOpen,
   GraduationCap,
   Layers,
@@ -16,35 +16,63 @@ import {
   Lock,
 } from "lucide-react";
 
-/* ─── Homepage Nav ──────────────────────────────────────────────────────── */
+/* ─── Hero Nav (transparent, editorial) ────────────────────────────────── */
 
-function HomeNav() {
+function HeroNav() {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    e.preventDefault();
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 bg-[#080808]/95 border-b border-[#2e2e2e] backdrop-blur-md"
+      className="absolute top-0 left-0 right-0 z-50 px-6 md:px-10 lg:px-16"
       aria-label="Site navigation"
     >
-      <Container>
-        <div className="flex h-14 items-center justify-between gap-8">
-          <a
-            href="/"
-            className="flex items-center gap-2 text-[#ededed] font-semibold text-sm tracking-tight"
-            aria-label="XPlatform Academy — home"
-          >
-            <GraduationCap
-              className="h-4 w-4 text-[#de3163]"
-              aria-hidden="true"
-            />
-            <span className="font-mono text-xs text-[#878787] tracking-widest uppercase">
-              XPlatform Academy
-            </span>
-          </a>
-
-          <span className="font-mono text-[10px] tracking-widest uppercase text-[#454545]">
-            Enterprise AI Training
+      <div className="flex h-20 items-center justify-between">
+        {/* Logo monogram */}
+        <a
+          href="/"
+          className="flex items-center gap-2.5"
+          aria-label="XPlatform Academy — home"
+        >
+          <GraduationCap
+            className="h-5 w-5 text-white/80"
+            aria-hidden="true"
+          />
+          <span className="text-[11px] tracking-[0.3em] uppercase text-white/60 font-light hidden sm:inline">
+            XPA
           </span>
+        </a>
+
+        {/* Navigation */}
+        <div className="hidden md:flex items-center gap-8">
+          <a
+            href="#courses"
+            onClick={(e) => handleNavClick(e, "#courses")}
+            className="text-[11px] tracking-[0.2em] uppercase text-white/50 hover:text-white/90 transition-colors duration-200"
+          >
+            Courses
+          </a>
+          <a
+            href="#about"
+            onClick={(e) => handleNavClick(e, "#about")}
+            className="text-[11px] tracking-[0.2em] uppercase text-white/50 hover:text-white/90 transition-colors duration-200"
+          >
+            About
+          </a>
+          <Link
+            href="/courses/ai-agents"
+            className="text-[11px] tracking-[0.2em] uppercase bg-white text-[#080808] px-5 py-2 rounded-full hover:bg-white/90 transition-colors duration-200"
+          >
+            Start Learning
+          </Link>
         </div>
-      </Container>
+      </div>
     </nav>
   );
 }
@@ -182,7 +210,6 @@ function CourseCard({ course }: { course: Course }) {
 /* ─── Homepage ──────────────────────────────────────────────────────────── */
 
 export default function HomePage() {
-  const heroRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -194,7 +221,6 @@ export default function HomePage() {
       },
       { threshold: 0.05 }
     );
-    if (heroRef.current) observer.observe(heroRef.current);
     if (gridRef.current) observer.observe(gridRef.current);
     return () => observer.disconnect();
   }, []);
@@ -205,180 +231,138 @@ export default function HomePage() {
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  const availableCourses = courses.filter((c) => c.status === "available");
+
   return (
     <>
-      <HomeNav />
-
-      {/* Hero */}
+      {/* ═══════════════════════════════════════════════════════════════════
+          HERO — Full-viewport, luxury editorial layout
+          ═══════════════════════════════════════════════════════════════════ */}
       <section
-        className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden"
+        className="relative min-h-screen flex flex-col overflow-hidden"
         aria-label="Welcome"
       >
-        {/* Dual radial glows */}
+        {/* Background — dark gradient overlay for cinematic depth */}
         <div
           className="pointer-events-none absolute inset-0"
           aria-hidden="true"
           style={{
             background:
-              "radial-gradient(ellipse 50% 60% at 30% 20%, rgba(99,102,241,0.06) 0%, transparent 70%), radial-gradient(ellipse 50% 60% at 70% 30%, rgba(222,49,99,0.06) 0%, transparent 70%)",
+              "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 80%, rgba(222,49,99,0.04) 0%, transparent 60%)",
           }}
         />
 
-        {/* Grid lines */}
+        {/* Subtle noise texture */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.02]"
+          className="pointer-events-none absolute inset-0 opacity-[0.015]"
           aria-hidden="true"
           style={{
-            backgroundImage:
-              "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundSize: "128px 128px",
           }}
         />
 
-        <Container>
-          <div
-            ref={heroRef}
-            className="reveal relative z-10 flex flex-col items-center text-center gap-6 pt-28 pb-12"
-          >
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-3">
-              <span className="h-px w-8 bg-[#de3163]" aria-hidden="true" />
-              <span className="font-mono text-xs tracking-[0.25em] uppercase text-[#878787]">
-                Enterprise AI Training
-              </span>
-              <span className="h-px w-8 bg-[#de3163]" aria-hidden="true" />
-            </div>
+        <HeroNav />
 
-            {/* Title — two-tone */}
+        {/* Hero content — split layout on desktop */}
+        <div className="flex-1 flex flex-col justify-between px-6 md:px-10 lg:px-16 pt-28 md:pt-32 pb-10">
+          {/* ── Upper: Headline ──────────────────────────────────────── */}
+          <div className="max-w-[1400px] w-full mx-auto">
             <h1
-              className="font-semibold leading-[0.95] tracking-[-0.04em] max-w-3xl"
-              style={{ fontSize: "clamp(48px, 8vw, 88px)" }}
+              className="text-white font-bold uppercase leading-[0.88] tracking-[0.06em]"
+              style={{ fontSize: "clamp(48px, 10vw, 160px)" }}
             >
-              <span className="text-[#ededed]">XPlatform</span>
+              XPlatform
               <br />
-              <span className="text-[#a0a0a0]">Academy</span>
+              Academy
             </h1>
-
-            {/* Subtitle */}
-            <p className="max-w-[480px] text-[18px] md:text-[20px] text-[#a0a0a0] leading-[1.65] mt-1">
-              Enterprise courses for AI-assisted development.
-              Built for the way you already work.
-            </p>
-
-            {/* CTA */}
-            <button
-              onClick={handleScrollToCourses}
-              className="mt-2 h-11 px-6 rounded-[6px] bg-[#ededed] text-[#080808] text-sm font-medium hover:bg-[#d4d4d4] transition-colors duration-150 inline-flex items-center gap-2"
-            >
-              Start learning
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </button>
           </div>
 
-          {/* Gradient divider */}
-          <div
-            className="h-px w-full max-w-[600px] mx-auto my-8"
-            style={{
-              background:
-                "linear-gradient(to right, transparent, #de3163, transparent)",
-            }}
-            aria-hidden="true"
-          />
+          {/* ── Lower: Content + Course list ─────────────────────────── */}
+          <div className="max-w-[1400px] w-full mx-auto flex flex-col lg:flex-row items-end justify-between gap-12 lg:gap-20 mt-auto">
+            {/* Left: supporting text + CTA */}
+            <div className="flex flex-col gap-8 max-w-[480px]">
+              {/* Serif supporting text */}
+              <p className="font-serif text-[20px] md:text-[24px] text-white/60 leading-[1.5] italic">
+                Enterprise courses for AI&#8209;assisted development.
+                Built for the way you already work.
+              </p>
 
-          {/* Course strip */}
-          <nav
-            aria-label="Course quick navigation"
-            className="relative z-10 pb-16"
-          >
-            <div className="flex gap-3 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 -mx-2 px-2 md:justify-center md:overflow-x-visible md:snap-none">
-              {courses.map((course) => {
-                const isAvailable = course.status === "available";
-                const tile = (
-                  <div
-                    className={cn(
-                      "snap-start shrink-0 w-[180px] md:w-[200px] rounded-[6px] border overflow-hidden transition-[border-color,background-color] duration-150 group",
-                      isAvailable
-                        ? "border-[#2e2e2e] bg-[#0f0f0f] hover:bg-[#111] cursor-pointer"
-                        : "border-[#1f1f1f] bg-[#0a0a0a] opacity-50 cursor-default border-dashed"
-                    )}
-                  >
-                    {/* Accent top bar */}
-                    <div
-                      className="h-1 w-full"
-                      style={{
-                        backgroundColor: isAvailable
-                          ? course.accent
-                          : "#2e2e2e",
-                      }}
+              {/* CTA row */}
+              <div className="flex items-center gap-5 flex-wrap">
+                {/* Dark pill button with arrow */}
+                <button
+                  onClick={handleScrollToCourses}
+                  className="h-12 pl-6 pr-2 rounded-full bg-white/10 border border-white/10 text-white text-[11px] tracking-[0.2em] uppercase hover:bg-white/15 transition-colors duration-200 inline-flex items-center gap-4 group"
+                >
+                  Explore courses
+                  <span className="h-8 w-8 rounded-full bg-white flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                    <ArrowRight
+                      className="h-3.5 w-3.5 text-[#080808]"
                       aria-hidden="true"
                     />
+                  </span>
+                </button>
 
-                    <div className="p-4">
-                      {/* Course title */}
-                      <p className="text-[14px] font-semibold text-[#ededed] leading-[1.3] tracking-[-0.01em]">
-                        {course.title}
-                      </p>
-
-                      {/* Module count */}
-                      <p className="mt-2 font-mono text-[11px] text-[#454545] tracking-wider uppercase">
-                        {course.modules} modules
-                      </p>
-
-                      {/* Status */}
-                      <span
-                        className={cn(
-                          "mt-3 inline-block font-mono text-[10px] tracking-widest uppercase px-2 py-0.5 rounded-full border",
-                          isAvailable
-                            ? "border-emerald-500/30 text-emerald-400/80"
-                            : "border-[#2e2e2e] text-[#454545]"
-                        )}
-                      >
-                        {isAvailable ? "Available" : "Coming soon"}
-                      </span>
-                    </div>
-                  </div>
-                );
-
-                if (isAvailable) {
-                  return (
-                    <Link
-                      key={course.id}
-                      href={course.href}
-                      className="snap-start shrink-0"
-                    >
-                      {tile}
-                    </Link>
-                  );
-                }
-
-                return (
-                  <div key={course.id} aria-disabled="true">
-                    {tile}
-                  </div>
-                );
-              })}
+                {/* Trust badge */}
+                <div className="flex items-center gap-3 text-white/30">
+                  <span className="h-px w-6 bg-white/20" aria-hidden="true" />
+                  <span className="text-[11px] tracking-[0.15em] uppercase">
+                    {courses.length} courses · {availableCourses.length} available
+                  </span>
+                </div>
+              </div>
             </div>
-          </nav>
-        </Container>
 
-        {/* Scroll hint */}
-        <button
-          onClick={handleScrollToCourses}
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0 text-[#454545] hover:text-[#878787] transition-colors duration-200"
-          aria-label="Scroll to course catalog"
-        >
-          <div
-            className="h-10 w-px bg-gradient-to-b from-transparent to-[#2e2e2e]"
-            aria-hidden="true"
-          />
-          <ArrowDown
-            className="h-4 w-4 animate-bounce"
-            aria-hidden="true"
-          />
-        </button>
+            {/* Right: course list panel */}
+            <nav
+              aria-label="Available courses"
+              className="w-full lg:w-[340px] shrink-0"
+            >
+              {availableCourses.map((course, i) => (
+                <Link
+                  key={course.id}
+                  href={course.href}
+                  className={cn(
+                    "flex items-center justify-between py-5 group transition-colors duration-200",
+                    i > 0 && "border-t border-white/10"
+                  )}
+                >
+                  <div>
+                    <p className="text-[14px] text-white/80 group-hover:text-white transition-colors duration-200">
+                      {course.title}
+                    </p>
+                    <p className="text-[11px] tracking-[0.15em] uppercase text-white/30 mt-1">
+                      {course.modules} modules · {course.duration}
+                    </p>
+                  </div>
+                  <span className="h-9 w-9 rounded-full border border-white/15 flex items-center justify-center shrink-0 text-white/40 group-hover:text-white group-hover:border-white/40 transition-all duration-200">
+                    <ArrowUpRight
+                      className="h-4 w-4"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          {/* ── Bottom: scroll indicator ─────────────────────────────── */}
+          <div className="max-w-[1400px] w-full mx-auto mt-10 flex justify-center">
+            <button
+              onClick={handleScrollToCourses}
+              className="text-[10px] tracking-[0.3em] uppercase text-white/25 hover:text-white/50 transition-colors duration-200"
+              aria-label="Scroll to course catalog"
+            >
+              Scroll to discover
+            </button>
+          </div>
+        </div>
       </section>
 
-      {/* Course grid */}
+      {/* ═══════════════════════════════════════════════════════════════════
+          COURSE CATALOG
+          ═══════════════════════════════════════════════════════════════════ */}
       <section
         id="courses"
         className="py-20 md:py-28 border-t border-[#2e2e2e]"
@@ -411,8 +395,13 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Bottom section */}
-      <section className="py-20 md:py-28 border-t border-[#2e2e2e]">
+      {/* ═══════════════════════════════════════════════════════════════════
+          BOTTOM CTA
+          ═══════════════════════════════════════════════════════════════════ */}
+      <section
+        id="about"
+        className="py-20 md:py-28 border-t border-[#2e2e2e]"
+      >
         <Container>
           <div className="flex flex-col items-center text-center gap-6">
             <BookOpen
