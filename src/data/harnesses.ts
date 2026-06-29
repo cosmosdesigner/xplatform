@@ -371,14 +371,140 @@ const module3Slides: Slide[] = [
   },
   {
     number: 6,
-    title: "Exercise: configure permissions",
+    title: "Real CVEs: why this matters",
+    headline: "In February 2026,\nClone a repo.\nOpen the tool.\nYou're compromised.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "On February 25, 2026, Check Point Research published two Claude Code CVEs that ended the 'this could happen but won't' phase of agent security. These weren't hypothetical — they were real exploits in production tooling used by millions of developers.",
+      },
+      {
+        type: "comparison",
+        headers: ["CVE", "What happened"],
+        rows: [
+          ["CVE-2025-59536 (CVSS 8.7)", "Project-contained code could execute BEFORE the user accepted the trust dialog. Clone a repo, open Claude Code — malicious hooks run immediately."],
+          ["CVE-2026-21852", "An attacker-controlled project could override ANTHROPIC_BASE_URL, redirect all API traffic through an attacker's server, and leak your API key — before trust was even confirmed."],
+        ],
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        title: "The shift",
+        text: "Prompt injection is no longer a funny jailbreak screenshot. In an agentic system, it becomes shell execution, secret exposure, workflow abuse, or quiet lateral movement. The tooling we trust is the tooling being targeted.",
+      },
+      {
+        type: "paragraph",
+        text: "Additional context: Snyk's ToxicSkills study scanned 3,984 public skills and found prompt injection in 36% of them — 1,467 malicious payloads. Microsoft documented memory poisoning attacks across 31 companies and 14 industries. Hunt.io reported 17,470 exposed agent instances in the wild. This is not theoretical.",
+      },
+    ] as ContentBlock[],
+  },
+  {
+    number: 7,
+    title: "Attack vectors you need to know",
+    headline: "PDFs. PRs.\nMCP servers.\nMemory files.\nAll attack surfaces.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "Every entry point where untrusted content reaches your agent is an attack vector. The more services your agent connects to, the more risk you accrue. Simon Willison's 'lethal trifecta' framing is the cleanest way to think about this: private data + untrusted content + external communication in the same runtime = exploitable.",
+      },
+      {
+        type: "comparison",
+        headers: ["Vector", "How it works"],
+        rows: [
+          ["Email / PDF attachments", "Attacker sends a PDF with embedded prompt injection. Agent reads it as part of the job. Hidden text becomes malicious instruction."],
+          ["GitHub PRs", "Malicious instructions in hidden diff comments, issue bodies, linked docs. Code review agents process them with high autonomy."],
+          ["MCP servers", "Can be malicious by design or over-trusted. A tool can exfiltrate data while appearing to provide context. OWASP now has an MCP Top 10."],
+          ["Skills / plugins", "Supply chain attacks. A recommended skill from Discord could contain hidden prompt injection. 36% of public skills had injection in Snyk's study."],
+          ["Memory files", "Payload plants fragments in memory, waits, assembles later. Microsoft documented this across 31 companies. Memory poisoning is persistent."],
+          ["Repos you clone", "Project config, hooks, MCP settings, and environment variables are part of the execution surface. Clone + open = potential compromise."],
+        ],
+      },
+      {
+        type: "callout",
+        variant: "rule",
+        title: "The one rule",
+        text: "Build as if malicious text will get into context. Build as if a tool description can lie. Build as if a repo can be poisoned. Build as if memory can persist the wrong thing. Then make sure losing that argument is survivable. Never let the convenience layer outrun the isolation layer.",
+      },
+    ] as ContentBlock[],
+  },
+  {
+    number: 8,
+    title: "Sandboxing and isolation",
+    headline: "If compromised,\nthe blast radius\nmust be small.",
+    sections: [
+      {
+        type: "subheading",
+        text: "Separate the identity first",
+      },
+      {
+        type: "bullets",
+        items: [
+          "Do NOT give the agent your personal accounts — create agent@yourdomain.com, a separate bot user, a dedicated GitHub token",
+          "Use short-lived, scoped credentials — never long-lived org-wide tokens",
+          "If the agent has the same accounts you do, a compromised agent IS you",
+        ],
+      },
+      {
+        type: "subheading",
+        text: "Run untrusted work in isolation",
+      },
+      {
+        type: "code",
+        caption: "Isolated container for untrusted repos",
+        code: "# Quick sandboxed review — no network, no host access\ndocker run -it --rm \\\n  -v \"$(pwd)\":/workspace \\\n  -w /workspace \\\n  --network=none \\\n  node:20 bash\n\n# Or use Docker Compose with internal-only network:\nservices:\n  agent:\n    build: .\n    user: \"1000:1000\"\n    cap_drop: [ALL]\n    security_opt: [no-new-privileges:true]\n    networks: [agent-internal]\n\nnetworks:\n  agent-internal:\n    internal: true   # No egress — compromised agent can't phone home",
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "Anthropic and OpenAI agree",
+        text: "Both Anthropic (Claude Code) and OpenAI (Codex) explicitly recommend containers and devcontainers for stronger isolation. Codex runs each task in an isolated sandbox by design. The industry is converging on this for a reason.",
+      },
+    ] as ContentBlock[],
+  },
+  {
+    number: 9,
+    title: "The minimum security bar",
+    headline: "11 items.\nNon-negotiable\nif you run agents\nautonomously.",
+    sections: [
+      {
+        type: "bullets",
+        items: [
+          "1. Separate agent identities from your personal accounts",
+          "2. Use short-lived scoped credentials — never org-wide tokens",
+          "3. Run untrusted work in containers, devcontainers, VMs, or remote sandboxes",
+          "4. Deny outbound network by default for sandboxed work",
+          "5. Restrict reads from secret-bearing paths (~/.ssh, ~/.aws, .env)",
+          "6. Sanitise files, HTML, screenshots, and linked content before a privileged agent sees them",
+          "7. Require approval for unsandboxed shell, network egress, deployment, and off-repo writes",
+          "8. Log tool calls, approvals, and network attempts (structured logs with session IDs)",
+          "9. Implement process-group kill and heartbeat-based dead-man switches for autonomous runs",
+          "10. Keep persistent memory narrow and disposable — reset after untrusted runs",
+          "11. Scan skills, hooks, MCP configs, and agent descriptors like any other supply chain artifact",
+        ],
+      },
+      {
+        type: "code",
+        caption: "Baseline deny rules for any project",
+        code: "{\n  \"permissions\": {\n    \"deny\": [\n      \"Read(~/.ssh/**)\",\n      \"Read(~/.aws/**)\",\n      \"Read(**/.env*)\",\n      \"Write(~/.ssh/**)\",\n      \"Write(~/.aws/**)\",\n      \"Bash(curl * | bash)\",\n      \"Bash(ssh *)\",\n      \"Bash(scp *)\",\n      \"Bash(nc *)\"\n    ]\n  }\n}",
+      },
+      {
+        type: "callout",
+        variant: "warning",
+        title: "This is the minimum, not the maximum",
+        text: "These 11 items are the baseline from ECC's security guide, informed by real CVEs, real attacks, and real incidents across the agent ecosystem. If you're running agents autonomously and you're not doing all 11, you are taking unnecessary risk.",
+      },
+    ] as ContentBlock[],
+  },
+  {
+    number: 10,
+    title: "Exercise: secure your setup",
     headline: "Your turn.\nSet the guardrails.",
     sections: [
       {
         type: "callout",
         variant: "exercise",
-        title: "Exercise: Configure permissions for your project",
-        text: "Write a permission configuration that matches your project's safety requirements.\n\n1. List 5 commands that should run without asking (test, lint, typecheck, etc.)\n2. List 3 commands that should always ask (git push, npm install, deploy)\n3. List 3 paths that should never be read (.env, secrets/, credentials/)\n4. Add these rules to your settings.json or opencode.json\n5. Test: try running a denied command — does it block? Try an allowed command — does it run?\n6. Practice the recovery flow: Escape mid-action, /rewind to restore, /clear to reset\n\nTime: 20 minutes",
+        title: "Exercise: Configure security for your project",
+        text: "Part 1 — Permission rules (10 minutes):\n1. Add deny rules for secret-bearing paths (~/.ssh, ~/.aws, .env)\n2. Add deny rules for dangerous commands (curl|bash, ssh, scp, nc)\n3. List 5 safe commands that should run without asking (test, lint, typecheck)\n4. List 3 commands that should always prompt (git push, npm install, deploy)\n5. Test: try reading .env — does it block?\n\nPart 2 — Sandboxing (10 minutes):\n1. Create a Docker container with --network=none for an untrusted repo\n2. Run an agent inside it — verify it cannot make network calls\n3. Verify it can still read/write files inside /workspace\n\nPart 3 — Audit (10 minutes):\n1. Check your setup against the 11-item minimum security bar\n2. Score yourself 0-11 — how many items are you doing?\n3. Pick the top 3 gaps and fix them now\n\nTime: 30 minutes",
       },
     ] as ContentBlock[],
   },

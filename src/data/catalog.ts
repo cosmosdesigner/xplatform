@@ -101,7 +101,7 @@ export const courses: Course[] = [
       "The practical companion to AI Coding Agents. Install, configure, and master your AI coding harness — hooks, plugins, parallel workflows, token optimization, permission modes, and editor integration. Claude Code, OpenCode, Cursor, and beyond.",
     status: "available",
     modules: 5,
-    exercises: 8,
+    exercises: 9,
     frameworks: 3,
     duration: "4-6 hours",
     tags: ["Claude Code", "OpenCode", "Codex", "Hooks", "Enterprise"],

@@ -121,7 +121,7 @@ function HarnessHero() {
             </span>
             <span className="h-8 w-px bg-[#2e2e2e]" aria-hidden="true" />
             <span className="flex flex-col items-center gap-1">
-              <span className="font-mono text-[24px] font-bold text-[#ededed]">28</span>
+              <span className="font-mono text-[24px] font-bold text-[#ededed]">32</span>
               <span className="text-[11px] font-mono tracking-wider uppercase">Slides</span>
             </span>
             <span className="h-8 w-px bg-[#2e2e2e]" aria-hidden="true" />
