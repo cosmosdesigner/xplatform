@@ -3095,6 +3095,36 @@ const module4Slides: Slide[] = [
       },
     ],
   },
+  {
+    number: 9,
+    title: "What comes next",
+    headline: "You know\nthe mental model.\nNow master\nthe tooling.",
+    sections: [
+      {
+        type: "paragraph",
+        text: "This course taught you how to think about AI coding agents — the RALPH workflow, the 5 Failures Model, the Autonomy Ladder, the Context Stack, and the Diff Review Checklist. You have the conceptual foundation. But there is a whole practical layer on top: hooks that auto-format your code after every edit, parallel agents running in git worktrees, token optimization strategies, verification loops, plugin ecosystems, and keyboard shortcuts that save hours per week.",
+      },
+      {
+        type: "subheading",
+        text: "The XPlatform Academy learning path",
+      },
+      {
+        type: "comparison",
+        headers: ["Course", "What you'll learn"],
+        rows: [
+          ["AI Coding Harnesses", "Setup, configuration, hooks, plugins, parallel workflows, token optimization, permission modes — the practical daily workflow companion to this course"],
+          ["Context Engineering", "Deep context architecture — AGENTS.md mastery, skills systems, MCP as dynamic context, context registries, the Write/Select/Compress/Isolate taxonomy"],
+          ["Building MCP Servers", "Build the tools agents use — from your first TypeScript server to enterprise-grade remote deployments with governance"],
+        ],
+      },
+      {
+        type: "callout",
+        variant: "insight",
+        title: "The recommended next step",
+        text: "If you want to be productive immediately, take AI Coding Harnesses next — it's the practical companion to what you just learned. If you want to go deeper on context architecture, take Context Engineering. Both build on the foundation you now have.",
+      },
+    ],
+  },
 ];
 
 /* ─── Export all modules ────────────────────────────────────────────────── */
