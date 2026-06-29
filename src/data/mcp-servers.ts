@@ -103,7 +103,7 @@ const module1Slides: Slide[] = [
       {
         type: "code",
         caption: "1. Discovery — the client lists available tools",
-        code: "// Client sends:\n{ \"method\": \"tools/list\" }\n\n// Server responds with tool metadata:\n{\n  \"tools\": [{\n    \"name\": \"get_work_item\",\n    \"description\": \"Get an Azure DevOps work item by ID\",\n    \"inputSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": { \"type\": \"number\", \"description\": \"Work item ID\" }\n      },\n      \"required\": [\"id\"]\n    }\n  }]\n}",
+        code: "// Client sends:\n{ \"method\": \"tools/list\" }\n\n// Server responds with tool metadata:\n{\n  \"tools\": [{\n    \"name\": \"get_post\",\n    \"description\": \"Get a blog post by ID from JSONPlaceholder\",\n    \"inputSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"id\": { \"type\": \"number\", \"description\": \"Post ID (1-100)\" }\n      },\n      \"required\": [\"id\"]\n    }\n  }]\n}",
       },
       {
         type: "paragraph",
@@ -215,13 +215,13 @@ const module2Slides: Slide[] = [
       {
         type: "code",
         caption: "Registering a tool with Zod schema validation",
-        code: "import { z } from \"zod\";\n\nserver.registerTool(\n  \"get_work_item\",\n  {\n    description: \"Get an Azure DevOps work item by ID. Returns title, state, tags, and description.\",\n    inputSchema: {\n      id: z.number().describe(\"The work item ID (e.g., 1234)\"),\n      fields: z.array(z.string()).optional()\n        .describe(\"Optional list of fields to return. Defaults to all.\"),\n    },\n  },\n  async ({ id, fields }) => {\n    // Implementation here...\n    return {\n      content: [{\n        type: \"text\",\n        text: JSON.stringify(workItem, null, 2),\n      }],\n    };\n  }\n);",
+        code: "import { z } from \"zod\";\n\nserver.registerTool(\n  \"get_post\",\n  {\n    description: \"Get a blog post by ID from JSONPlaceholder. Returns title, body, and author userId.\",\n    inputSchema: {\n      id: z.number().min(1).max(100)\n        .describe(\"The post ID (1-100)\"),\n    },\n  },\n  async ({ id }) => {\n    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);\n    if (!res.ok) return { content: [{ type: \"text\", text: `Post ${id} not found` }], isError: true };\n    const post = await res.json();\n    return {\n      content: [{\n        type: \"text\",\n        text: `Post ${id}: ${post.title}\\n\\n${post.body}`,\n      }],\n    };\n  }\n);",
       },
       {
         type: "callout",
         variant: "insight",
         title: "The description is everything",
-        text: "The tool name, description, and parameter descriptions are the ONLY information the LLM has to decide whether and how to use your tool. Write them for the model, not for humans. Be specific: 'Get an Azure DevOps work item by ID' is better than 'Get work item'. Include examples in descriptions: 'Two-letter state code (e.g., CA, NY)'.",
+        text: "The tool name, description, and parameter descriptions are the ONLY information the LLM has to decide whether and how to use your tool. Write them for the model, not for humans. Be specific: 'Get a blog post by ID from JSONPlaceholder' is better than 'Get post'. Include examples and ranges in descriptions: 'Post ID (1-100)'.",
       },
     ] as ContentBlock[],
   },
@@ -237,7 +237,7 @@ const module2Slides: Slide[] = [
       {
         type: "code",
         caption: "A complete tool handler with error handling",
-        code: "async ({ id }) => {\n  try {\n    const response = await fetch(\n      `https://dev.azure.com/org/project/_apis/wit/workitems/${id}`,\n      { headers: { Authorization: `Bearer ${process.env.ADO_TOKEN}` } }\n    );\n\n    if (!response.ok) {\n      return {\n        content: [{ type: \"text\", text: `Failed to fetch work item ${id}: ${response.status}` }],\n        isError: true,\n      };\n    }\n\n    const item = await response.json();\n    return {\n      content: [{\n        type: \"text\",\n        text: `Work Item ${id}: ${item.fields[\"System.Title\"]}\\nState: ${item.fields[\"System.State\"]}`,\n      }],\n    };\n  } catch (error) {\n    return {\n      content: [{ type: \"text\", text: `Error: ${error.message}` }],\n      isError: true,\n    };\n  }\n}",
+        code: "server.registerTool(\n  \"search_posts\",\n  {\n    description: \"Search blog posts by user ID. Returns up to 10 posts. Use get_post for full details.\",\n    inputSchema: {\n      userId: z.number().min(1).max(10)\n        .describe(\"Author's user ID (1-10)\"),\n    },\n  },\n  async ({ userId }) => {\n    try {\n      const res = await fetch(\n        `https://jsonplaceholder.typicode.com/posts?userId=${userId}`\n      );\n      if (!res.ok) {\n        return {\n          content: [{ type: \"text\", text: `Failed to search posts: ${res.status}` }],\n          isError: true,\n        };\n      }\n      const posts = await res.json();\n      const summary = posts.map((p: any) => `#${p.id}: ${p.title}`).join(\"\\n\");\n      return {\n        content: [{\n          type: \"text\",\n          text: `${posts.length} posts by user ${userId}:\\n${summary}`,\n        }],\n      };\n    } catch (error: any) {\n      return {\n        content: [{ type: \"text\", text: `Error: ${error.message}` }],\n        isError: true,\n      };\n    }\n  }\n);",
       },
       {
         type: "callout",
@@ -286,8 +286,8 @@ const module2Slides: Slide[] = [
       },
       {
         type: "code",
-        caption: "Exposing a database schema as a resource",
-        code: "server.resource(\n  \"db-schema\",\n  \"schema://main\",\n  {\n    description: \"Database schema for the main application database\",\n    mimeType: \"application/json\",\n  },\n  async (uri) => ({\n    contents: [{\n      uri: uri.href,\n      mimeType: \"application/json\",\n      text: JSON.stringify(await getDbSchema(), null, 2),\n    }],\n  })\n);",
+        caption: "Exposing API metadata as a resource",
+        code: "server.resource(\n  \"api-info\",\n  \"info://jsonplaceholder\",\n  {\n    description: \"Available endpoints and data ranges for JSONPlaceholder API\",\n    mimeType: \"application/json\",\n  },\n  async (uri) => ({\n    contents: [{\n      uri: uri.href,\n      mimeType: \"application/json\",\n      text: JSON.stringify({\n        baseUrl: \"https://jsonplaceholder.typicode.com\",\n        endpoints: [\n          { path: \"/posts\", count: 100, description: \"Blog posts\" },\n          { path: \"/comments\", count: 500, description: \"Post comments\" },\n          { path: \"/users\", count: 10, description: \"User profiles\" },\n          { path: \"/todos\", count: 200, description: \"TODO items\" },\n        ],\n      }, null, 2),\n    }],\n  })\n);",
       },
       {
         type: "callout",
@@ -343,8 +343,8 @@ const module2Slides: Slide[] = [
       {
         type: "callout",
         variant: "exercise",
-        title: "Exercise: Build a TODO MCP server",
-        text: "Build an MCP server that manages a simple in-memory TODO list.\n\nTools to implement:\n1. add_todo — add a new item (input: title, optional: priority)\n2. list_todos — list all items (optional filter: completed/pending)\n3. complete_todo — mark an item as done (input: id)\n4. delete_todo — remove an item (input: id)\n\nResources to implement:\n1. A 'todo-stats' resource showing count of total/completed/pending\n\nRequirements:\n- Use TypeScript SDK with Zod schemas\n- Handle errors gracefully (isError: true for invalid IDs)\n- Write helpful tool descriptions\n- Test with MCP Inspector\n\nBonus: Add a prompt template for prioritising your TODO list.\n\nTime: 45 minutes",
+        title: "Exercise: Build a JSONPlaceholder MCP server",
+        text: "Build an MCP server that wraps the free JSONPlaceholder API (https://jsonplaceholder.typicode.com).\n\nTools to implement:\n1. get_post — get a blog post by ID (1-100)\n2. search_posts — list posts by user ID (1-10)\n3. get_comments — get comments for a post by post ID\n4. get_user — get user profile by ID (1-10)\n\nResources to implement:\n1. An 'api-info' resource listing all available endpoints and data ranges\n\nPrompt to implement:\n1. A 'summarise-user' prompt that takes a user ID and asks the LLM to fetch their posts and summarise their writing style\n\nRequirements:\n- Use TypeScript SDK (@modelcontextprotocol/sdk) with Zod schemas\n- Handle errors gracefully (isError: true for invalid IDs, 404s)\n- Write tool descriptions that help the LLM choose correctly\n- Test with MCP Inspector (npx @modelcontextprotocol/inspector)\n\nNo API key needed — JSONPlaceholder is free and public.\n\nTime: 45 minutes",
       },
     ] as ContentBlock[],
   },
@@ -407,7 +407,7 @@ const module3Slides: Slide[] = [
       {
         type: "code",
         caption: "Reading credentials from environment",
-        code: "// In your MCP server:\nconst token = process.env.ADO_TOKEN;\nif (!token) {\n  throw new Error(\"ADO_TOKEN environment variable is required\");\n}\n\n// In opencode.json / claude_desktop_config.json:\n{\n  \"mcpServers\": {\n    \"my-server\": {\n      \"command\": \"node\",\n      \"args\": [\"./build/index.js\"],\n      \"environment\": {\n        \"ADO_TOKEN\": \"${env:ADO_TOKEN}\"  // Reference env var, don't hardcode\n      }\n    }\n  }\n}",
+        code: "// In your MCP server:\nconst token = process.env.API_TOKEN;\nif (!token) {\n  throw new Error(\"API_TOKEN environment variable is required\");\n}\n\n// In opencode.json / claude_desktop_config.json:\n{\n  \"mcpServers\": {\n    \"my-server\": {\n      \"command\": \"node\",\n      \"args\": [\"./build/index.js\"],\n      \"environment\": {\n        \"API_TOKEN\": \"${env:API_TOKEN}\"  // Reference env var, don't hardcode\n      }\n    }\n  }\n}",
       },
     ] as ContentBlock[],
   },
@@ -446,9 +446,9 @@ const module3Slides: Slide[] = [
         type: "comparison",
         headers: ["Bad description", "Good description"],
         rows: [
-          ["'Get item'", "'Get an Azure DevOps work item by its numeric ID. Returns title, state, assigned-to, tags, and description.'"],
-          ["'Search'", "'Search work items by title keyword. Returns up to 20 matching items with ID, title, and state. Use get_work_item for full details.'"],
-          ["'Update'", "'Update the tags on a work item. Adds or removes tags without affecting other fields. Input: work item ID and array of tag strings to set.'"],
+          ["'Get item'", "'Get a blog post by its numeric ID (1-100). Returns title, body text, and author userId.'"],
+          ["'Search'", "'Search posts by author userId (1-10). Returns up to 10 matching posts with ID and title. Use get_post for full body text.'"],
+          ["'Get details'", "'Get all comments on a post by post ID. Returns commenter name, email, and comment body. Use search_posts first to find post IDs.'"],
         ],
       },
       {
@@ -478,7 +478,7 @@ const module3Slides: Slide[] = [
         type: "callout",
         variant: "rule",
         title: "Tool errors should help the LLM recover",
-        text: "When a tool fails, the error message should tell the LLM what went wrong AND what to do about it. Bad: 'Error 404'. Good: 'Work item 999 not found. Verify the ID and try again, or use search_work_items to find the correct item.'",
+        text: "When a tool fails, the error message should tell the LLM what went wrong AND what to do about it. Bad: 'Error 404'. Good: 'Post 999 not found. Valid IDs are 1-100. Use search_posts to find posts by a specific author.'",
       },
     ] as ContentBlock[],
   },
@@ -512,8 +512,8 @@ const module3Slides: Slide[] = [
       {
         type: "callout",
         variant: "exercise",
-        title: "Exercise: Build an MCP server for an internal API",
-        text: "Build an MCP server that wraps a REST API your team uses (or a public API like JSONPlaceholder).\n\nImplement:\n1. At least 3 tools (e.g., list, get, create operations)\n2. 1 resource (e.g., API schema or endpoint documentation)\n3. Authentication via environment variable\n4. Error handling with helpful messages\n5. Proper tool descriptions that help the LLM choose correctly\n\nDesign decisions to make:\n- How do you handle pagination? (tool parameter vs automatic)\n- How do you format the response? (JSON vs human-readable)\n- What do you do when the API is down?\n\nTest with MCP Inspector, then connect to your AI coding agent.\n\nTime: 60 minutes",
+        title: "Exercise: Build a GitHub MCP server (public API)",
+        text: "Build an MCP server that wraps the GitHub public REST API (no auth needed for read-only).\n\nTools to implement:\n1. search_repos — search GitHub repos by keyword (GET /search/repositories?q=...)\n2. get_repo — get repo details by owner/name (GET /repos/{owner}/{repo})\n3. list_issues — list open issues for a repo (GET /repos/{owner}/{repo}/issues)\n\nResource to implement:\n1. An 'api-info' resource listing available endpoints and rate limits\n\nDesign decisions to make:\n- How do you handle pagination? (tool parameter vs automatic)\n- How do you format the response? (JSON vs human-readable summary)\n- What do you do when the rate limit is hit? (GitHub allows 60 req/hour without auth)\n\nRequirements:\n- Error handling with helpful messages (isError: true)\n- Tool descriptions that help the LLM choose correctly\n- Test with MCP Inspector, then connect to your AI coding agent\n\nBonus: Add optional GITHUB_TOKEN env var for authenticated access (5,000 req/hour).\n\nTime: 60 minutes",
       },
     ] as ContentBlock[],
   },
@@ -619,7 +619,7 @@ const module4Slides: Slide[] = [
       {
         type: "code",
         caption: "Dockerfile for an MCP server",
-        code: "FROM node:20-slim\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --production\nCOPY build/ ./build/\nEXPOSE 3000\n\n# Environment variables for auth\nENV ADO_TOKEN=\"\"\nENV MCP_PORT=\"3000\"\n\nCMD [\"node\", \"build/index.js\"]",
+        code: "FROM node:20-slim\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --production\nCOPY build/ ./build/\nEXPOSE 3000\n\n# Environment variables for auth (injected at runtime)\nENV API_TOKEN=\"\"\nENV MCP_PORT=\"3000\"\n\nCMD [\"node\", \"build/index.js\"]",
       },
       {
         type: "callout",
@@ -812,7 +812,7 @@ export const mcpFrameworks = [
     title: "Tool Description Design",
     description: "How to write tool descriptions that help LLMs choose correctly.",
     items: [
-      "Name: verb_noun format (get_work_item, search_issues, update_tags)",
+      "Name: verb_noun format (get_post, search_repos, list_issues)",
       "Description: what it DOES + what it RETURNS + CONSTRAINTS + RELATIONS",
       "Parameters: descriptive names, .describe() with examples, explicit types",
       "Error messages: what went wrong + what to do about it",
