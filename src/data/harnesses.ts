@@ -33,26 +33,27 @@ const module1Slides: Slide[] = [
   },
   {
     number: 2,
-    title: "The landscape",
-    headline: "Six harnesses.\nDifferent strengths.\nSame principles.",
+    title: "The three harnesses",
+    headline: "Claude Code.\nOpenCode.\nCodex.",
     sections: [
       {
         type: "comparison",
         headers: ["Harness", "Identity"],
         rows: [
-          ["Claude Code (Anthropic)", "Terminal-first, most powerful agentic features, 6 permission modes, skills/hooks/subagents, auto mode with AI safety classifier, managed enterprise settings"],
-          ["OpenCode (open source)", "Open source (160K stars), 75+ model providers, LSP-enabled, multi-session, GitHub Copilot + ChatGPT Plus integration, instinct learning system"],
-          ["Cursor", "IDE-native experience, inline diffs, @ mentions, agent mode, .cursorrules, composer, integrated with the editor"],
-          ["Codex (OpenAI)", "Cloud-first sandboxed execution, AGENTS.md, integrated with OpenAI platform, optimised for o3/GPT models"],
-          ["Windsurf (Codeium)", "Cascade multi-step agent, memories system, flows for multi-file changes, context engine"],
-          ["Atomica (internal)", "Enterprise-managed, org-provided, handles model access and authentication automatically, no API key needed"],
+          ["Claude Code (Anthropic)", "Terminal-first, most powerful agentic features, 6 permission modes, skills/hooks/subagents, auto mode with AI safety classifier, managed enterprise settings. Available as CLI, VS Code extension, desktop app, and web."],
+          ["OpenCode (open source)", "Open source (160K stars), 75+ model providers, LSP-enabled, multi-session, GitHub Copilot + ChatGPT Plus integration, instinct learning system, plugin architecture. Privacy-first — stores no code or context data."],
+          ["Codex (OpenAI)", "Cloud-first sandboxed execution, AGENTS.md, integrated with OpenAI platform, optimised for o3/GPT models. Each task runs in an isolated environment with full terminal access."],
         ],
+      },
+      {
+        type: "paragraph",
+        text: "Other harnesses exist — Cursor (IDE-native), Windsurf (Codeium), Kiro (AWS) — and may be covered in future modules. This course focuses on the three terminal-first agentic harnesses that share the most architectural patterns.",
       },
       {
         type: "callout",
         variant: "rule",
-        title: "No winner",
-        text: "There is no 'best' harness. Each optimises for a different workflow: terminal power users prefer Claude Code or OpenCode, IDE-native developers prefer Cursor, teams needing cloud sandboxing prefer Codex. The principles in this course apply to all of them.",
+        title: "Same principles, different wrappers",
+        text: "All three use instruction files (CLAUDE.md / AGENTS.md), support MCP, have permission systems, and manage context windows. Learn one deeply, and the others are a configuration change away.",
       },
     ] as ContentBlock[],
   },
@@ -91,9 +92,9 @@ const module1Slides: Slide[] = [
       {
         type: "bullets",
         items: [
-          "Instruction files — CLAUDE.md, AGENTS.md, .cursorrules, .windsurfrules. Different names, same purpose: persistent project context loaded every session.",
+          "Instruction files — CLAUDE.md (Claude Code), AGENTS.md (OpenCode, Codex). Different names, same purpose: persistent project context loaded every session.",
           "Permission systems — control what the agent can do: read-only, edit files, run commands, full autonomy. Every harness has some form of this.",
-          "MCP support — Model Context Protocol for connecting to external systems. Supported by Claude Code, OpenCode, Cursor, and more.",
+          "MCP support — Model Context Protocol for connecting to external systems. Supported by Claude Code, OpenCode, and a growing ecosystem.",
           "Context management — the context window is finite. Every harness has /compact, /clear, or equivalent. Managing it is your job.",
           "Tool execution — agents call tools (file edit, bash, MCP) in a loop. Understanding the tool loop is understanding the agent.",
         ],
@@ -102,7 +103,7 @@ const module1Slides: Slide[] = [
         type: "callout",
         variant: "rule",
         title: "The universal configuration file",
-        text: "AGENTS.md is the most tool-agnostic name. Claude Code reads CLAUDE.md, Cursor reads .cursorrules, OpenCode reads AGENTS.md. Some teams maintain multiple files that import from a shared source. The ECC project (223K GitHub stars) maintains config for 7+ harnesses from a single repo.",
+        text: "AGENTS.md is the most tool-agnostic name. Claude Code reads CLAUDE.md, OpenCode and Codex read AGENTS.md. Some teams maintain both files importing from a shared source. The ECC project (223K GitHub stars) maintains config for 7+ harnesses from a single repo.",
       },
     ] as ContentBlock[],
   },
@@ -163,8 +164,8 @@ const module2Slides: Slide[] = [
     sections: [
       {
         type: "code",
-        caption: "Install the top 3 harnesses",
-        code: "# Claude Code (recommended for terminal users)\ncurl -fsSL https://claude.ai/install.sh | bash   # macOS/Linux\nirm https://claude.ai/install.ps1 | iex            # Windows PowerShell\n\n# OpenCode (open source, multi-provider)\ncurl -fsSL https://opencode.ai/install | bash\n# or: npm install -g opencode\n\n# Cursor (IDE-native)\n# Download from cursor.com, install the app\n# Or install Claude Code extension inside Cursor:\n# Extensions → search 'Claude Code' → install",
+        caption: "Install the three harnesses",
+        code: "# Claude Code (Anthropic — terminal + IDE + desktop + web)\ncurl -fsSL https://claude.ai/install.sh | bash   # macOS/Linux\nirm https://claude.ai/install.ps1 | iex            # Windows PowerShell\n\n# OpenCode (open source, multi-provider)\ncurl -fsSL https://opencode.ai/install | bash\n# or: npm install -g opencode\n\n# Codex (OpenAI — cloud-sandboxed execution)\nnpm install -g @openai/codex\n# Requires OpenAI API key or enterprise gateway",
       },
       {
         type: "callout",
@@ -193,7 +194,7 @@ const module2Slides: Slide[] = [
         rows: [
           ["Managed (IT-deployed)", "Organisation-wide policies that can't be overridden. Security rules, model restrictions, MCP allowlists. Deployed by IT via MDM, registry, or managed-settings.json."],
           ["User (~/.claude/ or ~/.config/opencode/)", "Personal preferences across all projects. API keys, default model, plugins, personal MCP servers. Not shared with team."],
-          ["Project (.claude/ or opencode.json)", "Team-shared settings for this repo. Permissions, hooks, MCP servers, agent definitions. Committed to git."],
+          ["Project (.claude/ or opencode.json or .codex/)", "Team-shared settings for this repo. Permissions, hooks, MCP servers, agent definitions. Committed to git."],
           ["Local (.claude/settings.local.json)", "Your personal overrides for this repo only. Testing configurations, machine-specific settings. Gitignored."],
         ],
       },
@@ -212,8 +213,8 @@ const module2Slides: Slide[] = [
     sections: [
       {
         type: "code",
-        caption: "Claude Code with enterprise gateway (3rd party provider)",
-        code: "# Set the API key as environment variable\nexport ANTHROPIC_API_KEY=\"your-enterprise-key\"\n# Or for a custom gateway:\nexport ANTHROPIC_BASE_URL=\"https://modelaccess.company.cloud/v1\"\n\n# OpenCode with enterprise gateway (opencode.jsonc)\n{\n  \"provider\": {\n    \"enterprise\": {\n      \"npm\": \"@ai-sdk/openai-compatible\",\n      \"options\": {\n        \"baseURL\": \"https://modelaccess.company.cloud/v1\",\n        \"apiKey\": \"${env:GENAI_API_KEY}\"\n      },\n      \"models\": {\n        \"claude-sonnet-4-6\": { \"name\": \"claude-sonnet-4.6\" }\n      }\n    }\n  },\n  \"disabled_providers\": [\"anthropic\", \"openai\"]\n}",
+        caption: "Enterprise gateway config for all 3 harnesses",
+        code: "# Claude Code — environment variables\nexport ANTHROPIC_BASE_URL=\"https://modelaccess.company.cloud/v1\"\nexport ANTHROPIC_API_KEY=\"your-enterprise-key\"\n\n# OpenCode — opencode.jsonc provider block\n{\n  \"provider\": {\n    \"enterprise\": {\n      \"npm\": \"@ai-sdk/openai-compatible\",\n      \"options\": {\n        \"baseURL\": \"https://modelaccess.company.cloud/v1\",\n        \"apiKey\": \"${env:GENAI_API_KEY}\"\n      },\n      \"models\": {\n        \"claude-sonnet-4-6\": { \"name\": \"claude-sonnet-4.6\" }\n      }\n    }\n  },\n  \"disabled_providers\": [\"anthropic\", \"openai\"]\n}\n\n# Codex — environment variables\nexport OPENAI_API_KEY=\"your-enterprise-key\"\nexport OPENAI_BASE_URL=\"https://modelaccess.company.cloud/v1\"",
       },
       {
         type: "callout",
@@ -237,7 +238,7 @@ const module2Slides: Slide[] = [
         type: "callout",
         variant: "rule",
         title: "The naming convention",
-        text: "AGENTS.md (OpenCode, Codex) = CLAUDE.md (Claude Code) = .cursorrules (Cursor). Same purpose, different filenames. Check your AGENTS.md into git — it's a team artifact. The file compounds in value as teammates contribute patterns.",
+        text: "AGENTS.md (OpenCode, Codex) = CLAUDE.md (Claude Code). Same purpose, different filenames. Many teams create both — a 2-line CLAUDE.md that imports AGENTS.md: '@AGENTS.md'. Check it into git — it's a team artifact that compounds in value as teammates contribute patterns.",
       },
     ] as ContentBlock[],
   },
@@ -250,7 +251,7 @@ const module2Slides: Slide[] = [
         type: "callout",
         variant: "exercise",
         title: "Exercise: Install and configure your harness",
-        text: "Complete the full setup for your chosen harness.\n\n1. Install the harness (Claude Code, OpenCode, or Cursor)\n2. Configure enterprise gateway (or direct API key if not enterprise)\n3. Verify: cd your-project && claude (or opencode) — can it read files? Run commands?\n4. Create an AGENTS.md with: Stack, Commands, Architecture, Conventions, Anti-patterns\n5. Test: ask the agent to read your AGENTS.md and summarise what it learned\n\nSmoke test — ask:\n- 'What is this project?' (should answer from code, not guess)\n- 'Run the tests' (should use the command from AGENTS.md)\n- 'What framework are we using?' (should answer from AGENTS.md, not guess)\n\nTime: 30 minutes",
+        text: "Complete the full setup for your chosen harness.\n\n1. Install the harness (Claude Code, OpenCode, or Codex)\n2. Configure enterprise gateway (or direct API key if not enterprise)\n3. Verify: cd your-project && claude (or opencode, or codex) — can it read files? Run commands?\n4. Create an AGENTS.md with: Stack, Commands, Architecture, Conventions, Anti-patterns\n5. If using Claude Code, also create a CLAUDE.md with: @AGENTS.md\n6. Test: ask the agent to read your AGENTS.md and summarise what it learned\n\nSmoke test — ask:\n- 'What is this project?' (should answer from code, not guess)\n- 'Run the tests' (should use the command from AGENTS.md)\n- 'What framework are we using?' (should answer from AGENTS.md, not guess)\n\nTime: 30 minutes",
       },
     ] as ContentBlock[],
   },
@@ -675,13 +676,11 @@ export const harnessFrameworks = [
   {
     id: "harness-comparison",
     title: "Harness Comparison Matrix",
-    description: "Feature-by-feature comparison of the major AI coding harnesses.",
+    description: "Feature-by-feature comparison of the three core AI coding harnesses.",
     items: [
-      "Claude Code — terminal-first, 6 permission modes, skills/hooks/subagents, auto mode AI classifier, managed enterprise settings",
-      "OpenCode — open source (160K stars), 75+ model providers, LSP-enabled, multi-session, instinct learning, plugin system",
-      "Cursor — IDE-native, inline diffs, @ mentions, agent mode, .cursorrules, composer, tightly integrated with editor",
-      "Codex — cloud-first sandboxed execution, AGENTS.md, OpenAI platform integration, optimised for o3/GPT models",
-      "Windsurf — Cascade multi-step agent, memories system, flows, context engine, growing ecosystem",
+      "Claude Code — terminal-first, 6 permission modes, skills/hooks/subagents, auto mode AI classifier, managed enterprise settings, VS Code/Desktop/Web",
+      "OpenCode — open source (160K stars), 75+ model providers, LSP-enabled, multi-session, instinct learning, plugin system, privacy-first",
+      "Codex — cloud-first sandboxed execution, AGENTS.md, OpenAI platform integration, isolated environments, optimised for o3/GPT models",
     ],
   },
   {
@@ -716,15 +715,15 @@ export const harnessFrameworks = [
 export const harnessFaqItems = [
   {
     question: "Which harness should I start with?",
-    answer: "If you're a terminal power user: Claude Code. If you live in your IDE: Cursor. If you want open source and multi-model: OpenCode. If your org provides Atomica: use Atomica. There's no wrong answer — the concepts transfer between harnesses.",
+    answer: "If you want the most agentic features and enterprise support: Claude Code. If you want open source and multi-model flexibility: OpenCode. If you want cloud-sandboxed execution with OpenAI models: Codex. There's no wrong answer — the concepts transfer between harnesses.",
   },
   {
     question: "Can I use multiple harnesses on the same project?",
-    answer: "Yes. AGENTS.md works for OpenCode and Codex, CLAUDE.md works for Claude Code, .cursorrules works for Cursor. Some teams maintain all three from a shared source. The ECC project (223K stars) maintains config for 7+ harnesses in a single repo.",
+    answer: "Yes. AGENTS.md works for OpenCode and Codex, CLAUDE.md works for Claude Code. Many teams maintain both — a CLAUDE.md that imports AGENTS.md via '@AGENTS.md'. The ECC project (223K stars) maintains config for 7+ harnesses in a single repo.",
   },
   {
     question: "What's the difference between AGENTS.md and CLAUDE.md?",
-    answer: "Same purpose, different filenames. AGENTS.md is read by OpenCode and Codex. CLAUDE.md is read by Claude Code. .cursorrules is read by Cursor. They all provide persistent project context loaded at session start. Use whichever matches your harness, or maintain multiple.",
+    answer: "Same purpose, different filenames. AGENTS.md is read by OpenCode and Codex. CLAUDE.md is read by Claude Code. They all provide persistent project context loaded at session start. Most teams maintain AGENTS.md as the source and a CLAUDE.md that imports it.",
   },
   {
     question: "How does the enterprise gateway work?",
@@ -732,7 +731,7 @@ export const harnessFaqItems = [
   },
   {
     question: "Do I need a paid subscription?",
-    answer: "Claude Code requires a Claude subscription or Anthropic Console account. OpenCode is free with included models, or use your own API keys. Cursor has free and paid tiers. Codex requires an OpenAI account. Enterprise gateways may provide access without individual subscriptions.",
+    answer: "Claude Code requires a Claude subscription or Anthropic Console account. OpenCode is free with included models, or use your own API keys. Codex requires an OpenAI account. Enterprise gateways may provide access without individual subscriptions.",
   },
   {
     question: "Can I use my GitHub Copilot subscription?",

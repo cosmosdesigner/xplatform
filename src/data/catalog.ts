@@ -104,7 +104,7 @@ export const courses: Course[] = [
     exercises: 8,
     frameworks: 3,
     duration: "4-6 hours",
-    tags: ["Claude Code", "OpenCode", "Cursor", "Hooks", "Plugins"],
+    tags: ["Claude Code", "OpenCode", "Codex", "Hooks", "Enterprise"],
     href: "/courses/ai-harnesses",
     accent: "#10b981",
   },
