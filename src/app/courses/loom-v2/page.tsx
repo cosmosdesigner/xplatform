@@ -96,7 +96,7 @@ export default function LoomV2Course() {
   return (
     <>
       <LoomHero />
-      <ModuleSection modules={loomModules} />
+      <ModuleSection modules={loomModules} accent="#6366f1" />
       <FaqSection items={loomFaqItems} />
     </>
   );

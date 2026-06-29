@@ -21,9 +21,11 @@ import {
 function SlideViewer({
   slides,
   moduleId,
+  accent,
 }: {
   slides: Slide[];
   moduleId: number;
+  accent?: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -95,15 +97,25 @@ function SlideViewer({
               className={cn(
                 "w-full flex items-start gap-3 px-5 py-3.5 text-left transition-all duration-150 group border-l-2",
                 i === activeIndex
-                  ? "bg-[#1a1a1a] border-l-[#de3163] text-[#ededed]"
+                  ? "bg-[#1a1a1a] text-[#ededed]"
                   : "border-l-transparent text-[#a0a0a0] hover:bg-[#111] hover:text-[#ededed] hover:border-l-[#2e2e2e]"
               )}
+              style={
+                i === activeIndex
+                  ? { borderLeftColor: accent ?? "#de3163" }
+                  : undefined
+              }
             >
               <span
                 className={cn(
                   "font-mono text-[11px] mt-0.5 shrink-0 w-5",
-                  i === activeIndex ? "text-[#de3163]" : "text-[#454545]"
+                  i !== activeIndex && "text-[#454545]"
                 )}
+                style={
+                  i === activeIndex
+                    ? { color: accent ?? "#de3163" }
+                    : undefined
+                }
                 aria-hidden="true"
               >
                 {String(slide.number).padStart(2, "0")}
@@ -144,9 +156,10 @@ function SlideViewer({
             </span>
             <div className="h-px flex-1 mx-4 bg-[#1f1f1f] overflow-hidden">
               <div
-                className="h-full bg-[#de3163] transition-all duration-300"
+                className="h-full transition-all duration-300"
                 style={{
                   width: `${((activeIndex + 1) / slides.length) * 100}%`,
+                  backgroundColor: accent ?? "#de3163",
                 }}
               />
             </div>
@@ -162,7 +175,7 @@ function SlideViewer({
           </h3>
 
           {/* Slide body — rich content blocks or simple text */}
-          <SlideContent slide={activeSlide} />
+          <SlideContent slide={activeSlide} accent={accent} />
 
           {/* Slide nav */}
           <div className="mt-auto pt-8 flex items-center gap-3">
@@ -197,10 +210,12 @@ function ModuleCard({
   module,
   isOpen,
   onToggle,
+  accent,
 }: {
   module: CourseModule;
   isOpen: boolean;
   onToggle: () => void;
+  accent?: string;
 }) {
   const panelId = useId();
   const triggerId = useId();
@@ -218,8 +233,7 @@ function ModuleCard({
       style={
         isOpen
           ? {
-              boxShadow:
-                "0 0 0 1px rgba(255,255,255,0.04), 0 0 60px -20px rgba(222,49,99,0.15)",
+              boxShadow: `0 0 0 1px rgba(255,255,255,0.04), 0 0 60px -20px ${accent ?? "#de3163"}26`,
             }
           : undefined
       }
@@ -265,7 +279,10 @@ function ModuleCard({
               {module.slides.length} slides
             </span>
             {isOpen && (
-              <span className="font-mono text-[11px] text-[#de3163]">
+              <span
+                className="font-mono text-[11px]"
+                style={{ color: accent ?? "#de3163" }}
+              >
                 Open
               </span>
             )}
@@ -323,7 +340,7 @@ function ModuleCard({
 
             {/* Slide viewer */}
             <div className="relative">
-              <SlideViewer slides={module.slides} moduleId={module.id} />
+              <SlideViewer slides={module.slides} moduleId={module.id} accent={accent} />
             </div>
           </div>
         </div>
@@ -335,6 +352,7 @@ function ModuleCard({
           slides={module.slides}
           moduleTitle={module.title}
           moduleLabel={module.label}
+          accent={accent}
           onClose={() => {
             setPresenting(false);
             // Return focus to the Present button
@@ -347,7 +365,13 @@ function ModuleCard({
 }
 
 /* ─── ModuleSection ─────────────────────────────────────────────────────── */
-export function ModuleSection({ modules }: { modules?: CourseModule[] } = {}) {
+export function ModuleSection({
+  modules,
+  accent,
+}: {
+  modules?: CourseModule[];
+  accent?: string;
+} = {}) {
   const data = modules ?? courseModules;
   const [openModule, setOpenModule] = useState<number | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -396,6 +420,7 @@ export function ModuleSection({ modules }: { modules?: CourseModule[] } = {}) {
               module={module}
               isOpen={openModule === module.id}
               onToggle={() => toggleModule(module.id)}
+              accent={accent}
             />
           ))}
         </div>

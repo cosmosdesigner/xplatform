@@ -12,6 +12,7 @@ interface PresentationViewerProps {
   moduleTitle: string;
   moduleLabel: string;
   initialSlide?: number;
+  accent?: string;
   onClose: () => void;
 }
 
@@ -22,6 +23,7 @@ export function PresentationViewer({
   moduleTitle,
   moduleLabel,
   initialSlide = 0,
+  accent,
   onClose,
 }: PresentationViewerProps) {
   const [activeIndex, setActiveIndex] = useState(initialSlide);
@@ -198,8 +200,8 @@ export function PresentationViewer({
         aria-label="Slide progress"
       >
         <div
-          className="h-full bg-[#de3163] transition-all duration-300"
-          style={{ width: `${progress}%` }}
+          className="h-full transition-all duration-300"
+          style={{ width: `${progress}%`, backgroundColor: accent ?? "#de3163" }}
         />
       </div>
 
@@ -232,7 +234,7 @@ export function PresentationViewer({
           </h2>
 
           {/* Slide body — rich content blocks or simple text */}
-          <SlideContent slide={activeSlide} />
+          <SlideContent slide={activeSlide} accent={accent} />
         </div>
       </div>
 

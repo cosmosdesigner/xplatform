@@ -45,9 +45,20 @@ export const calloutConfig = {
   },
 } as const;
 
+/* ─── Default accent ────────────────────────────────────────────────────── */
+
+const DEFAULT_ACCENT = "#de3163";
+const DEFAULT_ACCENT_LIGHT = "#e8607e";
+
 /* ─── Content Block Renderer ────────────────────────────────────────────── */
 
-export function ContentBlockRenderer({ block }: { block: ContentBlock }) {
+export function ContentBlockRenderer({
+  block,
+  accent,
+}: {
+  block: ContentBlock;
+  accent?: string;
+}) {
   switch (block.type) {
     case "paragraph":
       return (
@@ -83,7 +94,10 @@ export function ContentBlockRenderer({ block }: { block: ContentBlock }) {
 
     case "quote":
       return (
-        <blockquote className="border-l-2 border-[#de3163]/40 pl-5 py-1 max-w-[60ch]">
+        <blockquote
+          className="border-l-2 pl-5 py-1 max-w-[60ch]"
+          style={{ borderColor: `${accent ?? DEFAULT_ACCENT}66` }}
+        >
           <p className="text-[16px] md:text-[17px] text-[#ededed] leading-[1.7] font-medium whitespace-pre-line italic">
             {block.text}
           </p>
@@ -146,25 +160,38 @@ export function ContentBlockRenderer({ block }: { block: ContentBlock }) {
     case "callout": {
       const config = calloutConfig[block.variant];
       const Icon = config.icon;
+      const isInsight = block.variant === "insight";
+      const accentColor = accent ?? DEFAULT_ACCENT;
+      const accentLight = accent ? `${accent}cc` : DEFAULT_ACCENT_LIGHT;
       return (
         <div
           className={cn(
             "rounded-[6px] border-l-2 p-4 md:p-5 max-w-[65ch]",
-            config.border,
-            config.bg
+            !isInsight && config.border,
+            !isInsight && config.bg
           )}
+          style={
+            isInsight
+              ? {
+                  borderColor: `${accentColor}99`,
+                  backgroundColor: `${accentColor}0d`,
+                }
+              : undefined
+          }
         >
           {block.title && (
             <div className="flex items-center gap-2 mb-2">
               <Icon
-                className={cn("h-4 w-4 shrink-0", config.title)}
+                className={cn("h-4 w-4 shrink-0", !isInsight && config.title)}
+                style={isInsight ? { color: accentLight } : undefined}
                 aria-hidden="true"
               />
               <span
                 className={cn(
                   "font-mono text-[11px] tracking-widest uppercase font-medium",
-                  config.title
+                  !isInsight && config.title
                 )}
+                style={isInsight ? { color: accentLight } : undefined}
               >
                 {block.title}
               </span>
@@ -184,13 +211,19 @@ export function ContentBlockRenderer({ block }: { block: ContentBlock }) {
 
 /* ─── Slide Content ─────────────────────────────────────────────────────── */
 
-export function SlideContent({ slide }: { slide: Slide }) {
+export function SlideContent({
+  slide,
+  accent,
+}: {
+  slide: Slide;
+  accent?: string;
+}) {
   // Rich content blocks take precedence over simple body
   if (slide.sections && slide.sections.length > 0) {
     return (
       <div className="mt-5 space-y-5 relative z-10">
         {slide.sections.map((block, i) => (
-          <ContentBlockRenderer key={i} block={block} />
+          <ContentBlockRenderer key={i} block={block} accent={accent} />
         ))}
       </div>
     );

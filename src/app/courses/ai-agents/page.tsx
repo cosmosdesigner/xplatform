@@ -11,7 +11,7 @@ export default function AiAgentsCourse() {
     <>
       <HeroSection />
       <PrerequisitesSection />
-      <ModuleSection />
+      <ModuleSection accent="#de3163" />
       <FrameworksSection />
       <ResourcesSection />
       <FaqSection />
