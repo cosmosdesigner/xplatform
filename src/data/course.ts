@@ -1162,6 +1162,7 @@ const module2Slides: Slide[] = [
     number: 1,
     title: "How to start a task",
     headline: "Starting right\n\nContext first.\nIntent second.\nCode last.",
+    presentationPoints: ["The most common mistake is jumping straight to implementation without context", "Context first, intent second, code last"],
     sections: [
       {
         type: "paragraph",
@@ -1191,6 +1192,7 @@ const module2Slides: Slide[] = [
     number: 2,
     title: "Describing intent",
     headline: "Describe intent\n\nWhat, why, and what not.",
+    presentationPoints: ["Four parts: what, why, constraints, and what-not", "The 'what not' is the most commonly forgotten and most impactful constraint"],
     sections: [
       {
         type: "paragraph",
@@ -1246,6 +1248,7 @@ const module2Slides: Slide[] = [
   {
     number: 3,
     title: "Exercise: vibe-coding vs structured prompting",
+    presentationPoints: ["Same task twice — vague prompt vs specific prompt with context and constraints", "Compare the results side by side"],
     headline: "Exercise 1\n\nSee the difference.\nSame task, two approaches.",
     sections: [
       {
@@ -1302,6 +1305,7 @@ const module2Slides: Slide[] = [
   {
     number: 4,
     title: "R — Recon: inspect before editing",
+    presentationPoints: ["Reading before writing is the most effective technique for controlling agents", "It forces the agent to build an accurate mental model before editing", "Don't assume it's not implemented — search the codebase first"],
     headline: "Read before write\n\n\"Read and explain.\nDo not change yet.\"",
     sections: [
       {
@@ -1336,6 +1340,7 @@ const module2Slides: Slide[] = [
   {
     number: 5,
     title: "Exercise: Recon on a real codebase",
+    presentationPoints: ["Ask the agent to Recon a specific feature area — verify its output", "Never proceed to planning with a flawed understanding"],
     headline: "Exercise 2\n\nRecon a project.\nVerify the agent's understanding.",
     sections: [
       {
@@ -1375,6 +1380,7 @@ const module2Slides: Slide[] = [
   {
     number: 6,
     title: "A — Architecture: plan before implementing",
+    presentationPoints: ["After reading, the agent proposes a plan — not code, a description of intent", "Fixing a wrong plan costs zero lines of code", "Never let the agent proceed without your explicit approval"],
     headline: "Plan before code\n\nFiles to change.\nApproach.\nRisks.",
     sections: [
       {
@@ -1415,6 +1421,7 @@ const module2Slides: Slide[] = [
   {
     number: 7,
     title: "Exercise: plan and correct",
+    presentationPoints: ["Ask for a plan, review it critically, find at least one thing to correct", "Only approve after corrections are acknowledged"],
     headline: "Exercise 3\n\nAsk for a plan.\nFind what is wrong.\nCorrect before coding.",
     sections: [
       {
@@ -1454,6 +1461,7 @@ const module2Slides: Slide[] = [
   {
     number: 8,
     title: "L + P — Loop and Patch",
+    presentationPoints: ["One slice at a time — validate each before starting the next", "Giant prompts are hard to review, test, and roll back", "The ideal slice produces a diff you can read in under two minutes"],
     headline: "Steps 3+4: Loop & Patch\n\nOne slice at a time.\nSmall. Scoped. Reviewable.",
     sections: [
       {
@@ -1499,6 +1507,7 @@ const module2Slides: Slide[] = [
   {
     number: 9,
     title: "H — Harden: verify everything",
+    presentationPoints: ["After every change: typecheck, lint, tests, build, and diff review", "If typecheck fails, stop — never carry errors forward", "The diff is the most important check"],
     headline: "Back-pressure\n\nTests. Typecheck. Lint.\nDiff. Every time.",
     sections: [
       {
@@ -1530,6 +1539,7 @@ const module2Slides: Slide[] = [
   {
     number: 10,
     title: "Exercise: the Ralph loop",
+    presentationPoints: ["Write a PROMPT.md, run the agent, verify with tests, tune the prompt", "The exercise is about the discipline, not the code"],
     headline: "Exercise 4\n\nOne task. The full loop.\nPrompt → Execute →\nTest → Tune.",
     sections: [
       {
@@ -1573,6 +1583,7 @@ const module2Slides: Slide[] = [
   {
     number: 11,
     title: "The feedback loop",
+    presentationPoints: ["Agents can read terminal output — see errors, reason about them, try again", "If the agent fails after two attempts, stop and provide additional context"],
     headline: "The feedback loop\n\nAgent acts.\nTerminal responds.\nDeveloper decides.",
     sections: [
       {
@@ -1605,6 +1616,7 @@ const module2Slides: Slide[] = [
   {
     number: 12,
     title: "When to stop the agent",
+    presentationPoints: ["Six stop signals: scope drift, repeated failure, invented APIs, ignored errors, uncontrolled growth, confidence without evidence", "Stopping early is not failure — it is discipline"],
     headline: "Stop when:\n\nScope drift. Repeated failure.\nInvented APIs. Ignored errors.",
     sections: [
       {
@@ -1643,6 +1655,7 @@ const module2Slides: Slide[] = [
   {
     number: 13,
     title: "The technique adapts to any task",
+    presentationPoints: ["Ralph adapts to bug fixes, features, refactors, test coverage, code review", "One task per loop, specs as context, tests as back-pressure", "Tune the prompt when the agent misbehaves"],
     headline: "Ralph adapts\n\nBug fix. Feature.\nRefactor. Tests. Review.",
     sections: [
       {
@@ -1672,6 +1685,7 @@ const module2Slides: Slide[] = [
     number: 14,
     title: "Takeaway",
     headline: "Module 2 takeaway\n\nThe workflow is the skill.\nThe prompt is just the interface.",
+    presentationPoints: ["Every task starts with context, then intent, then code — never the reverse", "The skill is not prompting — the skill is the workflow"],
     sections: [
       {
         type: "subheading",
@@ -1717,6 +1731,7 @@ const module3Slides: Slide[] = [
   {
     number: 1,
     title: "Why one-off prompting fails",
+    presentationPoints: ["Every new session, the agent starts with zero knowledge of your project", "The fix is to put context in files — files persist across sessions"],
     headline: "Prompting is fragile\n\nSame project.\nDifferent session.\nDifferent result.",
     sections: [
       {
@@ -1754,6 +1769,7 @@ const module3Slides: Slide[] = [
   {
     number: 2,
     title: "AGENTS.md — the foundation",
+    presentationPoints: ["AGENTS.md is the onboarding document for the AI", "Six sections: stack, commands, architecture, conventions, rules, testing"],
     headline: "AGENTS.md\n\nThe agent's onboarding document\nfor your project.",
     sections: [
       {
@@ -1811,6 +1827,7 @@ const module3Slides: Slide[] = [
   {
     number: 3,
     title: "Exercise: write your AGENTS.md",
+    presentationPoints: ["Write an AGENTS.md from scratch using the six-section template"],
     headline: "Exercise 1\n\nWrite AGENTS.md\nfor a project you work on.",
     sections: [
       {
@@ -1854,6 +1871,7 @@ const module3Slides: Slide[] = [
   {
     number: 4,
     title: "Project rules — protecting conventions",
+    presentationPoints: ["Rules are specific constraints preventing locally-right, globally-wrong decisions", "Good rules are specific, verifiable, and actionable"],
     headline: "Project rules\n\nThe guardrails that prevent\nlocally-right, globally-wrong decisions.",
     sections: [
       {
@@ -1908,6 +1926,7 @@ const module3Slides: Slide[] = [
   {
     number: 5,
     title: "Exercise: write rules for your project",
+    presentationPoints: ["Write 10 specific rules starting from real mistakes", "The best rules come from code review comments"],
     headline: "Exercise 2\n\nWrite 10 rules\nfor a project you know.",
     sections: [
       {
@@ -1933,6 +1952,7 @@ const module3Slides: Slide[] = [
   {
     number: 6,
     title: "Skills — reusable task recipes",
+    presentationPoints: ["A skill is a focused instruction file for a specific task type", "If AGENTS.md is the onboarding document, skills are the specialised SOPs"],
     headline: "Skills\n\nReusable agent capabilities\nfor specific task types.",
     sections: [
       {
@@ -1993,6 +2013,7 @@ const module3Slides: Slide[] = [
   {
     number: 7,
     title: "Exercise: write a skill",
+    presentationPoints: ["Write a skill for the most common task type in your project", "Base everything on existing code patterns, not generic best practices"],
     headline: "Exercise 3\n\nWrite a skill for the most\ncommon task in your project.",
     sections: [
       {
@@ -2018,6 +2039,7 @@ const module3Slides: Slide[] = [
   {
     number: 8,
     title: "Operating contracts — the hard rules",
+    presentationPoints: ["Contracts say 'never do Z, under any circumstances' — the safety floor", "Five essentials: never edit before inspecting, never invent APIs, never bypass failing tests, never add deps without asking, always summarise changes"],
     headline: "Operating contracts\n\nHard rules the agent\nmust never break.",
     sections: [
       {
@@ -2067,6 +2089,7 @@ const module3Slides: Slide[] = [
   {
     number: 9,
     title: "Exercise: define your contracts",
+    presentationPoints: ["Start with the five essential contracts, adapt to your project"],
     headline: "Exercise 4\n\nWrite your operating contracts.\nThe rules that never bend.",
     sections: [
       {
@@ -2110,6 +2133,7 @@ const module3Slides: Slide[] = [
   {
     number: 10,
     title: "The instruction file hierarchy",
+    presentationPoints: ["Three levels: Global → Project → Task", "Task-level overrides project-level, which overrides global"],
     headline: "Three levels\n\nGlobal → Project → Task",
     sections: [
       {
@@ -2154,6 +2178,7 @@ const module3Slides: Slide[] = [
   {
     number: 11,
     title: "What good instructions look like",
+    presentationPoints: ["Vague instructions produce vague results; specific instructions produce specific results", "For every instruction, ask: could I write a lint rule that checks this?"],
     headline: "Good instructions\n\nSpecific. Verifiable.\nActionable.",
     sections: [
       {
@@ -2201,6 +2226,7 @@ const module3Slides: Slide[] = [
   {
     number: 12,
     title: "Layering project context",
+    presentationPoints: ["Project instrumentation layers: AGENTS.md → Rules → Skills → Contracts → Learning", "The investment compounds — every session starts at the level of your best developer"],
     headline: "Five layers\n\nEach layer makes every\nfuture session better.",
     sections: [
       {
@@ -2250,6 +2276,7 @@ const module3Slides: Slide[] = [
   {
     number: 13,
     title: "MCP — connecting agents to external systems",
+    presentationPoints: ["MCP lets agents call external tools through a standardised interface", "Local tools work inside the codebase; MCP tools pull context from outside"],
     headline: "MCP\n\nModel Context Protocol.\nThe agent's hands\nbeyond the codebase.",
     sections: [
       {
@@ -2298,6 +2325,7 @@ const module3Slides: Slide[] = [
   {
     number: 14,
     title: "MCP in practice — servers, auth, and configuration",
+    presentationPoints: ["Each external system has an MCP server", "Auth tokens must never be stored in project files or version control"],
     headline: "MCP deep dive\n\nServers. Authentication.\nProject configuration.",
     sections: [
       {
@@ -2366,6 +2394,7 @@ const module3Slides: Slide[] = [
   {
     number: 15,
     title: "MCP — when to use and when not to",
+    presentationPoints: ["Most agent loops work with local tools alone", "Use MCP when the task references a ticket, design spec, or deployment status"],
     headline: "MCP decision guide\n\nNot every task\nneeds external context.",
     sections: [
       {
@@ -2430,6 +2459,7 @@ const module3Slides: Slide[] = [
   {
     number: 16,
     title: "Exercise: plan your MCP setup",
+    presentationPoints: ["Map which external systems your project depends on", "Start with one well-configured MCP server — usually the issue tracker"],
     headline: "Exercise 6\n\nMap which external systems\nyour project needs.\nPlan the MCP configuration.",
     sections: [
       {
@@ -2480,6 +2510,7 @@ const module3Slides: Slide[] = [
   {
     number: 17,
     title: "Exercise: audit your context stack",
+    presentationPoints: ["Audit AGENTS.md, rules, skills, and contracts against the actual codebase", "Stale context is dangerous context"],
     headline: "Exercise 7\n\nAudit your project.\nWhat is missing?\nWhat is stale?",
     sections: [
       {
@@ -2513,6 +2544,7 @@ const module3Slides: Slide[] = [
   {
     number: 18,
     title: "Putting it all together",
+    presentationPoints: ["A well-instrumented project: AGENTS.md + rules + skills + contracts + MCP", "One-off prompting is where everyone starts; encoded context is where professionals operate"],
     headline: "The instrumented project\n\nRules + Skills + Contracts\n+ MCP + Ralph = reliable agents.",
     sections: [
       {
@@ -2573,6 +2605,7 @@ const module4Slides: Slide[] = [
   {
     number: 1,
     title: "The capstone project",
+    presentationPoints: ["Build the course website from scratch using the Ralph technique", "Every exercise uses the Ralph technique — no shortcuts, no vibe-coding"],
     headline: "Build this site\n\nEverything you learned.\nOne real project.",
     sections: [
       {
@@ -2609,6 +2642,7 @@ const module4Slides: Slide[] = [
   {
     number: 2,
     title: "Exercise: write AGENTS.md first",
+    presentationPoints: ["Before writing a single component, create the AGENTS.md", "The agent reads it automatically and starts every task with the right conventions"],
     headline: "Exercise 1\n\nBefore any code.\nWrite the AGENTS.md.",
     sections: [
       {
@@ -2634,6 +2668,7 @@ const module4Slides: Slide[] = [
   {
     number: 3,
     title: "Exercise: scaffold and configure",
+    presentationPoints: ["Scaffold the Next.js project, install dependencies, configure the dark theme", "Verify: does npm run build pass?"],
     headline: "Exercise 2\n\nScaffold the project.\nInstall dependencies.\nConfigure the dark theme.",
     sections: [
       {
@@ -2665,6 +2700,7 @@ const module4Slides: Slide[] = [
   {
     number: 4,
     title: "Exercise: build the layout shell",
+    presentationPoints: ["Build Container, Nav, Footer — one component per Ralph loop", "Three full loops for three layout components"],
     headline: "Exercise 3\n\nContainer. Nav. Footer.\nOne component at a time.",
     sections: [
       {
@@ -2694,6 +2730,7 @@ const module4Slides: Slide[] = [
   {
     number: 5,
     title: "Exercise: build the hero section",
+    presentationPoints: ["Full-viewport hero with radial glow, title, CTA, tool badges", "One complete Ralph loop — read, plan, implement, verify"],
     headline: "Exercise 4\n\nThe hero.\nFull Ralph loop.\nOne shot.",
     sections: [
       {
@@ -2717,6 +2754,7 @@ const module4Slides: Slide[] = [
   {
     number: 6,
     title: "Exercise: build the module accordion",
+    presentationPoints: ["The most complex component — break into six slices", "Six slices each under 100 lines — how professionals build complex features with AI"],
     headline: "Exercise 5\n\nThe hardest component.\nMultiple slices.",
     sections: [
       {
@@ -2751,6 +2789,7 @@ const module4Slides: Slide[] = [
   {
     number: 7,
     title: "Exercise: frameworks and FAQ sections",
+    presentationPoints: ["Build Resources section and FAQ section", "Recon the data model, plan, then build in slices"],
     headline: "Exercise 6\n\nTwo more sections.\nRepeat the pattern.",
     sections: [
       {
@@ -2784,6 +2823,7 @@ const module4Slides: Slide[] = [
   {
     number: 8,
     title: "Exercise: final review",
+    presentationPoints: ["Ask the agent to review the complete codebase", "Fix Critical or Major findings using the Ralph technique"],
     headline: "Exercise 7\n\nReview your own work.\nCheck every diff.",
     sections: [
       {
@@ -2813,6 +2853,7 @@ const module4Slides: Slide[] = [
   {
     number: 9,
     title: "What comes next",
+    presentationPoints: ["Next: AI Coding Harnesses (practical tooling), Context Engineering (deep context), Building MCP Servers", "If you want to be productive immediately, take AI Coding Harnesses next"],
     headline: "You know\nthe mental model.\nNow master\nthe tooling.",
     sections: [
       {
@@ -2850,6 +2891,7 @@ const module5Slides: Slide[] = [
   {
     number: 1,
     title: "The five workflow patterns",
+    presentationPoints: ["Prompt Chaining, Routing, Parallelisation, Orchestrator-Workers, Evaluator-Optimizer", "Start with the simplest solution — only increase complexity when it demonstrably improves outcomes"],
     headline: "Not every task\nneeds an agent.\nMost need\na workflow.",
     sections: [
       {
@@ -2878,6 +2920,7 @@ const module5Slides: Slide[] = [
   {
     number: 2,
     title: "Single-agent vs multi-agent",
+    presentationPoints: ["Cognition: share context + actions carry implicit decisions", "Multi-agent used 15x more tokens — for most coding tasks single agent wins"],
     headline: "Multi-agent\nsounds better.\nSingle-agent\nusually IS better.",
     sections: [
       {
@@ -2911,6 +2954,7 @@ const module5Slides: Slide[] = [
   {
     number: 3,
     title: "Subagents in practice",
+    presentationPoints: ["Subagents are delegated workers with their own context window", "Writer/Reviewer pattern: one agent implements, a fresh subagent reviews"],
     headline: "Not multi-agent.\nDelegated work\nwith isolated context.",
     sections: [
       {
@@ -2946,6 +2990,7 @@ const module5Slides: Slide[] = [
   {
     number: 4,
     title: "The orchestrator-workers pattern",
+    presentationPoints: ["A central agent classifies, delegates to specialists, enforces quality gates", "The orchestrator's most important job is blocking progress when prerequisites aren't met"],
     headline: "One coordinator.\nMultiple specialists.\nEvidence-gated\nhandoffs.",
     sections: [
       {
@@ -2968,6 +3013,7 @@ const module5Slides: Slide[] = [
   {
     number: 5,
     title: "When to scale beyond single-agent",
+    presentationPoints: ["Stay single-agent when task fits in one context window", "Scale when information exceeds a single window and subtasks are truly independent"],
     headline: "The decision\nframework.",
     sections: [
       {
@@ -2993,6 +3039,7 @@ const module5Slides: Slide[] = [
   {
     number: 6,
     title: "Exercise: design an orchestrated workflow",
+    presentationPoints: ["Design: classify, sequence, gates, failure loops, subagents, evidence", "Draw the workflow — boxes for specialists, arrows for happy path, diamonds for gates"],
     headline: "Your turn.\nDesign the\ndelegation chain.",
     sections: [
       {
