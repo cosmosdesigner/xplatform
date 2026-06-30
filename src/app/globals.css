@@ -117,3 +117,18 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-hover);
 }
+
+/* ─── Presentation Mode — scaled-up content ────────────────────────────── */
+.presentation-content {
+  font-size: 1.75em;
+  line-height: 1.7;
+}
+.presentation-content h4 {
+  font-size: 1.15em;
+}
+.presentation-content pre {
+  font-size: 0.75em;
+}
+.presentation-content table {
+  font-size: 0.85em;
+}

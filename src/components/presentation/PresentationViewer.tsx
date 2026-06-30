@@ -228,13 +228,15 @@ export function PresentationViewer({
           <h2
             ref={headingRef}
             tabIndex={-1}
-            className="text-[36px] md:text-[48px] lg:text-[56px] font-semibold tracking-[-0.03em] leading-[1.15] text-[#ededed] whitespace-pre-line relative z-10 focus-visible:outline-none"
+            className="text-[42px] md:text-[56px] lg:text-[68px] font-semibold tracking-[-0.03em] leading-[1.1] text-[#ededed] whitespace-pre-line relative z-10 focus-visible:outline-none"
           >
             {activeSlide.headline}
           </h2>
 
-          {/* Slide body — rich content blocks or simple text */}
-          <SlideContent slide={activeSlide} accent={accent} />
+          {/* Slide body — scaled up for presentation readability */}
+          <div className="presentation-content">
+            <SlideContent slide={activeSlide} accent={accent} />
+          </div>
         </div>
       </div>
 
