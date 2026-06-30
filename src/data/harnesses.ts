@@ -227,7 +227,7 @@ const module2Slides: Slide[] = [
   {
     number: 4,
     title: "Your first AGENTS.md",
-    headline: "30 minutes.\n80% of the value.\nWrite it now.",
+    headline: "The highest-impact\nfirst step.\nWrite it now.",
     sections: [
       {
         type: "code",
@@ -412,8 +412,8 @@ const module3Slides: Slide[] = [
           ["Email / PDF attachments", "Attacker sends a PDF with embedded prompt injection. Agent reads it as part of the job. Hidden text becomes malicious instruction."],
           ["GitHub PRs", "Malicious instructions in hidden diff comments, issue bodies, linked docs. Code review agents process them with high autonomy."],
           ["MCP servers", "Can be malicious by design or over-trusted. A tool can exfiltrate data while appearing to provide context. OWASP now has an MCP Top 10."],
-          ["Skills / plugins", "Supply chain attacks. A recommended skill from Discord could contain hidden prompt injection. 36% of public skills had injection in Snyk's study."],
-          ["Memory files", "Payload plants fragments in memory, waits, assembles later. Microsoft documented this across 31 companies. Memory poisoning is persistent."],
+          ["Skills / plugins", "Supply chain attacks. A recommended skill from Discord could contain hidden prompt injection. Snyk's ToxicSkills study found prompt injection in a significant percentage of public skills (cited by ECC security guide, snyk.io)."],
+          ["Memory files", "Payload plants fragments in memory, waits, assembles later. Microsoft has documented memory-oriented AI attacks (cited by ECC security guide, microsoft.com security blog). Memory poisoning is persistent."],
           ["Repos you clone", "Project config, hooks, MCP settings, and environment variables are part of the execution surface. Clone + open = potential compromise."],
         ],
       },
@@ -520,7 +520,7 @@ const module4Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "Hooks are trigger-based automations that fire on specific events in the agent's lifecycle. Unlike instructions in AGENTS.md (which are advisory), hooks are deterministic — they run every time, with zero exceptions. This is the most impactful productivity feature most developers don't know about.",
+        text: "Hooks are trigger-based automations that fire on specific events in the agent's lifecycle. Unlike instructions in AGENTS.md (which are advisory), hooks are deterministic — they run every time, with zero exceptions. Anthropic's docs describe hooks as running 'scripts automatically at specific points in Claude's workflow.'",
       },
       {
         type: "comparison",
@@ -590,14 +590,14 @@ const module4Slides: Slide[] = [
         type: "callout",
         variant: "insight",
         title: "Why worktrees beat branches",
-        text: "With branches, switching requires stashing or committing work-in-progress. With worktrees, each checkout is a separate directory — two agents can edit the same repo simultaneously without any coordination. This is the single biggest productivity multiplier for experienced users.",
+        text: "With branches, switching requires stashing or committing work-in-progress. With worktrees, each checkout is a separate directory — two agents can edit the same repo simultaneously without any coordination. Geoffrey Huntley's Ralph technique and ECC's shortform guide both emphasise worktrees for parallel agent work.",
       },
     ] as ContentBlock[],
   },
   {
     number: 4,
     title: "Token optimization",
-    headline: "Your 200K window\nmight only be 70K\nwith too many tools.",
+    headline: "Too many tools\nkill your\ncontext window.",
     sections: [
       {
         type: "paragraph",
@@ -623,7 +623,7 @@ const module4Slides: Slide[] = [
         type: "callout",
         variant: "warning",
         title: "The degradation curve",
-        text: "LLM performance doesn't degrade linearly — it falls off a cliff. At 50% context, everything works fine. At 80%, subtle mistakes start. At 95%, the agent starts ignoring instructions and repeating actions. Auto-compact triggers at 95% — but by then, quality has already degraded. Manage proactively.",
+        text: "LLM performance degrades as context fills. Anthropic's Claude Code best practices warn: 'performance degrades as context fills' and auto-compact triggers when 'context approaches the limit.' Drew Breunig documents that agents begin repeating past actions instead of synthesising new plans as context grows. Manage proactively — don't wait for auto-compact.",
       },
     ] as ContentBlock[],
   },
@@ -808,9 +808,9 @@ export const harnessFrameworks = [
     ],
   },
   {
-    id: "autonomy-ladder",
-    title: "The Autonomy Ladder",
-    description: "Match permission modes to task complexity and risk.",
+    id: "permission-progression",
+    title: "Permission Mode Progression",
+    description: "Match Claude Code's permission modes to task complexity and risk. Based on Anthropic's 6 permission modes documentation.",
     items: [
       "L1 Plan Mode — read-only research and exploration. No edits. Use for unfamiliar code.",
       "L2 Default — approve every action manually. Use for first-time tasks and sensitive code.",
@@ -867,7 +867,7 @@ export const harnessFaqItems = [
   },
   {
     question: "What are hooks and why should I care?",
-    answer: "Hooks are automated actions that fire on agent events — auto-format after edits, type-check after changes, check for console.logs before stopping. Unlike AGENTS.md rules (which are advisory), hooks are guaranteed to run every time. They're the single biggest daily productivity improvement.",
+    answer: "Hooks are automated actions that fire on agent events — auto-format after edits, type-check after changes, check for console.logs before stopping. Unlike AGENTS.md rules (which are advisory), hooks are guaranteed to run every time. Anthropic's docs say: 'Use hooks for actions that must happen every time with zero exceptions.'",
   },
   {
     question: "How do I manage the context window?",
@@ -903,7 +903,7 @@ export const harnessModules: CourseModule[] = [
     description:
       "Install your harness, connect to your enterprise gateway, write your first AGENTS.md, and verify everything works.",
     keyMessage:
-      "AGENTS.md provides 80% of the value with 30 minutes of work. Write it now.",
+      "AGENTS.md is the highest-impact first step. Write it now.",
     slides: module2Slides,
   },
   {
@@ -912,7 +912,7 @@ export const harnessModules: CourseModule[] = [
     label: "Module 3",
     title: "Permission Modes & Safety",
     description:
-      "Six permission modes, fine-grained rules, protected paths, the autonomy ladder, and recovery when things go wrong.",
+      "Six permission modes, fine-grained rules, protected paths, security (CVEs, sandboxing), and recovery when things go wrong.",
     keyMessage:
       "The agent can run any command and edit any file. Permission modes are the guardrails that prevent disaster while keeping you productive.",
     slides: module3Slides,
@@ -925,7 +925,7 @@ export const harnessModules: CourseModule[] = [
     description:
       "Hooks that auto-format code, parallel workflows with git worktrees, token optimization, and keyboard shortcuts.",
     keyMessage:
-      "Hooks are the single biggest daily productivity improvement. Auto-format after every edit, type-check after every change, guaranteed every time.",
+      "Hooks run automatically with zero exceptions — auto-format after every edit, type-check after every change. Anthropic: 'Use hooks for actions that must happen every time.'",
     slides: module4Slides,
   },
   {
