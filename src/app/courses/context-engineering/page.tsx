@@ -41,7 +41,7 @@ function ContextFrameworksSection() {
             Key frameworks
           </p>
           <h2 className="text-[32px] md:text-[42px] font-semibold tracking-[-0.03em] text-[#ededed] leading-[1.15]">
-            7 models.
+            5 models.
             <br />
             <span className="text-[#878787]">One context architecture.</span>
           </h2>

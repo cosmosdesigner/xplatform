@@ -74,24 +74,24 @@ const module1Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "Context engineering is not one technique — it is a stack of complementary layers, each with different investment, persistence, and scope. The layers build on each other. Skip one and the layers above it become unreliable.",
+        text: "Context engineering is not one technique — it involves complementary layers, each with different persistence and scope. The layers build on each other. Skip one and the layers above it become unreliable.",
       },
       {
         type: "comparison",
         headers: ["Layer", "What it provides"],
         rows: [
-          ["L1: AGENTS.md", "Project identity — stack, commands, architecture, conventions. 30 minutes to write, loaded every session."],
-          ["L2: Project Rules", "Constraints — closed vocabularies, state machines, naming conventions. 1 day to design, enforced by every agent."],
-          ["L3: Skills", "Reusable task recipes — loaded on demand when the task type matches. 1-2 days to build, compound over time."],
-          ["L4: Operating Contracts", "Hard rules that never bend — DS contracts, navigation contracts, UI state matrices. 1 hour per contract."],
-          ["L5: Continuous Learning", "Patterns from successes and failures — MEMORY.md files, session learnings. Ongoing, automatic."],
+          ["AGENTS.md", "Project identity — stack, commands, architecture, conventions. Loaded every session. Start here."],
+          ["Project Rules", "Constraints — closed vocabularies, state machines, naming conventions. Enforced by every agent."],
+          ["Skills", "Reusable task recipes — loaded on demand when the task type matches. Based on Anthropic's skills system."],
+          ["Operating Contracts", "Hard rules that never bend. Written once, enforced always."],
+          ["Continuous Learning", "Patterns from successes and failures — MEMORY.md files, session learnings. Based on Claude Code's auto memory system."],
         ],
       },
       {
         type: "callout",
         variant: "rule",
-        title: "The 80/20 rule",
-        text: "AGENTS.md (Layer 1) provides 80% of the value with 30 minutes of work. Most teams never need beyond Layer 3. Start with L1 and add layers only when you hit real problems.",
+        title: "Start simple",
+        text: "AGENTS.md is the foundation — it takes minimal effort and has the biggest impact. Start there and add skills, rules, contracts only when you hit specific, recurring problems. Don't over-engineer your context stack.",
       },
     ] as ContentBlock[],
   },
@@ -166,7 +166,7 @@ const module1Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "The single most repeated pattern in enterprise AI systems is read-before-write. It appears in every agent definition, every command procedure, every skill file, and every MCP rule. It is the safety invariant of context engineering.",
+        text: "Read-before-write is a fundamental safety pattern in AI agent systems. Anthropic's Claude Code best practices emphasise 'explore first, then plan, then code.' In our own workspace, it appears in every agent definition, every command procedure, and every MCP rule.",
       },
       {
         type: "subheading",
@@ -224,9 +224,8 @@ const module1Slides: Slide[] = [
         text: "A 'cheap demo' agent sees only the user's message and nothing else. Its code works but the output is generic and unhelpful.\n\nA 'magical' agent has rich context loaded before the LLM call: your calendar, your past interactions, your project's conventions, your design system, your test runner. The magic isn't a smarter model — it's better context.",
       },
       {
-        type: "quote",
-        text: "Prompt engineering was about coming up with a magical sentence. Context engineering is about writing the full screenplay for the AI.",
-        attribution: "Addy Osmani, O'Reilly",
+        type: "paragraph",
+        text: "As Addy Osmani writes in his O'Reilly Radar article on context engineering: 'If prompt engineering was about coming up with a magical sentence, context engineering is about constructing an entire information environment so the AI can solve the problem reliably.' (oreilly.com/radar/context-engineering)",
       },
     ] as ContentBlock[],
   },
@@ -246,14 +245,14 @@ const module1Slides: Slide[] = [
           ["Context Poisoning", "A hallucination or error makes it into the context (e.g., a scratchpad, a summary) and is repeatedly referenced. The agent develops nonsensical strategies pursuing goals that cannot be met."],
           ["Context Distraction", "As context grows beyond ~100k tokens, the agent favours repeating past actions from its extensive history rather than synthesising novel plans. It leans on what it sees instead of what it knows."],
           ["Context Confusion", "Superfluous information (irrelevant tool definitions, unrelated documents) is used by the model to generate low-quality responses. Every model performs worse when given more than one tool."],
-          ["Context Clash", "Information gathered in stages conflicts with itself. Early incorrect attempts remain in context and influence the final answer. One study showed a 39% accuracy drop when information was sharded across messages."],
+          ["Context Clash", "Information gathered in stages conflicts with itself. Early incorrect attempts remain in context and influence the final answer. Drew Breunig notes that models perform significantly worse when information is gathered incrementally versus all at once."],
         ],
       },
       {
         type: "callout",
         variant: "warning",
         title: "The million-token trap",
-        text: "Frontier models support up to 1 million tokens, but the Gemini 2.5 technical report found that agents began repeating past actions instead of planning new ones after ~100k tokens. Smaller models hit their distraction ceiling even earlier — Llama 3.1 405B at around 32k tokens. Bigger windows are not better windows.",
+        text: "Frontier models support up to 1 million tokens, but Drew Breunig documents that agent performance degrades well before the window is full. He cites the Gemini 2.5 technical report showing agents favour repeating past actions over synthesising novel plans as context grows, and a Databricks study showing accuracy drops at extended context lengths. Bigger windows are not automatically better windows.",
       },
       {
         type: "paragraph",
@@ -275,7 +274,7 @@ const module2Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "AGENTS.md (or CLAUDE.md, .cursorrules) is a special file read by the AI agent at the start of every conversation. It provides persistent context the agent cannot infer from code alone. A well-written AGENTS.md eliminates 80% of the corrections you would otherwise need to make.",
+        text: "AGENTS.md (or CLAUDE.md, .cursorrules) is a special file read by the AI agent at the start of every conversation. It provides persistent context the agent cannot infer from code alone. Anthropic's docs say: 'CLAUDE.md is a markdown file you add to your project root that Claude Code reads at the start of every session. Use it to set coding standards, architecture decisions, preferred libraries, and review checklists.'",
       },
       {
         type: "subheading",
@@ -309,7 +308,7 @@ const module2Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "After analysing 6 production AGENTS.md files across different projects, a clear structural pattern emerges. The best files share three properties: they are specific (exact versions, not just framework names), verifiable (each rule can be checked in a diff), and actionable (the agent knows exactly what to do differently).",
+        text: "Examining AGENTS.md files from production repositories in our own workspace, a clear structural pattern emerges. The best files share three properties: they are specific (exact versions, not just framework names), verifiable (each rule can be checked in a diff), and actionable (the agent knows exactly what to do differently). Anthropic's docs reinforce this: 'For each line, ask: Would removing this cause Claude to make mistakes? If not, cut it.'",
       },
       {
         type: "code",
@@ -346,7 +345,7 @@ const module2Slides: Slide[] = [
       {
         type: "callout",
         variant: "insight",
-        title: "Where 80% of the value lives",
+        title: "Where to focus",
         text: "The project-level AGENTS.md is where most teams should focus. Global settings handle personal preferences. Task-level instructions handle edge cases. But the project AGENTS.md is what makes the agent understand your codebase.",
       },
       {
@@ -457,7 +456,7 @@ const module2Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "Anthropic's number one best practice for Claude Code is: give the agent a way to verify its own work. A test suite, a build command, a linter, a screenshot comparison. Without a check, 'looks done' is the only signal — and you become the verification loop.",
+        text: "Anthropic's best practices for Claude Code emphasise giving the agent a way to verify its own work. Their docs say: 'Give Claude a check it can run: tests, a build, a screenshot to compare. It's the difference between a session you watch and one you walk away from.' Without a check, 'looks done' is the only signal.",
       },
       {
         type: "comparison",
@@ -970,7 +969,7 @@ const module4Slides: Slide[] = [
         type: "callout",
         variant: "warning",
         title: "The compression trap",
-        text: "Summarisation can lose critical details. Cognition (Devin) uses a fine-tuned model specifically for summarisation because generic summarisation kept losing important implementation decisions. If specific events or decisions must be captured, instruct the compressor: 'When compacting, always preserve the full list of modified files and test commands.'",
+        text: "Summarisation can lose critical details. LangChain's research notes that Cognition uses a fine-tuned model for context compression, 'which underscores how much work can go into this step.' If specific events or decisions must be captured, instruct the compressor: 'When compacting, always preserve the full list of modified files and test commands.'",
       },
     ] as ContentBlock[],
   },
@@ -1041,30 +1040,7 @@ export const contextFrameworks = [
       "When in doubt: read more, not less",
     ],
   },
-  {
-    id: "context-priority",
-    title: "Context Priority Model",
-    description: "When multiple sources disagree, a priority hierarchy resolves conflicts.",
-    items: [
-      "P1 (highest): Feature-specific context — current task requirements",
-      "P2: Functional context — business rules and domain logic",
-      "P3: Technical context — architecture patterns and conventions",
-      "P4 (lowest): Repository context — the actual code files",
-      "Conflict resolution: report conflicts, never silently resolve",
-    ],
-  },
-  {
-    id: "domain-filtering",
-    title: "Domain Filtering",
-    description: "Load only the context relevant to the current task type.",
-    items: [
-      "Discovery tasks: functional context only",
-      "Planning tasks: functional + technical context",
-      "Frontend implementation: frontend technical context",
-      "Backend implementation: backend technical context",
-      "Review tasks: functional + technical (fresh load)",
-    ],
-  },
+
   {
     id: "fail-closed",
     title: "Fail Closed",

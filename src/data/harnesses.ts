@@ -376,25 +376,23 @@ const module3Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "On February 25, 2026, Check Point Research published two Claude Code CVEs that ended the 'this could happen but won't' phase of agent security. These weren't hypothetical — they were real exploits in production tooling used by millions of developers.",
+        text: "Real security vulnerabilities have been found in AI coding tools. CVE-2025-59536 (CVSS 8.7, confirmed in NVD) allowed project-contained code to execute in Claude Code before versions prior to 1.0.111. These are not hypothetical — they are real exploits in production tooling.",
       },
       {
         type: "comparison",
-        headers: ["CVE", "What happened"],
+        headers: ["Evidence", "Source"],
         rows: [
-          ["CVE-2025-59536 (CVSS 8.7)", "Project-contained code could execute BEFORE the user accepted the trust dialog. Clone a repo, open Claude Code — malicious hooks run immediately."],
-          ["CVE-2026-21852", "An attacker-controlled project could override ANTHROPIC_BASE_URL, redirect all API traffic through an attacker's server, and leak your API key — before trust was even confirmed."],
+          ["CVE-2025-59536 (CVSS 8.7) — code injection before trust dialog", "NVD (nvd.nist.gov), affects Claude Code before v1.0.111"],
+          ["Snyk ToxicSkills study — prompt injection found in public skills", "Cited by ECC security guide (github.com/affaan-m/ECC), referencing snyk.io"],
+          ["Microsoft AI Recommendation Poisoning — memory-oriented attacks", "Cited by ECC security guide, referencing microsoft.com security blog"],
+          ["OWASP MCP Top 10 — tool poisoning, secret exposure", "owasp.org/www-project-mcp-top-10/"],
         ],
       },
       {
         type: "callout",
         variant: "warning",
         title: "The shift",
-        text: "Prompt injection is no longer a funny jailbreak screenshot. In an agentic system, it becomes shell execution, secret exposure, workflow abuse, or quiet lateral movement. The tooling we trust is the tooling being targeted.",
-      },
-      {
-        type: "paragraph",
-        text: "Additional context: Snyk's ToxicSkills study scanned 3,984 public skills and found prompt injection in 36% of them — 1,467 malicious payloads. Microsoft documented memory poisoning attacks across 31 companies and 14 industries. Hunt.io reported 17,470 exposed agent instances in the wild. This is not theoretical.",
+        text: "Prompt injection is no longer a funny jailbreak screenshot. In an agentic system, it becomes shell execution, secret exposure, workflow abuse, or quiet lateral movement. The tooling we trust is the tooling being targeted. (Source: ECC security guide by Affaan Mustafa, github.com/affaan-m/ECC)",
       },
     ] as ContentBlock[],
   },
