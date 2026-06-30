@@ -330,7 +330,7 @@ const module2Slides: Slide[] = [
       {
         type: "callout",
         variant: "warning",
-        title: "The #1 debugging mistake",
+        title: "The most common debugging mistake",
         text: "Forgetting to build (npm run build) after making changes. The config points to the compiled .js file, not your .ts source. Every change requires a rebuild and an application restart.",
       },
     ] as ContentBlock[],
@@ -358,11 +358,11 @@ const module3Slides: Slide[] = [
   {
     number: 1,
     title: "Real-world MCP: GitHub server case study",
-    headline: "A real production\nMCP server\nused by thousands.",
+    headline: "A real production\nMCP server\nyou can study.",
     sections: [
       {
         type: "paragraph",
-        text: "The @modelcontextprotocol/server-github is a real production MCP server used by thousands of developers. It exposes tools for managing repositories, issues, pull requests, branches, and files. Understanding its design patterns teaches you how to build production-grade MCP servers.",
+        text: "The @modelcontextprotocol/server-github is a production MCP server from the official MCP reference implementations (github.com/modelcontextprotocol/servers). It exposes tools for managing repositories, issues, pull requests, branches, and files. Studying its design patterns teaches you how to build production-grade MCP servers.",
       },
       {
         type: "comparison",
@@ -440,7 +440,7 @@ const module3Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "When an LLM receives a list of available tools, it reads the name, description, and input schema to decide which tool to call. Poorly described tools lead to wrong tool selection, incorrect arguments, and failed operations. Good descriptions are the single most important factor in tool usability.",
+        text: "When an LLM receives a list of available tools, it reads the name, description, and input schema to decide which tool to call. Poorly described tools lead to wrong tool selection, incorrect arguments, and failed operations. Anthropic's 'Building Effective Agents' guide emphasises investing as much effort in tool descriptions as in any other interface design.",
       },
       {
         type: "comparison",
@@ -797,7 +797,7 @@ export const mcpFrameworks = [
   {
     id: "write-precondition",
     title: "Write Precondition Checklist",
-    description: "The 6-step safety protocol before any MCP write operation.",
+    description: "A 6-step safety protocol before any MCP write operation. Based on patterns from a production enterprise governance system.",
     items: [
       "1. IDENTIFY — operation, target artifact, fields, links, tags",
       "2. READ — current remote content, state, links, and revision",
@@ -810,7 +810,7 @@ export const mcpFrameworks = [
   {
     id: "tool-description-design",
     title: "Tool Description Design",
-    description: "How to write tool descriptions that help LLMs choose correctly.",
+    description: "Practical guidelines for writing tool descriptions that help LLMs choose correctly. Informed by Anthropic's 'Building Effective Agents' guide.",
     items: [
       "Name: verb_noun format (get_post, search_repos, list_issues)",
       "Description: what it DOES + what it RETURNS + CONSTRAINTS + RELATIONS",
@@ -888,7 +888,7 @@ export const mcpModules: CourseModule[] = [
     description:
       "From project setup to a working server with tools, resources, prompts, and testing.",
     keyMessage:
-      "A working MCP server is 50 lines of TypeScript. The hard part is designing good tools, not writing the plumbing.",
+      "A minimal MCP server is surprisingly short in TypeScript. The hard part is designing good tools, not writing the plumbing.",
     slides: module2Slides,
   },
   {
