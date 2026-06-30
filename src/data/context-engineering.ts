@@ -135,7 +135,7 @@ const module1Slides: Slide[] = [
       },
       {
         type: "subheading",
-        text: "The 4-layer priority model",
+        text: "A priority approach (based on patterns from our workspace)",
       },
       {
         type: "comparison",
@@ -337,7 +337,7 @@ const module2Slides: Slide[] = [
         headers: ["Scope", "Where it lives"],
         rows: [
           ["Global (all projects)", "~/.config/opencode/ or ~/.claude/ — universal preferences, code style, never-do rules"],
-          ["Project (this repo)", "AGENTS.md in repo root — 80% of value. Stack, commands, architecture, conventions"],
+          ["Project (this repo)", "AGENTS.md in repo root — the most impactful layer. Stack, commands, architecture, conventions"],
           ["Subdirectory (this module)", "AGENTS.md in child directories — loaded when agent reads files in that directory"],
           ["Task (this prompt)", "Inline in your message — one-off constraints for this specific task"],
         ],
@@ -1021,7 +1021,7 @@ export const contextFrameworks = [
     title: "Context Layering",
     description: "Structure agent context from foundation (AGENTS.md) to advanced (skills, contracts, memory). Based on patterns from Anthropic's CLAUDE.md docs and real-world production repos.",
     items: [
-      "AGENTS.md — project identity (30 min investment, loaded every session)",
+      "AGENTS.md — project identity (loaded every session, start here)",
       "Project Rules — constraints as context (enforced always)",
       "Skills — on-demand task recipes (loaded per task type, from Anthropic's skills system)",
       "Operating Contracts — hard rules that never bend",
@@ -1031,7 +1031,7 @@ export const contextFrameworks = [
   {
     id: "read-before-write",
     title: "Read Before Write",
-    description: "The single most repeated safety invariant in enterprise AI systems.",
+    description: "A fundamental safety pattern in AI agent systems, emphasised by Anthropic's Claude Code best practices.",
     items: [
       "Before editing: read current content and understand patterns",
       "Before writing to external systems: read current state and revision",
@@ -1061,7 +1061,7 @@ export const contextFrameworks = [
       "Context Poisoning — hallucination enters context, is repeatedly referenced, causes cascading errors",
       "Context Distraction — agent favours repeating past actions over synthesising new plans (>100k tokens)",
       "Context Confusion — irrelevant tools/documents get used to generate low-quality responses",
-      "Context Clash — information gathered in stages contradicts itself, causing 39% accuracy drops",
+      "Context Clash — information gathered in stages contradicts itself, degrading accuracy significantly",
     ],
   },
   {
@@ -1092,7 +1092,7 @@ export const contextFaqItems = [
   },
   {
     question: "What's the minimum I need to get started?",
-    answer: "An AGENTS.md file in your project root. That's Layer 1 of the Context Stack and provides 80% of the value. You can add skills, rules, and registries later as you hit specific problems.",
+    answer: "An AGENTS.md file in your project root. It's the foundation and has the biggest impact. You can add skills, rules, and registries later as you hit specific problems.",
   },
   {
     question: "How long should AGENTS.md be?",
@@ -1127,7 +1127,7 @@ export const contextModules: CourseModule[] = [
     label: "Module 1",
     title: "The Context Window as Architecture",
     description:
-      "Understand the fundamental constraint — the context window — and the 5-layer Context Stack that structures everything an AI agent sees.",
+      "Understand the fundamental constraint — the context window — and the layered approach to structuring everything an AI agent sees.",
     keyMessage:
       "The agent is not forgetful — it never had memory. The fix is not better prompts. The fix is to put the context in files.",
     slides: module1Slides,
