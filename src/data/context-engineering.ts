@@ -70,7 +70,7 @@ const module1Slides: Slide[] = [
   {
     number: 3,
     title: "Layering project context",
-    headline: "Multiple layers.\nFrom 30 minutes\nto permanent.",
+    headline: "Multiple layers.\nFrom quick wins\nto permanent.",
     sections: [
       {
         type: "paragraph",
@@ -346,7 +346,7 @@ const module2Slides: Slide[] = [
         type: "callout",
         variant: "insight",
         title: "Where to focus",
-        text: "The project-level AGENTS.md is where most teams should focus. Global settings handle personal preferences. Task-level instructions handle edge cases. But the project AGENTS.md is what makes the agent understand your codebase.",
+        text: "The project-level AGENTS.md is the highest-impact place to start. Global settings handle personal preferences. Task-level instructions handle edge cases. The project AGENTS.md is what makes the agent understand your codebase.",
       },
       {
         type: "paragraph",
@@ -667,7 +667,7 @@ const module3Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "The context window is your fundamental constraint. Managing it isn't a nice-to-have — it's what separates productive sessions from ones where the agent degrades into nonsense after 30 minutes.",
+        text: "The context window is your fundamental constraint. Managing it isn't a nice-to-have — it's what separates productive sessions from ones where the agent starts ignoring instructions and repeating actions.",
       },
       {
         type: "subheading",
@@ -1096,7 +1096,7 @@ export const contextFaqItems = [
   },
   {
     question: "How long should AGENTS.md be?",
-    answer: "As short as possible while still being complete. If the agent already does something correctly without the instruction, remove it. Bloated files cause the agent to ignore your actual instructions. Most good AGENTS.md files are 50-150 lines.",
+    answer: "As short as possible while still being complete. Anthropic's docs say: 'For each line, ask: Would removing this cause Claude to make mistakes? If not, cut it. Bloated CLAUDE.md files cause Claude to ignore your actual instructions.'",
   },
   {
     question: "Should I use AGENTS.md or CLAUDE.md or .cursorrules?",
