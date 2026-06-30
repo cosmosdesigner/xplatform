@@ -351,59 +351,59 @@ export const diffReviewChecklist: Framework = {
 
 export const ralphAsFramework: Framework = {
   id: "ralph",
-  name: "RALPH",
-  tagline: "The core operating loop for every agent task",
+  name: "The Ralph Technique",
+  tagline: "The autonomous bash loop — by Geoffrey Huntley",
   description:
-    "A memorable five-step loop for every task you give an AI coding agent. Use it for bug fixes, new features, refactors, and migrations. RALPH is the central model of this course — every other framework supports it.",
+    "Named after Ralph Wiggum from The Simpsons. Ralph is a technique where you put an AI coding agent in a bash loop with a PROMPT.md file. One task per loop. Specs as context. Tests as back-pressure. The agent runs autonomously, and you tune the prompt when it misbehaves — like tuning a guitar.",
   items: [
     {
-      id: "recon",
-      number: "R",
-      label: "Step 1",
-      title: "Recon",
+      id: "the-loop",
+      number: "01",
+      label: "Core",
+      title: "The Bash Loop",
       description:
-        "Inspect the codebase first. Read relevant files. Understand structure, dependencies, and patterns before touching anything. The agent's first action should always be reading, never editing.",
+        "while :; do cat PROMPT.md | claude-code; done — that's it. Ralph runs autonomously in a loop. Each iteration gets a fresh context window with the same PROMPT.md, specs, and fix_plan.md loaded.",
       variant: "insight",
     },
     {
-      id: "architecture",
-      number: "A",
-      label: "Step 2",
-      title: "Architecture",
+      id: "one-task",
+      number: "02",
+      label: "Rule",
+      title: "One Task Per Loop",
       description:
-        "Form a plan. Identify which files will change, what the approach is, and what the risks are. Review and approve the plan before any code is written. This is the cheapest moment to fix mistakes.",
+        "Ask Ralph to do one thing per loop. Only one thing. Let the LLM decide what's most important. 'Choose the most important thing.' You only have ~170k of context — use as little as possible.",
       variant: "insight",
     },
     {
-      id: "loop",
-      number: "L",
-      label: "Step 3",
-      title: "Loop",
+      id: "specs",
+      number: "03",
+      label: "Input",
+      title: "Specs + Fix Plan",
       description:
-        "Work in small, controlled iterations. One slice at a time. Validate each slice before starting the next. The most effective developers iterate frequently, not in giant prompts.",
+        "Deterministically allocate the stack the same way every loop: your specs (one per file in specs/) and your fix_plan.md (the living TODO list). These are regenerated and tuned continuously.",
       variant: "insight",
     },
     {
-      id: "patch",
-      number: "P",
-      label: "Step 4",
-      title: "Patch",
+      id: "backpressure",
+      number: "04",
+      label: "Gate",
+      title: "Back-Pressure via Tests",
       description:
-        "Make the change. Localised, scoped, minimal surface area. Avoid wide-impact edits without explicit approval. Each patch should be small enough to review in a single pass.",
+        "After implementing, run the tests for that unit of code. The build and test suite is your back-pressure — it rejects invalid code generation. The speed of the wheel turning matters, balanced against correctness.",
       variant: "insight",
     },
     {
-      id: "harden",
-      number: "H",
-      label: "Step 5",
-      title: "Harden",
+      id: "tuning",
+      number: "05",
+      label: "Tune",
+      title: "Tune Like a Guitar",
       description:
-        "Run tests, typecheck, lint. Review the diff line by line. Summarise what changed and why. The diff review is the most important human checkpoint in the entire loop.",
+        "When Ralph does something bad, don't blame the tools — add a sign. Update the prompt, update the specs, update AGENT.md. Each time Ralph misbehaves, Ralph gets tuned. Eventually all Ralph thinks about is the signs.",
       variant: "insight",
     },
   ],
   summary:
-    "Recon → Architecture → Loop → Patch → Harden. Use it every time. If you remember only one framework from this course, make it RALPH.",
+    "while :; do cat PROMPT.md | claude-code; done — One task per loop. Specs as context. Tests as back-pressure. Tune the prompt when the agent misbehaves. The technique is deterministically bad in an undeterministic world.",
 };
 
 export const allFrameworks: Framework[] = [
@@ -414,38 +414,38 @@ export const allFrameworks: Framework[] = [
   diffReviewChecklist,
 ];
 
-/* ─── RALPH Framework (legacy data for RalphSection) ────────────────────── */
+/* ─── Ralph Technique (legacy data for RalphSection) ───────────────────── */
 
 export const ralphFramework: RalphLetter[] = [
   {
     letter: "R",
-    word: "Recon",
+    word: "Ralph Loop",
     description:
-      "Inspect the codebase first. Read relevant files. Understand structure before touching anything.",
+      "while :; do cat PROMPT.md | claude-code; done — the autonomous bash loop. One task per iteration, fresh context every time.",
   },
   {
     letter: "A",
-    word: "Architecture",
+    word: "Allocate Stack",
     description:
-      "Form a plan. Identify which files change, what the approach is, and what the risks are.",
+      "Deterministically load the same context every loop: specs/, fix_plan.md, and AGENT.md. The stack must be identical each iteration.",
   },
   {
     letter: "L",
-    word: "Loop",
+    word: "Let It Choose",
     description:
-      "Work in small, controlled iterations. One slice at a time. Validate before the next loop.",
+      "Trust the LLM to decide what's most important. 'Choose the most important thing.' One task per loop, only one.",
   },
   {
     letter: "P",
-    word: "Patch",
+    word: "Push Back",
     description:
-      "Make the change. Localised, scoped, minimal surface area. Avoid wide-impact edits without approval.",
+      "Tests and build are your back-pressure. They reject invalid code generation. The wheel must turn fast.",
   },
   {
     letter: "H",
-    word: "Harden",
+    word: "Hone the Prompt",
     description:
-      "Run tests, typecheck, lint. Review the diff. Summarise what changed and why.",
+      "When Ralph misbehaves, tune the prompt — like tuning a guitar. Add signs. Update specs. Update AGENT.md.",
   },
 ];
 
@@ -563,10 +563,10 @@ export const enterpriseTopics: ResourceCard[] = [
     items: [
       { label: "Shared AGENTS.md", detail: "AGENTS.md should be committed to the repo and maintained by the team — not each developer's personal copy. Changes go through PR review, just like code. This ensures every developer (and every agent session) starts with the same context." },
       { label: "Resolving rule conflicts", detail: "When two developers disagree on a rule, the rule is discussed in a PR. The team decides. The resolved rule is merged into AGENTS.md. Ad hoc conventions that live in individual prompts create drift." },
-      { label: "Onboarding new developers", detail: "New team members should: 1) Read AGENTS.md, 2) Do the Module 2 exercises on the team's actual project, 3) Pair with an experienced developer for their first RALPH cycle, 4) Review their first three agent-assisted PRs with the team." },
+      { label: "Onboarding new developers", detail: "New team members should: 1) Read AGENTS.md, 2) Do the Module 2 exercises on the team's actual project, 3) Pair with an experienced developer for their first Ralph loop, 4) Review their first three agent-assisted PRs with the team." },
       { label: "Agent-assisted code review", detail: "Use the agent to prepare for code review: 'Read this PR diff and list potential issues: scope, correctness, patterns, tests, accessibility.' The agent provides a first-pass review; the human reviewer makes the decisions." },
       { label: "Skills as team knowledge", detail: "When a developer solves a task well, extract the pattern into a skill file. Over time, the team's collective expertise is encoded in skills — every future agent session benefits from every past success." },
-      { label: "Measuring team adoption", detail: "Track: how many developers use AGENTS.md, how often skills are updated, how many PRs use RALPH, and the rework rate on agent-assisted PRs vs manual PRs. Improvement should be visible within 2-3 sprints." },
+      { label: "Measuring team adoption", detail: "Track: how many developers use AGENTS.md, how often skills are updated, how many PRs use the Ralph technique, and the rework rate on agent-assisted PRs vs manual PRs. Improvement should be visible within 2-3 sprints." },
     ],
   },
   {
@@ -576,14 +576,14 @@ export const enterpriseTopics: ResourceCard[] = [
     description:
       "Without measurement, you cannot tell if AI agents are helping or creating new problems. Track these metrics to see whether the investment is paying off.",
     items: [
-      { label: "Time to first commit", detail: "How long from task start to first meaningful commit? RALPH adds upfront time (Recon, Architecture) but should reduce total time because rework decreases. Track both initial commit time and total task completion time." },
+      { label: "Time to first commit", detail: "How long from task start to first meaningful commit? The Ralph technique adds upfront time (reading, planning) but should reduce total time because rework decreases. Track both initial commit time and total task completion time." },
       { label: "Diff review pass rate", detail: "What percentage of agent-assisted diffs pass review on the first attempt? If this is below 70%, the agent needs better context (AGENTS.md, rules, skills). Target: 85%+ first-pass approval." },
-      { label: "Rework rate", detail: "How often do agent-assisted changes need to be redone? Compare against manually-written code. If agent code has higher rework, the diagnosis is usually weak context or skipped RALPH steps." },
-      { label: "Tasks per session", detail: "How many complete RALPH cycles does a developer run per session? Early on: 2-3. With good instrumentation: 5-8. If it is consistently 1, tasks are too large or the agent needs more context." },
+      { label: "Rework rate", detail: "How often do agent-assisted changes need to be redone? Compare against manually-written code. If agent code has higher rework, the diagnosis is usually weak context or insufficient back-pressure in the loop." },
+      { label: "Tasks per session", detail: "How many complete Ralph loops does a developer run per session? Early on: 2-3. With good instrumentation: 5-8. If it is consistently 1, tasks are too large or the agent needs more context." },
       { label: "Context stack coverage", detail: "How many of the five Context Stack layers does the project have? Layer 1 (AGENTS.md) should be 100% of projects. Layer 3+ (skills) indicates maturity. Track this per project." },
       { label: "Agent failure rate", detail: "How often does the developer stop the agent (the six stop signals from Module 2)? A high stop rate means the agent needs better context. Track which failure type is most common — that tells you what to fix." },
     ],
-    callout: { variant: "insight", title: "The 30-day benchmark", text: "After 30 days of RALPH + project instrumentation, most teams see: 30-50% reduction in time spent on mechanical tasks, 20-30% reduction in code review cycles, and a measurable increase in test coverage because the agent writes tests more consistently than humans." },
+    callout: { variant: "insight", title: "The 30-day benchmark", text: "After 30 days of the Ralph technique + project instrumentation, most teams see: 30-50% reduction in time spent on mechanical tasks, 20-30% reduction in code review cycles, and a measurable increase in test coverage because the agent writes tests more consistently than humans." },
   },
 ];
 
@@ -1389,7 +1389,7 @@ const module1Slides: Slide[] = [
         type: "callout",
         variant: "insight",
         title: "The preview",
-        text: "You just ran the base workflow that becomes RALPH in Module 2. Understand is Recon. Plan is Architecture. Change is Loop + Patch. Validate is Harden. The same four steps, expanded into a complete operating model.",
+        text: "You just ran the base workflow: understand → plan → change → validate. In Module 2, this becomes the Ralph technique — Geoffrey Huntley's autonomous loop for AI-assisted development. PROMPT.md, specs, tests as back-pressure, and continuous tuning.",
       },
     ],
   },
@@ -1422,7 +1422,7 @@ const module1Slides: Slide[] = [
       },
       {
         type: "paragraph",
-        text: "In Module 2, we expand this base workflow into the RALPH framework — a step-by-step operating model with real prompts, drill exercises, and the feedback patterns that make it reliable at scale.",
+        text: "In Module 2, we teach the Ralph technique — the autonomous bash loop that Geoffrey Huntley used to build an entire programming language. Real prompts, drill exercises, and the feedback patterns that make it reliable at scale.",
       },
       {
         type: "quote",
@@ -1440,7 +1440,7 @@ const module1Slides: Slide[] = [
 
 
 
-/* ─── Module 2 — RALPH Workflow + Drill Exercises ───────────────────────── */
+/* ─── Module 2 — The Ralph Technique + Drill Exercises ─────────────────── */
 
 const module2Slides: Slide[] = [
   {
@@ -1530,7 +1530,7 @@ const module2Slides: Slide[] = [
   },
   {
     number: 3,
-    title: "Exercise: vibe-coding vs RALPH",
+    title: "Exercise: vibe-coding vs structured prompting",
     headline: "Exercise 1\n\nSee the difference.\nSame task, two approaches.",
     sections: [
       {
@@ -1587,11 +1587,11 @@ const module2Slides: Slide[] = [
   {
     number: 4,
     title: "R — Recon: inspect before editing",
-    headline: "Step 1: Recon\n\n\"Read and explain.\nDo not change yet.\"",
+    headline: "Read before write\n\n\"Read and explain.\nDo not change yet.\"",
     sections: [
       {
         type: "paragraph",
-        text: "Recon is the first step of RALPH and the single most effective technique for controlling AI coding agents. Before the agent edits anything, it must read the relevant code and explain what it found. No exceptions.",
+        text: "Reading before writing is the single most effective technique for controlling AI coding agents. Before the agent edits anything, it must read the relevant code and explain what it found. No exceptions. Geoffrey Huntley's Ralph technique encodes this as 'don't assume it's not implemented — search the codebase first'.",
       },
       {
         type: "paragraph",
@@ -1660,7 +1660,7 @@ const module2Slides: Slide[] = [
   {
     number: 6,
     title: "A — Architecture: plan before implementing",
-    headline: "Step 2: Architecture\n\nFiles to change.\nApproach.\nRisks.",
+    headline: "Plan before code\n\nFiles to change.\nApproach.\nRisks.",
     sections: [
       {
         type: "paragraph",
@@ -1732,7 +1732,7 @@ const module2Slides: Slide[] = [
         type: "callout",
         variant: "insight",
         title: "What you practised",
-        text: "You reviewed a plan before any code was written. You found and corrected a mistake at the cheapest possible moment. This is the Architecture step — the most underused and most valuable part of RALPH.",
+        text: "You reviewed a plan before any code was written. You found and corrected a mistake at the cheapest possible moment. Planning before coding is the most underused and most valuable part of working with agents.",
       },
     ],
   },
@@ -1784,7 +1784,7 @@ const module2Slides: Slide[] = [
   {
     number: 9,
     title: "H — Harden: verify everything",
-    headline: "Step 5: Harden\n\nTests. Typecheck. Lint.\nDiff. Every time.",
+    headline: "Back-pressure\n\nTests. Typecheck. Lint.\nDiff. Every time.",
     sections: [
       {
         type: "paragraph",
@@ -1814,14 +1814,14 @@ const module2Slides: Slide[] = [
   },
   {
     number: 10,
-    title: "Exercise: full RALPH cycle",
-    headline: "Exercise 4\n\nOne task. All five steps.\nRecon → Architecture →\nLoop → Patch → Harden.",
+    title: "Exercise: the Ralph loop",
+    headline: "Exercise 4\n\nOne task. The full loop.\nPrompt → Execute →\nTest → Tune.",
     sections: [
       {
         type: "callout",
         variant: "exercise",
-        title: "Hands-on: complete RALPH cycle",
-        text: "Pick a real, small task in your project — add a field, fix a display bug, extract a utility function, write a missing test. Execute all five RALPH steps from start to finish.",
+        title: "Hands-on: run a Ralph loop",
+        text: "Pick a real, small task in your project — add a field, fix a display bug, extract a utility function, write a missing test. Write a PROMPT.md, run the agent, verify with tests, and tune the prompt based on what went wrong.",
       },
       {
         type: "subheading",
@@ -1830,8 +1830,8 @@ const module2Slides: Slide[] = [
       {
         type: "code",
         language: "text",
-        code: "# Step 1 — RECON\nRead [the relevant files]. Explain the current structure.\nDo not change anything.\n\n# Step 2 — ARCHITECTURE (after verifying Recon is correct)\nPropose a plan for [your task]. Files, approach, risks.\nDo not implement yet.\n\n# Step 3+4 — LOOP + PATCH (after approving the plan)\nImplement [the first/only slice] following the approved plan.\nRun typecheck after implementing. Show me the diff.\n\n# Step 5 — HARDEN\nRun typecheck, lint, and relevant tests.\nShow me the full diff of all changed files.",
-        caption: "The complete RALPH cycle as prompts",
+        code: "# PROMPT.md — A Ralph loop for [your task]\n\nStudy the codebase. Read [the relevant files].\nDo not assume anything is not implemented — search first.\n\nYour task: [describe the one thing to implement]\n\nConstraints:\n- Follow the patterns in AGENTS.md\n- Use existing components, do not add dependencies\n- After implementing, run tests for the changed code\n- If tests fail, fix them before finishing\n- Commit with a descriptive message\n\nDO NOT implement placeholders. Full implementation only.",
+        caption: "The complete loop as prompts",
       },
       {
         type: "subheading",
@@ -1927,12 +1927,12 @@ const module2Slides: Slide[] = [
   },
   {
     number: 13,
-    title: "RALPH adapts to any task",
-    headline: "RALPH adapts\n\nBug fix. Feature.\nRefactor. Tests. Review.",
+    title: "The technique adapts to any task",
+    headline: "Ralph adapts\n\nBug fix. Feature.\nRefactor. Tests. Review.",
     sections: [
       {
         type: "comparison",
-        headers: ["Task type", "How RALPH adapts"],
+        headers: ["Task type", "How the technique adapts"],
         rows: [
           ["Bug fix", "Recon reproduces the bug. Architecture proposes the fix. Single Patch. Harden includes a regression test."],
           ["New feature", "Recon maps the area. Architecture slices vertically. Multiple iterations. Harden after each slice."],
@@ -1944,12 +1944,12 @@ const module2Slides: Slide[] = [
       {
         type: "callout",
         variant: "rule",
-        title: "The RALPH guarantee",
-        text: "RALPH does not guarantee perfect output. But it guarantees that every mistake is caught early, every assumption is checked, and every change is reviewed before it compounds.",
+        title: "The Ralph guarantee",
+        text: "Ralph does not guarantee perfect output. It's deterministically bad in an undeterministic world. But it guarantees that mistakes are caught by back-pressure (tests/build), every loop starts fresh, and the prompt gets tuned every time the agent misbehaves.",
       },
       {
         type: "quote",
-        text: "Recon → Architecture → Loop → Patch → Harden.\nEvery task. Every time. No exceptions.",
+        text: "while :; do cat PROMPT.md | claude-code; done\nOne task per loop. Specs as context. Tests as back-pressure.\nTune the prompt when Ralph misbehaves.",
       },
     ],
   },
@@ -1967,9 +1967,9 @@ const module2Slides: Slide[] = [
         items: [
           "Every task starts with context, then intent, then code — never the reverse",
           "Good prompts have four parts: what, why, constraints, and what-not",
-          "RALPH is the operating loop: Recon → Architecture → Loop → Patch → Harden",
+          "The Ralph technique: while :; do cat PROMPT.md | claude-code; done — autonomous loops with back-pressure",
           "You experienced the difference between vibe-coding and controlled development",
-          "You practised Recon, Architecture, and a full RALPH cycle on real code",
+          "You practised reading-before-writing, planning-before-coding, and a full Ralph loop on real code",
           "The feedback loop is powerful but must be monitored with the two-attempt rule",
           "Knowing when to stop is as important as knowing how to start",
         ],
@@ -2317,7 +2317,7 @@ const module3Slides: Slide[] = [
         type: "callout",
         variant: "rule",
         title: "Contract 1: Never edit before inspecting",
-        text: "The agent must read and explain relevant files before making any change. This is the Recon step from RALPH, elevated to a hard constraint. No exceptions, no shortcuts.",
+        text: "The agent must read and explain relevant files before making any change. This is the read-before-write principle — a hard constraint. No exceptions, no shortcuts. In Ralph terms: 'don't assume it's not implemented — search the codebase first.'",
       },
       {
         type: "callout",
@@ -2655,7 +2655,7 @@ const module3Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "MCP is powerful, but it is not needed for every task. Most RALPH cycles work perfectly with local tools alone. MCP adds value in specific situations where the agent needs information that is not in the codebase.",
+        text: "MCP is powerful, but it is not needed for every task. Most agent loops work perfectly with local tools alone. MCP adds value in specific situations where the agent needs information that is not in the codebase.",
       },
       {
         type: "subheading",
@@ -2689,7 +2689,7 @@ const module3Slides: Slide[] = [
         type: "callout",
         variant: "rule",
         title: "The MCP principle",
-        text: "Master RALPH with local tools first. Add MCP connections when you repeatedly find yourself manually copying ticket details, design specs, or deployment status into prompts. MCP automates the context transfer that you are doing manually.",
+        text: "Master the agent loop with local tools first. Add MCP connections when you repeatedly find yourself manually copying ticket details, design specs, or deployment status into prompts. MCP automates the context transfer that you are doing manually.",
       },
       {
         type: "subheading",
@@ -2798,7 +2798,7 @@ const module3Slides: Slide[] = [
   {
     number: 18,
     title: "Putting it all together",
-    headline: "The instrumented project\n\nRules + Skills + Contracts\n+ MCP + RALPH = reliable agents.",
+    headline: "The instrumented project\n\nRules + Skills + Contracts\n+ MCP + Ralph = reliable agents.",
     sections: [
       {
         type: "paragraph",
@@ -2816,7 +2816,7 @@ const module3Slides: Slide[] = [
       },
       {
         type: "paragraph",
-        text: "Combined with the RALPH workflow from Module 2, this creates a system where every agent session starts strong, stays controlled, and produces results that match what a senior developer on the team would produce — because the agent has access to the same knowledge, both inside and outside the codebase.",
+        text: "Combined with the Ralph technique from Module 2, this creates a system where every agent loop starts strong, stays controlled, and produces results that match what a senior developer on the team would produce — because the agent has access to the same knowledge, both inside and outside the codebase.",
       },
       {
         type: "subheading",
@@ -2842,7 +2842,7 @@ const module3Slides: Slide[] = [
       },
       {
         type: "paragraph",
-        text: "In Module 4, you combine everything — the mental model from Module 1, the RALPH workflow from Module 2, and the project instrumentation from this module — to build a complete application from scratch with an AI agent. That is where all three modules converge into a single, practical proof.",
+        text: "In Module 4, you combine everything — the mental model from Module 1, the Ralph technique from Module 2, and the project instrumentation from this module — to build a complete application from scratch with an AI agent. That is where all three modules converge into a single, practical proof.",
       },
       {
         type: "quote",
@@ -2862,7 +2862,7 @@ const module4Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "You are looking at the finished product. In this module, you will build it from scratch — using the mental model from Module 1, the RALPH workflow from Module 2, and the project instrumentation from Module 3.",
+        text: "You are looking at the finished product. In this module, you will build it from scratch — using the mental model from Module 1, the Ralph technique from Module 2, and the project instrumentation from Module 3.",
       },
       {
         type: "paragraph",
@@ -2887,7 +2887,7 @@ const module4Slides: Slide[] = [
         type: "callout",
         variant: "rule",
         title: "The capstone rule",
-        text: "Every exercise in this module must follow RALPH. No shortcuts. No vibe-coding. This is where you prove to yourself that the workflow works on a real, multi-component, production-quality build.",
+        text: "Every exercise in this module uses the Ralph technique. No shortcuts. No vibe-coding. This is where you prove to yourself that the technique works on a real, multi-component, production-quality build.",
       },
     ],
   },
@@ -2924,8 +2924,8 @@ const module4Slides: Slide[] = [
       {
         type: "callout",
         variant: "exercise",
-        title: "Hands-on: project scaffold with RALPH",
-        text: "Use RALPH to scaffold the Next.js project, install dependencies, and configure the dark theme in globals.css.",
+        title: "Hands-on: project scaffold with Ralph",
+        text: "Use the Ralph technique to scaffold the Next.js project, install dependencies, and configure the dark theme in globals.css.",
       },
       {
         type: "subheading",
@@ -2956,7 +2956,7 @@ const module4Slides: Slide[] = [
         type: "callout",
         variant: "exercise",
         title: "Hands-on: three slices, three builds",
-        text: "Build the three layout components following RALPH. Each component is one slice. Build and verify after each one.",
+        text: "Build the three layout components following the Ralph technique. Each component is one task per loop. Build and verify after each one.",
       },
       {
         type: "subheading",
@@ -2972,20 +2972,20 @@ const module4Slides: Slide[] = [
       },
       {
         type: "paragraph",
-        text: "For each slice: Recon the current state → ask for a plan → approve → implement → build → review the diff. Three full RALPH cycles.",
+        text: "For each slice: read the current state → ask for a plan → approve → implement → build → review the diff. Three full Ralph loops.",
       },
     ],
   },
   {
     number: 5,
     title: "Exercise: build the hero section",
-    headline: "Exercise 4\n\nThe hero.\nFull RALPH cycle.\nOne shot.",
+    headline: "Exercise 4\n\nThe hero.\nFull Ralph loop.\nOne shot.",
     sections: [
       {
         type: "callout",
         variant: "exercise",
         title: "Hands-on: hero section",
-        text: "Build the full-viewport hero section with the radial glow, responsive title, subtitle, CTA buttons, and tool badges. One RALPH cycle.",
+        text: "Build the full-viewport hero section with the radial glow, responsive title, subtitle, CTA buttons, and tool badges. One Ralph loop.",
       },
       {
         type: "code",
@@ -3007,7 +3007,7 @@ const module4Slides: Slide[] = [
       {
         type: "callout",
         variant: "exercise",
-        title: "Hands-on: multi-slice RALPH on a complex feature",
+        title: "Hands-on: multi-loop Ralph on a complex feature",
         text: "The module accordion with slide viewer is the most complex component. This exercise teaches you how to break a complex feature into slices and build incrementally.",
       },
       {
@@ -3042,7 +3042,7 @@ const module4Slides: Slide[] = [
         type: "callout",
         variant: "exercise",
         title: "Hands-on: apply the pattern to new sections",
-        text: "By now you have the rhythm. Apply RALPH to build the Frameworks section (accordion cards for RALPH, 5 Failures, Autonomy Ladder, Context Stack, Diff Review) and the FAQ section (simple accordion).",
+        text: "By now you have the rhythm. Apply the Ralph technique to build the Frameworks section (accordion cards for Ralph, 5 Failures, Autonomy Ladder, Context Stack, Diff Review) and the FAQ section (simple accordion).",
       },
       {
         type: "subheading",
@@ -3085,13 +3085,13 @@ const module4Slides: Slide[] = [
       },
       {
         type: "paragraph",
-        text: "Fix any Critical or Major findings using RALPH — Recon the problem, plan the fix, patch, harden. This is the same workflow you have been practising all module.",
+        text: "Fix any Critical or Major findings using the Ralph technique — read the problem, plan the fix, implement, verify with tests. This is the same loop you have been practising all module.",
       },
       {
         type: "callout",
         variant: "insight",
         title: "The capstone lesson",
-        text: "You just built a production-quality website using only an AI coding agent and the RALPH workflow. Every component was planned, approved, implemented in slices, and verified. The mental model, the workflow, and the project rules all worked together. This is AI-assisted development done right.",
+        text: "You just built a production-quality website using only an AI coding agent and the Ralph technique. Every component was planned, approved, implemented in loops, and verified. The mental model, the technique, and the project rules all worked together. This is AI-assisted development done right.",
       },
     ],
   },
@@ -3102,7 +3102,7 @@ const module4Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "This course taught you how to think about AI coding agents — the RALPH workflow, the 5 Failures Model, the Autonomy Ladder, the Context Stack, and the Diff Review Checklist. You have the conceptual foundation. But there is a whole practical layer on top: hooks that auto-format your code after every edit, parallel agents running in git worktrees, token optimization strategies, verification loops, plugin ecosystems, and keyboard shortcuts that save hours per week.",
+        text: "This course taught you how to think about AI coding agents — the Ralph technique, the 5 Failures Model, the Autonomy Ladder, the Context Stack, and the Diff Review Checklist. You have the conceptual foundation. But there is a whole practical layer on top: hooks that auto-format your code after every edit, parallel agents running in git worktrees, token optimization strategies, verification loops, plugin ecosystems, and keyboard shortcuts that save hours per week.",
       },
       {
         type: "subheading",
@@ -3310,9 +3310,9 @@ export const courseModules: CourseModule[] = [
     label: "Module 2",
     title: "The developer workflow with Claude Code / OpenCode / Codex / Atomica",
     description:
-      "Learn the RALPH workflow through drill exercises. Practise each step — Recon, Architecture, Loop, Patch, Harden — on real tasks in your own codebase.",
+      "Learn the Ralph technique through drill exercises. The autonomous bash loop, PROMPT.md, specs as context, tests as back-pressure, and continuous prompt tuning — practised on real tasks.",
     keyMessage:
-      "Use the RALPH loop: Recon → Architecture → Loop → Patch → Harden. Small iterations, not giant prompts.",
+      "while :; do cat PROMPT.md | claude-code; done — One task per loop. Specs as context. Tests as back-pressure. Tune the prompt when Ralph misbehaves.",
     slides: module2Slides,
   },
   {
@@ -3332,7 +3332,7 @@ export const courseModules: CourseModule[] = [
     label: "Module 4",
     title: "Capstone: build this course site",
     description:
-      "The capstone project. Apply everything — mental model, RALPH, project rules — to build this course website from scratch with an AI agent.",
+      "The capstone project. Apply everything — mental model, Ralph technique, project rules — to build this course website from scratch with an AI agent.",
     keyMessage:
       "Mental model + workflow + project instrumentation = professional AI-assisted development. Build it to prove it.",
     slides: module4Slides,
