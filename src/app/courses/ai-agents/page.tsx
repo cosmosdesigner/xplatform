@@ -1,7 +1,6 @@
 import { HeroSection } from "@/components/sections/HeroSection";
 import { PrerequisitesSection } from "@/components/sections/PrerequisitesSection";
 import { ModuleSection } from "@/components/sections/ModuleSection";
-import { FrameworksSection } from "@/components/sections/FrameworksSection";
 import { ResourcesSection } from "@/components/sections/ResourcesSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { CtaBanner } from "@/components/sections/CtaBanner";
@@ -12,7 +11,6 @@ export default function AiAgentsCourse() {
       <HeroSection />
       <PrerequisitesSection />
       <ModuleSection accent="#de3163" />
-      <FrameworksSection />
       <ResourcesSection />
       <FaqSection />
       <CtaBanner />

@@ -69,8 +69,8 @@ const module1Slides: Slide[] = [
   },
   {
     number: 3,
-    title: "The Context Stack",
-    headline: "Five layers.\nFrom 30 minutes\nto permanent.",
+    title: "Layering project context",
+    headline: "Multiple layers.\nFrom 30 minutes\nto permanent.",
     sections: [
       {
         type: "paragraph",
@@ -1018,15 +1018,15 @@ const module4Slides: Slide[] = [
 
 export const contextFrameworks = [
   {
-    id: "context-stack",
-    title: "The Context Stack",
-    description: "5-layer model for structuring agent context from foundation to continuous learning.",
+    id: "context-layers",
+    title: "Context Layering",
+    description: "Structure agent context from foundation (AGENTS.md) to advanced (skills, contracts, memory). Based on patterns from Anthropic's CLAUDE.md docs and real-world production repos.",
     items: [
-      "L1: AGENTS.md — project identity (30 min investment, loaded every session)",
-      "L2: Project Rules — constraints as context (1 day, enforced always)",
-      "L3: Skills — on-demand task recipes (1-2 days, loaded per task type)",
-      "L4: Operating Contracts — hard rules that never bend (1 hour per contract)",
-      "L5: Continuous Learning — patterns from sessions (ongoing, automatic)",
+      "AGENTS.md — project identity (30 min investment, loaded every session)",
+      "Project Rules — constraints as context (enforced always)",
+      "Skills — on-demand task recipes (loaded per task type, from Anthropic's skills system)",
+      "Operating Contracts — hard rules that never bend",
+      "Continuous Learning — patterns from sessions (MEMORY.md, from Claude Code's auto memory)",
     ],
   },
   {
@@ -1112,7 +1112,7 @@ export const contextFaqItems = [
   },
   {
     question: "Do I need to complete the AI Coding Agents course first?",
-    answer: "It's strongly recommended. The AI Agents course teaches the mental model (RALPH), the 5 Failures Model, and the Context Stack foundations in Module 3. This course goes deeper into each layer and adds enterprise patterns that build on those concepts.",
+    answer: "It's strongly recommended. The AI Agents course teaches the mental model, the Ralph technique, and project context layering (AGENTS.md, skills, rules) in Module 3. This course goes deeper into each layer and adds enterprise patterns that build on those concepts.",
   },
   {
     question: "What's the minimum I need to get started?",

@@ -47,7 +47,7 @@ export const courses: Course[] = [
     status: "available",
     modules: 5,
     exercises: 21,
-    frameworks: 5,
+    frameworks: 1,
     duration: "12-16 hours",
     tags: [
       "Claude Code",

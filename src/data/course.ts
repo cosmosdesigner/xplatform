@@ -103,316 +103,7 @@ export interface Framework {
 
 /* ─── Frameworks ────────────────────────────────────────────────────────── */
 
-export const fiveFailuresModel: Framework = {
-  id: "five-failures",
-  name: "The 5 Failures Model",
-  tagline: "Why agents fail — a diagnostic checklist (developed for this course)",
-  description:
-    "Developed for this course. When an agent produces bad output, the instinct is to blame the model. But most failures trace to one of five environmental causes. Use this checklist to diagnose and fix the real problem.",
-  items: [
-    {
-      id: "weak-context",
-      number: "01",
-      label: "F1",
-      title: "Weak Context",
-      description:
-        "The agent didn't read enough files, missed a key dependency, or didn't understand the architecture. It made decisions based on incomplete information.",
-      variant: "warning",
-    },
-    {
-      id: "vague-instructions",
-      number: "02",
-      label: "F2",
-      title: "Vague Instructions",
-      description:
-        "The agent had too much freedom, no constraints, and no definition of what 'good' looks like. It made locally-reasonable but globally-wrong choices.",
-      variant: "warning",
-    },
-    {
-      id: "missing-tools",
-      number: "03",
-      label: "F3",
-      title: "Missing Tools",
-      description:
-        "The agent couldn't run tests, couldn't access documentation, couldn't search the codebase, or had no terminal feedback. It operated blind.",
-      variant: "warning",
-    },
-    {
-      id: "no-validation",
-      number: "04",
-      label: "F4",
-      title: "No Validation Loop",
-      description:
-        "Changes were made but nobody checked the result. Errors accumulated silently. The agent had no signal to course-correct.",
-      variant: "warning",
-    },
-    {
-      id: "excessive-autonomy",
-      number: "05",
-      label: "F5",
-      title: "Excessive Autonomy",
-      description:
-        "The agent was given too much scope too soon. It made dozens of decisions across many files without checkpoints, producing a diff too large to review safely.",
-      variant: "warning",
-    },
-  ],
-  summary:
-    "Before blaming the model, check the context, the instructions, the tools, the validation loop, and the scope of autonomy. Most agent failures are environment failures, not intelligence failures.",
-};
-
-export const autonomyLadder: Framework = {
-  id: "autonomy-ladder",
-  name: "The Autonomy Ladder",
-  tagline: "Start at Level 1. Earn your way up. (developed for this course)",
-  description:
-    "Developed for this course. Not every task deserves the same level of agent autonomy. Use this ladder to match the agent's freedom to the risk of the task. Start at the bottom for unfamiliar codebases or critical systems. Move up as trust and instrumentation grow.",
-  items: [
-    {
-      id: "level-1",
-      number: "L1",
-      label: "Level 1",
-      title: "Read Only",
-      description:
-        "The agent reads files and explains. No edits, no plans, no changes. Pure exploration and understanding. Use this when you are new to a codebase or investigating an issue.",
-      variant: "insight",
-    },
-    {
-      id: "level-2",
-      number: "L2",
-      label: "Level 2",
-      title: "Plan Only",
-      description:
-        "The agent reads, explains, and proposes a plan. It identifies which files to change and what the approach is. But it does not edit anything until you approve. Use this for any non-trivial task.",
-      variant: "insight",
-    },
-    {
-      id: "level-3",
-      number: "L3",
-      label: "Level 3",
-      title: "Small Patch",
-      description:
-        "The agent implements a single, scoped change — one function, one component, one test. You review the diff immediately. Use this for well-understood, low-risk changes.",
-      variant: "insight",
-    },
-    {
-      id: "level-4",
-      number: "L4",
-      label: "Level 4",
-      title: "Feature Slice",
-      description:
-        "The agent implements a complete vertical slice — component, tests, styles, wiring. Multiple files, but a coherent unit. Requires a good AGENTS.md and project rules. Review the full diff before committing.",
-      variant: "insight",
-    },
-    {
-      id: "level-5",
-      number: "L5",
-      label: "Level 5",
-      title: "Multi-file Autonomous",
-      description:
-        "The agent works across many files with minimal interruption. Only appropriate when project instrumentation is strong (AGENTS.md, skills, contracts), the task is well-defined, and the developer reviews the final diff carefully.",
-      variant: "insight",
-    },
-  ],
-  summary:
-    "The higher the impact, the lower the level. The stronger the project instrumentation, the higher you can safely go. Never start at Level 5 in an unfamiliar codebase.",
-};
-
-export const contextStack: Framework = {
-  id: "context-stack",
-  name: "The Context Stack",
-  tagline: "Five layers of project intelligence (developed for this course)",
-  description:
-    "Developed for this course. Project instrumentation is not a single file — it is a stack. Each layer builds on the previous. Start at Layer 1. Add layers as your team and project mature. By Layer 5, every agent session starts strong automatically.",
-  items: [
-    {
-      id: "layer-1",
-      number: "L1",
-      label: "Layer 1",
-      title: "AGENTS.md",
-      description:
-        "The foundation. Contains exact dev commands, stack description, folder conventions, hard rules, and non-obvious project context. Every project should have this from day one.",
-      variant: "rule",
-    },
-    {
-      id: "layer-2",
-      number: "L2",
-      label: "Layer 2",
-      title: "Project Rules",
-      description:
-        "Specific conventions encoded as rules: component patterns, testing requirements, design system usage, accessibility standards, import conventions. Rules prevent locally-reasonable but globally-wrong choices.",
-      variant: "rule",
-    },
-    {
-      id: "layer-3",
-      number: "L3",
-      label: "Layer 3",
-      title: "Skills",
-      description:
-        "Reusable instruction files for specific task types: how to create a component, write an API client, write a test, do a performance review. Loaded on demand. Encode best practice from every time the task was done well.",
-      variant: "rule",
-    },
-    {
-      id: "layer-4",
-      number: "L4",
-      label: "Layer 4",
-      title: "Operating Contracts",
-      description:
-        "Hard rules with no exceptions: never edit before inspecting, never invent APIs, never bypass failing tests, never add dependencies without asking. The floor that ensures safe agent behaviour.",
-      variant: "rule",
-    },
-    {
-      id: "layer-5",
-      number: "L5",
-      label: "Layer 5",
-      title: "Continuous Learning",
-      description:
-        "The project captures patterns from successful sessions and failures. New instincts, new rules, and new skills are extracted and added to the stack over time. The project gets smarter with every task.",
-      variant: "rule",
-    },
-  ],
-  summary:
-    "Layer 1 takes 30 minutes. Layer 2 takes a day. Layers 3-5 grow over weeks. The investment compounds — every layer makes every future agent session faster and safer.",
-};
-
-export const diffReviewChecklist: Framework = {
-  id: "diff-review",
-  name: "The Diff Review Checklist",
-  tagline: "Seven questions for every agent-generated diff (developed for this course)",
-  description:
-    "Developed for this course. The diff is the most important checkpoint in AI-assisted development. Before accepting any agent output, run through these seven questions. If any answer is 'no', send the agent back.",
-  items: [
-    {
-      id: "scope",
-      number: "01",
-      label: "Q1",
-      title: "Scope",
-      description:
-        "Did it only change what was asked? Check for files outside the agreed scope, unexpected refactors, or changes to unrelated modules. Scope creep is the most common agent mistake.",
-      variant: "example",
-    },
-    {
-      id: "correctness",
-      number: "02",
-      label: "Q2",
-      title: "Correctness",
-      description:
-        "Does the code actually solve the problem? Does it handle edge cases? Are the types correct? Does the logic match the acceptance criteria, not just the prompt?",
-      variant: "example",
-    },
-    {
-      id: "patterns",
-      number: "03",
-      label: "Q3",
-      title: "Patterns",
-      description:
-        "Does the code follow project conventions? Does it use existing components, hooks, and utilities? Or did the agent reinvent something that already exists?",
-      variant: "example",
-    },
-    {
-      id: "dependencies",
-      number: "04",
-      label: "Q4",
-      title: "Dependencies",
-      description:
-        "Were any new dependencies added? Were they approved? Are they necessary, or did the agent reach for an npm package instead of using what the project already has?",
-      variant: "example",
-    },
-    {
-      id: "tests",
-      number: "05",
-      label: "Q5",
-      title: "Tests",
-      description:
-        "Do tests exist? Do they actually test the behaviour that changed? Do they pass? Are they testing the right thing, or just asserting that the code runs without throwing?",
-      variant: "example",
-    },
-    {
-      id: "side-effects",
-      number: "06",
-      label: "Q6",
-      title: "Side Effects",
-      description:
-        "Are there unintended consequences? Does the change break other features? Does it affect accessibility, performance, security, or the build? Run typecheck and lint.",
-      variant: "example",
-    },
-    {
-      id: "readability",
-      number: "07",
-      label: "Q7",
-      title: "Readability",
-      description:
-        "Can another developer understand this code in six months? Is it clear, well-named, and well-structured? Agent-generated code often works but reads like nobody needs to maintain it.",
-      variant: "example",
-    },
-  ],
-  summary:
-    "Scope → Correctness → Patterns → Dependencies → Tests → Side Effects → Readability. Seven questions. Run them on every diff. The first three catch 80% of problems.",
-};
-
-export const ralphAsFramework: Framework = {
-  id: "ralph",
-  name: "The Ralph Technique",
-  tagline: "The autonomous bash loop — by Geoffrey Huntley",
-  description:
-    "Named after Ralph Wiggum from The Simpsons. Ralph is a technique where you put an AI coding agent in a bash loop with a PROMPT.md file. One task per loop. Specs as context. Tests as back-pressure. The agent runs autonomously, and you tune the prompt when it misbehaves — like tuning a guitar.",
-  items: [
-    {
-      id: "the-loop",
-      number: "01",
-      label: "Core",
-      title: "The Bash Loop",
-      description:
-        "while :; do cat PROMPT.md | claude-code; done — that's it. Ralph runs autonomously in a loop. Each iteration gets a fresh context window with the same PROMPT.md, specs, and fix_plan.md loaded.",
-      variant: "insight",
-    },
-    {
-      id: "one-task",
-      number: "02",
-      label: "Rule",
-      title: "One Task Per Loop",
-      description:
-        "Ask Ralph to do one thing per loop. Only one thing. Let the LLM decide what's most important. 'Choose the most important thing.' You only have ~170k of context — use as little as possible.",
-      variant: "insight",
-    },
-    {
-      id: "specs",
-      number: "03",
-      label: "Input",
-      title: "Specs + Fix Plan",
-      description:
-        "Deterministically allocate the stack the same way every loop: your specs (one per file in specs/) and your fix_plan.md (the living TODO list). These are regenerated and tuned continuously.",
-      variant: "insight",
-    },
-    {
-      id: "backpressure",
-      number: "04",
-      label: "Gate",
-      title: "Back-Pressure via Tests",
-      description:
-        "After implementing, run the tests for that unit of code. The build and test suite is your back-pressure — it rejects invalid code generation. The speed of the wheel turning matters, balanced against correctness.",
-      variant: "insight",
-    },
-    {
-      id: "tuning",
-      number: "05",
-      label: "Tune",
-      title: "Tune Like a Guitar",
-      description:
-        "When Ralph does something bad, don't blame the tools — add a sign. Update the prompt, update the specs, update AGENT.md. Each time Ralph misbehaves, Ralph gets tuned. Eventually all Ralph thinks about is the signs.",
-      variant: "insight",
-    },
-  ],
-  summary:
-    "while :; do cat PROMPT.md | claude-code; done — One task per loop. Specs as context. Tests as back-pressure. Tune the prompt when the agent misbehaves. The technique is deterministically bad in an undeterministic world.",
-};
-
-export const allFrameworks: Framework[] = [
-  ralphAsFramework,
-  fiveFailuresModel,
-  autonomyLadder,
-  contextStack,
-  diffReviewChecklist,
-];
+export const allFrameworks: Framework[] = [];
 
 /* ─── Ralph Technique (data for RalphSection) ─────────────────────────── */
 
@@ -580,7 +271,7 @@ export const enterpriseTopics: ResourceCard[] = [
       { label: "Diff review pass rate", detail: "What percentage of agent-assisted diffs pass review on the first attempt? If the rate is low, the agent likely needs better context (AGENTS.md, rules, skills). Track this metric over time and compare against manually-written code." },
       { label: "Rework rate", detail: "How often do agent-assisted changes need to be redone? Compare against manually-written code. If agent code has higher rework, the diagnosis is usually weak context (improve AGENTS.md) or insufficient back-pressure (add tests/linting to the loop)." },
       { label: "Tasks per session", detail: "How many complete Ralph loops does a developer run per session? If a developer consistently completes only one task per session, the tasks may be too large or the agent may need more context. Track this to calibrate task sizing." },
-      { label: "Context stack coverage", detail: "How many of the five Context Stack layers does the project have? Layer 1 (AGENTS.md) should be 100% of projects. Layer 3+ (skills) indicates maturity. Track this per project." },
+      { label: "Context file coverage", detail: "Does the project have AGENTS.md? Skills? Rules? Operating contracts? AGENTS.md should be in 100% of projects. Skills indicate maturity. Track this per project." },
       { label: "Agent failure rate", detail: "How often does the developer stop the agent (the six stop signals from Module 2)? A high stop rate means the agent needs better context. Track which failure type is most common — that tells you what to fix." },
     ],
     callout: { variant: "insight", title: "The 30-day benchmark", text: "After 30 days of the Ralph technique + project instrumentation, teams typically report: noticeably less time spent on mechanical tasks, fewer code review round-trips, and higher test coverage because the agent writes tests more consistently than humans. Track your own metrics — the improvement varies by team and codebase." },
@@ -644,7 +335,7 @@ export const promptLibrary: PromptTemplate[] = [
     category: "Harden",
     title: "Review a diff before committing",
     prompt: "Review the current diff against these criteria:\n\n1. SCOPE — did we only change what was planned?\n2. CORRECTNESS — is the logic right? Edge cases handled?\n3. PATTERNS — does it follow project conventions?\n4. DEPENDENCIES — any new packages added without approval?\n5. TESTS — do tests cover the changed behaviour?\n6. ACCESSIBILITY — interactive elements correct? ARIA attributes?\n7. READABILITY — will another developer understand this in 6 months?\n\nReport findings as Critical / Major / Minor.",
-    notes: "This is the Diff Review Checklist as a prompt. Use after every Patch, before committing.",
+    notes: "A code review prompt. Use after every change, before committing.",
   },
   {
     id: "stop-reset",
@@ -678,7 +369,7 @@ export const failurePatterns: FailurePattern[] = [
     title: "Scope creep in diffs",
     what: "You asked for a 10-line fix. The agent changed 200 lines across 8 files — renaming variables, reformatting code, 'improving' error handling, and refactoring functions that were not part of the task.",
     why: "The agent optimises for completeness. Without explicit scope boundaries, it expands to fill the available context. Every adjacent 'improvement' it sees becomes part of the task.",
-    fix: "Always include 'what not' in the prompt. Specify which files can be modified. Review the plan before implementation. Use the Diff Review Checklist — check scope first.",
+    fix: "Always include 'what not' in the prompt. Specify which files can be modified. Review the plan before implementation. Check scope first — did the agent only change what was asked?",
     severity: "critical",
   },
   {
@@ -2485,7 +2176,7 @@ const module3Slides: Slide[] = [
   },
   {
     number: 12,
-    title: "The Context Stack",
+    title: "Layering project context",
     headline: "Five layers\n\nEach layer makes every\nfuture session better.",
     sections: [
       {
@@ -2770,14 +2461,14 @@ const module3Slides: Slide[] = [
       {
         type: "callout",
         variant: "exercise",
-        title: "Hands-on: Context Stack audit",
+        title: "Hands-on: project context audit",
         text: "Review the AGENTS.md, rules, skill, and contracts you created in Exercises 1-4. Ask the agent to audit them against the actual codebase.",
       },
       {
         type: "code",
         language: "text",
         code: "Read AGENTS.md and compare it against:\n1. package.json — are the stack versions accurate?\n2. The scripts section — are all commands listed?\n3. src/ directory — does the architecture section match reality?\n4. 3 existing components — do the conventions match?\n5. 3 existing tests — does the testing section match?\n\nReport:\n- Anything in AGENTS.md that is incorrect or outdated\n- Anything in the codebase that is not covered by AGENTS.md\n- Any rules that are contradicted by existing code\n- Any skills that describe a pattern not actually used",
-        caption: "Context Stack audit prompt",
+        caption: "Project context audit prompt",
       },
       {
         type: "subheading",
@@ -2831,7 +2522,7 @@ const module3Slides: Slide[] = [
           "Skills encode recipes — step-by-step procedures for common task types",
           "Contracts define hard limits — never-break rules that ensure safety",
           "The hierarchy is Global → Project → Task — 80% of value is at the project level",
-          "The Context Stack has five layers — start with Layer 1 and grow over time",
+          "Project context has layers — start with AGENTS.md and add skills, rules, contracts as needed",
           "MCP connects agents to external systems — issue trackers, Wikis, CI, design tools",
           "Context files need maintenance — stale context is dangerous context",
         ],
@@ -3042,7 +2733,7 @@ const module4Slides: Slide[] = [
         type: "callout",
         variant: "exercise",
         title: "Hands-on: apply the pattern to new sections",
-        text: "By now you have the rhythm. Apply the Ralph technique to build the Frameworks section (accordion cards for Ralph, 5 Failures, Autonomy Ladder, Context Stack, Diff Review) and the FAQ section (simple accordion).",
+        text: "By now you have the rhythm. Apply the Ralph technique to build the Resources section (tabbed content with enterprise topics, prompt library, and failure patterns) and the FAQ section (simple accordion).",
       },
       {
         type: "subheading",
@@ -3069,13 +2760,13 @@ const module4Slides: Slide[] = [
   {
     number: 8,
     title: "Exercise: final review",
-    headline: "Exercise 7\n\nReview your own work.\nApply the Diff Review Checklist.",
+    headline: "Exercise 7\n\nReview your own work.\nCheck every diff.",
     sections: [
       {
         type: "callout",
         variant: "exercise",
         title: "Hands-on: review and harden the complete site",
-        text: "The site is built. Now review it. Ask the agent to do a full review of the codebase using the Diff Review Checklist and the 5 Failures Model.",
+        text: "The site is built. Now review it. Ask the agent to do a full review of the codebase — check scope, correctness, patterns, dependencies, accessibility, and readability.",
       },
       {
         type: "code",
@@ -3102,7 +2793,7 @@ const module4Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "This course taught you how to think about AI coding agents — the Ralph technique, the 5 Failures Model, the Autonomy Ladder, the Context Stack, and the Diff Review Checklist. You have the conceptual foundation. But there is a whole practical layer on top: hooks that auto-format your code after every edit, parallel agents running in git worktrees, token optimization strategies, verification loops, plugin ecosystems, and keyboard shortcuts that save hours per week.",
+        text: "This course taught you how to think about AI coding agents — the Ralph technique, AGENTS.md, skills, operating contracts, and structured code review. You have the conceptual foundation. But there is a whole practical layer on top: hooks that auto-format your code after every edit, parallel agents running in git worktrees, token optimization strategies, verification loops, plugin ecosystems, and keyboard shortcuts that save hours per week.",
       },
       {
         type: "subheading",
