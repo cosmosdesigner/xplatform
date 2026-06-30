@@ -103,3 +103,14 @@ Each course has its own accent colour passed via the `accent` prop:
 - PresentationViewer is a full-screen overlay triggered by a "Present" button on each module
 - Presentation mode uses CSS `zoom: 1.45` to scale slide content
 - The homepage hero is a luxury editorial layout with transparent nav, Playfair Display serif, and course quick-nav panel
+
+## Rules
+
+- **DO NOT MAKE UP content.** Never fabricate statistics, quotes, framework names, or factual claims. If you don't know something, say you don't know. If a number needs a source, find the source or don't include the number.
+- **DO NOT MAKE ASSUMPTIONS.** Read the actual files before describing them. Verify claims against real sources before writing them into course content. Never present invented concepts as established industry frameworks.
+- **Every factual claim in course content must have a real source.** If referencing a person, quote, statistic, framework, CVE, study, or benchmark — it must be verifiable. Include the source (URL, author, publication) in the course data or do not include the claim.
+- **Original teaching content must be clearly marked.** If you create an exercise, a teaching analogy, or a pedagogical structure — that is fine. But never name it as if it were a published framework, model, or industry standard.
+- **Read before write is mandatory.** Read every file you plan to edit before editing it. Read package.json before claiming a dependency exists. Read the actual component before describing its props.
+- **Do not add npm dependencies without asking.**
+- **Do not edit files outside the current task scope.**
+- **Build must pass.** Run `npm run build` after every change. Zero TypeScript errors required.
