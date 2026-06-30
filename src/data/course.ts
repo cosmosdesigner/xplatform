@@ -60,6 +60,8 @@ export interface Slide {
   body?: string;
   /** Rich content blocks — used when deeper detail is needed */
   sections?: ContentBlock[];
+  /** Key points for presentation mode — short, focused bullets shown instead of full content */
+  presentationPoints?: string[];
 }
 
 export interface CourseModule {
@@ -422,6 +424,11 @@ const module1Slides: Slide[] = [
     number: 1,
     title: "What is an AI Coding Agent?",
     headline: "From autocomplete\nto agent-assisted development",
+    presentationPoints: [
+      "AI moves from suggestion engine to active participant in the development flow",
+      "Tools that can read files, edit code, run commands, interpret errors, and try again",
+      "The agent can write code — the developer remains responsible for the code",
+    ],
     sections: [
       {
         type: "paragraph",

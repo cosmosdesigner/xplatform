@@ -233,10 +233,28 @@ export function PresentationViewer({
             {activeSlide.headline}
           </h2>
 
-          {/* Slide body — scaled up for presentation readability */}
-          <div className="presentation-content">
-            <SlideContent slide={activeSlide} accent={accent} />
-          </div>
+          {/* Slide body — presentation points if available, full content otherwise */}
+          {activeSlide.presentationPoints && activeSlide.presentationPoints.length > 0 ? (
+            <ul className="mt-8 space-y-5 relative z-10">
+              {activeSlide.presentationPoints.map((point, i) => (
+                <li
+                  key={i}
+                  className="flex items-start gap-4 text-[22px] md:text-[28px] lg:text-[32px] text-[#a0a0a0] leading-[1.5]"
+                >
+                  <span
+                    className="mt-3 h-2 w-2 rounded-full shrink-0"
+                    style={{ backgroundColor: accent ?? "#de3163" }}
+                    aria-hidden="true"
+                  />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="presentation-content">
+              <SlideContent slide={activeSlide} accent={accent} />
+            </div>
+          )}
         </div>
       </div>
 
