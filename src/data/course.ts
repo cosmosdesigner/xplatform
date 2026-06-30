@@ -106,9 +106,9 @@ export interface Framework {
 export const fiveFailuresModel: Framework = {
   id: "five-failures",
   name: "The 5 Failures Model",
-  tagline: "Why agents fail — a diagnostic checklist",
+  tagline: "Why agents fail — a diagnostic checklist (developed for this course)",
   description:
-    "When an agent produces bad output, the instinct is to blame the model. But most failures trace to one of five environmental causes. Use this checklist to diagnose and fix the real problem.",
+    "Developed for this course. When an agent produces bad output, the instinct is to blame the model. But most failures trace to one of five environmental causes. Use this checklist to diagnose and fix the real problem.",
   items: [
     {
       id: "weak-context",
@@ -163,9 +163,9 @@ export const fiveFailuresModel: Framework = {
 export const autonomyLadder: Framework = {
   id: "autonomy-ladder",
   name: "The Autonomy Ladder",
-  tagline: "Start at Level 1. Earn your way up.",
+  tagline: "Start at Level 1. Earn your way up. (developed for this course)",
   description:
-    "Not every task deserves the same level of agent autonomy. Use this ladder to match the agent's freedom to the risk of the task. Start at the bottom for unfamiliar codebases or critical systems. Move up as trust and instrumentation grow.",
+    "Developed for this course. Not every task deserves the same level of agent autonomy. Use this ladder to match the agent's freedom to the risk of the task. Start at the bottom for unfamiliar codebases or critical systems. Move up as trust and instrumentation grow.",
   items: [
     {
       id: "level-1",
@@ -220,9 +220,9 @@ export const autonomyLadder: Framework = {
 export const contextStack: Framework = {
   id: "context-stack",
   name: "The Context Stack",
-  tagline: "Five layers of project intelligence",
+  tagline: "Five layers of project intelligence (developed for this course)",
   description:
-    "Project instrumentation is not a single file — it is a stack. Each layer builds on the previous. Start at Layer 1. Add layers as your team and project mature. By Layer 5, every agent session starts strong automatically.",
+    "Developed for this course. Project instrumentation is not a single file — it is a stack. Each layer builds on the previous. Start at Layer 1. Add layers as your team and project mature. By Layer 5, every agent session starts strong automatically.",
   items: [
     {
       id: "layer-1",
@@ -277,9 +277,9 @@ export const contextStack: Framework = {
 export const diffReviewChecklist: Framework = {
   id: "diff-review",
   name: "The Diff Review Checklist",
-  tagline: "Seven questions for every agent-generated diff",
+  tagline: "Seven questions for every agent-generated diff (developed for this course)",
   description:
-    "The diff is the most important checkpoint in AI-assisted development. Before accepting any agent output, run through these seven questions. If any answer is 'no', send the agent back.",
+    "Developed for this course. The diff is the most important checkpoint in AI-assisted development. Before accepting any agent output, run through these seven questions. If any answer is 'no', send the agent back.",
   items: [
     {
       id: "scope",
@@ -414,38 +414,38 @@ export const allFrameworks: Framework[] = [
   diffReviewChecklist,
 ];
 
-/* ─── Ralph Technique (legacy data for RalphSection) ───────────────────── */
+/* ─── Ralph Technique (data for RalphSection) ─────────────────────────── */
 
 export const ralphFramework: RalphLetter[] = [
   {
-    letter: "R",
-    word: "Ralph Loop",
+    letter: "1",
+    word: "The Loop",
     description:
-      "while :; do cat PROMPT.md | claude-code; done — the autonomous bash loop. One task per iteration, fresh context every time.",
+      "while :; do cat PROMPT.md | claude-code; done — the autonomous bash loop. One task per iteration, fresh context every time. (Geoffrey Huntley, ghuntley.com/ralph)",
   },
   {
-    letter: "A",
-    word: "Allocate Stack",
+    letter: "2",
+    word: "One Task",
     description:
-      "Deterministically load the same context every loop: specs/, fix_plan.md, and AGENT.md. The stack must be identical each iteration.",
+      "Ask Ralph to do one thing per loop. Only one. Trust the LLM to decide what's most important. 'Choose the most important thing.'",
   },
   {
-    letter: "L",
-    word: "Let It Choose",
+    letter: "3",
+    word: "Specs + Plan",
     description:
-      "Trust the LLM to decide what's most important. 'Choose the most important thing.' One task per loop, only one.",
+      "Deterministically load the same context every loop: specs/ (one per file) and fix_plan.md (the living TODO). The stack must be identical each iteration.",
   },
   {
-    letter: "P",
-    word: "Push Back",
+    letter: "4",
+    word: "Back-Pressure",
     description:
-      "Tests and build are your back-pressure. They reject invalid code generation. The wheel must turn fast.",
+      "Tests and build reject invalid code generation. After implementing, run the tests for that unit of code. The wheel must turn fast.",
   },
   {
-    letter: "H",
-    word: "Hone the Prompt",
+    letter: "5",
+    word: "Tune",
     description:
-      "When Ralph misbehaves, tune the prompt — like tuning a guitar. Add signs. Update specs. Update AGENT.md.",
+      "When Ralph misbehaves, tune the prompt — like tuning a guitar. Add signs. Update specs. Update AGENT.md. Each time Ralph does something bad, Ralph gets tuned.",
   },
 ];
 
@@ -576,14 +576,14 @@ export const enterpriseTopics: ResourceCard[] = [
     description:
       "Without measurement, you cannot tell if AI agents are helping or creating new problems. Track these metrics to see whether the investment is paying off.",
     items: [
-      { label: "Time to first commit", detail: "How long from task start to first meaningful commit? The Ralph technique adds upfront time (reading, planning) but should reduce total time because rework decreases. Track both initial commit time and total task completion time." },
-      { label: "Diff review pass rate", detail: "What percentage of agent-assisted diffs pass review on the first attempt? If this is below 70%, the agent needs better context (AGENTS.md, rules, skills). Target: 85%+ first-pass approval." },
-      { label: "Rework rate", detail: "How often do agent-assisted changes need to be redone? Compare against manually-written code. If agent code has higher rework, the diagnosis is usually weak context or insufficient back-pressure in the loop." },
-      { label: "Tasks per session", detail: "How many complete Ralph loops does a developer run per session? Early on: 2-3. With good instrumentation: 5-8. If it is consistently 1, tasks are too large or the agent needs more context." },
+      { label: "Time to first commit", detail: "How long from task start to first meaningful commit? The Ralph technique adds upfront time (reading, planning) but should reduce total time because rework decreases. Track both to see the tradeoff in your team." },
+      { label: "Diff review pass rate", detail: "What percentage of agent-assisted diffs pass review on the first attempt? If the rate is low, the agent likely needs better context (AGENTS.md, rules, skills). Track this metric over time and compare against manually-written code." },
+      { label: "Rework rate", detail: "How often do agent-assisted changes need to be redone? Compare against manually-written code. If agent code has higher rework, the diagnosis is usually weak context (improve AGENTS.md) or insufficient back-pressure (add tests/linting to the loop)." },
+      { label: "Tasks per session", detail: "How many complete Ralph loops does a developer run per session? If a developer consistently completes only one task per session, the tasks may be too large or the agent may need more context. Track this to calibrate task sizing." },
       { label: "Context stack coverage", detail: "How many of the five Context Stack layers does the project have? Layer 1 (AGENTS.md) should be 100% of projects. Layer 3+ (skills) indicates maturity. Track this per project." },
       { label: "Agent failure rate", detail: "How often does the developer stop the agent (the six stop signals from Module 2)? A high stop rate means the agent needs better context. Track which failure type is most common — that tells you what to fix." },
     ],
-    callout: { variant: "insight", title: "The 30-day benchmark", text: "After 30 days of the Ralph technique + project instrumentation, most teams see: 30-50% reduction in time spent on mechanical tasks, 20-30% reduction in code review cycles, and a measurable increase in test coverage because the agent writes tests more consistently than humans." },
+    callout: { variant: "insight", title: "The 30-day benchmark", text: "After 30 days of the Ralph technique + project instrumentation, teams typically report: noticeably less time spent on mechanical tasks, fewer code review round-trips, and higher test coverage because the agent writes tests more consistently than humans. Track your own metrics — the improvement varies by team and codebase." },
   },
 ];
 
@@ -1468,7 +1468,7 @@ const module2Slides: Slide[] = [
         type: "callout",
         variant: "rule",
         title: "The starting rule",
-        text: "Context loading is not overhead — it is the single most important step. A task that starts with context takes 20% longer to begin and finishes 50% faster because the agent makes fewer wrong assumptions.",
+        text: "Context loading is not overhead — it is the single most important step. A task that starts with context takes slightly longer to begin but finishes significantly faster because the agent makes fewer wrong assumptions and requires less rework.",
       },
     ],
   },
@@ -1601,7 +1601,7 @@ const module2Slides: Slide[] = [
         type: "callout",
         variant: "warning",
         title: "The most common violation",
-        text: "Many developers skip Recon because it 'feels slow'. But Recon typically takes 30-60 seconds and prevents 30-60 minutes of fixing wrong assumptions. Every time you let the agent edit before it has explained the code, you are gambling that it understood correctly on the first try.",
+        text: "Many developers skip reading because it 'feels slow'. But having the agent read and explain the code before editing is fast and prevents significant time fixing wrong assumptions. Every time you let the agent edit before it has explained the code, you are gambling that it understood correctly on the first try.",
       },
       {
         type: "subheading",

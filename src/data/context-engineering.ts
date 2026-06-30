@@ -483,7 +483,7 @@ const module2Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "It's not just what you include in the context — it's how you present it. A huge blob of unstructured text will confuse the model, while a well-organised input guides it. The 12-Factor Agents project showed that the same information in a custom format used 40% fewer tokens than standard message format.",
+        text: "It's not just what you include in the context — it's how you present it. A huge blob of unstructured text will confuse the model, while a well-organised input guides it. The 12-Factor Agents project (github.com/humanlayer/12-factor-agents) demonstrated that custom context formats can achieve significantly better token efficiency than standard message arrays.",
       },
       {
         type: "subheading",
@@ -504,7 +504,7 @@ const module2Slides: Slide[] = [
         type: "callout",
         variant: "insight",
         title: "Information density",
-        text: "The 12-Factor Agents project demonstrated that custom context formats (using XML tags and YAML instead of standard chat message arrays) achieved the same semantic content with significantly fewer tokens. More information density = more room for actual reasoning.",
+        text: "The 12-Factor Agents project (github.com/humanlayer/12-factor-agents) advocates for custom context formats using XML tags and YAML instead of standard chat message arrays. The principle: higher information density per token means more room for actual reasoning.",
       },
     ] as ContentBlock[],
   },

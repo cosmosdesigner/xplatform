@@ -603,7 +603,7 @@ const module4Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "The context window is your most precious resource. Every MCP server you enable, every file the agent reads, every tool definition — they all consume tokens. The ECC project (223K stars) found that having 20+ MCPs enabled can reduce your effective context from 200K to 70K.",
+        text: "The context window is your most precious resource. Every MCP server you enable, every file the agent reads, every tool definition — they all consume tokens. The ECC project (github.com/affaan-m/ECC) recommends keeping under 10 MCPs enabled and under 80 tools active — too many tool definitions consume thousands of tokens before you even start working.",
       },
       {
         type: "subheading",
