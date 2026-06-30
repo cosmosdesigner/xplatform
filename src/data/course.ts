@@ -461,6 +461,7 @@ const module1Slides: Slide[] = [
   {
     number: 2,
     title: "The old model",
+    presentationPoints: ["In the old model, the AI only knows what you give it", "The developer is the bridge between the AI and the codebase — every step is manual"],
     headline: "Before\n\nAI as assistant.\nAsk. Copy. Adapt. Paste. Test.",
     sections: [
       {
@@ -501,6 +502,7 @@ const module1Slides: Slide[] = [
   {
     number: 3,
     title: "The new model",
+    presentationPoints: ["The agent works inside the development environment — it can inspect, modify, and run", "AI Coding Agent = LLM + code context + tools + terminal + instructions", "The agent can make mistakes at scale"],
     headline: "Now\n\nAI as coding agent.\nReads. Edits. Runs. Learns. Iterates.",
     sections: [
       {
@@ -540,6 +542,7 @@ const module1Slides: Slide[] = [
   {
     number: 4,
     title: "Exercise: see the agent in action",
+    presentationPoints: ["Give the agent a read-only exploration task — watch how it navigates", "The agent reads files by itself, identifies patterns from code"],
     headline: "Exercise 1\n\nAsk the agent to explore.\nWatch what it can do.",
     sections: [
       {
@@ -578,6 +581,7 @@ const module1Slides: Slide[] = [
   {
     number: 5,
     title: "Vibe-coding vs AI-assisted development",
+    presentationPoints: ["Vibe-coding optimises for speed; AI-assisted development optimises for control and quality", "The problem is confusing vibe-coding with software engineering"],
     headline: "Vibe-coding?\n\nCreating fast\nis not the same as\ndelivering well.",
     sections: [
       {
@@ -620,6 +624,7 @@ const module1Slides: Slide[] = [
   {
     number: 6,
     title: "Two modes of using AI",
+    presentationPoints: ["Mode 1: Rapid prototyping — useful for weekend projects, hackathons, demos", "Mode 2: Professional development — required for production code", "The error is using prototype mode for real product work"],
     headline: "Two modes\n\nRapid prototyping\nvs\nDeveloping with control",
     sections: [
       {
@@ -663,6 +668,7 @@ const module1Slides: Slide[] = [
   {
     number: 7,
     title: "Exercise: experience vibe-coding",
+    presentationPoints: ["Give the agent a broad, unconstrained prompt — inspect the output critically", "How many decisions did the agent make without asking you?"],
     headline: "Exercise 2\n\nVibe-code something.\nThen inspect what you got.",
     sections: [
       {
@@ -715,6 +721,7 @@ const module1Slides: Slide[] = [
   {
     number: 8,
     title: "More power, more risk",
+    presentationPoints: ["When the AI edits code directly, the risk profile changes completely", "Greatest danger: plausible code that violates architecture or business rules", "The more capable the agent, the more discipline the developer needs"],
     headline: "More power\n\nalso means\n\nmore risk",
     sections: [
       {
@@ -754,6 +761,7 @@ const module1Slides: Slide[] = [
   {
     number: 9,
     title: "Agent is not a developer",
+    presentationPoints: ["A developer has business context, organisational memory, and responsibility", "An agent has only the prompt and the files it reads — no memory between sessions", "The agent does not know when it is confident but wrong"],
     headline: "Agent ≠ Developer\n\nThe agent executes.\nThe developer decides.",
     sections: [
       {
@@ -787,6 +795,7 @@ const module1Slides: Slide[] = [
   {
     number: 10,
     title: "What is inside an agent?",
+    presentationPoints: ["Four components: Model, Context, Tools, Instructions", "Context is the most common failure point", "Before blaming the model, check the context, tools, and instructions"],
     headline: "The agent\n\nModel + Context + Tools + Instructions",
     sections: [
       {
@@ -828,6 +837,7 @@ const module1Slides: Slide[] = [
   {
     number: 11,
     title: "Where agents are good",
+    presentationPoints: ["Agents are useful when the task is well-defined and the output is verifiable", "Good tasks: explain code, generate boilerplate, write tests, fix lint errors"],
     headline: "Good at\n\nExploring. Explaining.\nGenerating. Iterating.",
     sections: [
       {
@@ -864,6 +874,7 @@ const module1Slides: Slide[] = [
   {
     number: 12,
     title: "Where agents are weak",
+    presentationPoints: ["Agents struggle with hidden context — things not written down", "Broad-impact tasks give the agent too much decision space", "Higher impact = lower autonomy"],
     headline: "Weak at\n\nHidden context.\nBroad impact.\nCritical decisions.",
     sections: [
       {
@@ -911,6 +922,7 @@ const module1Slides: Slide[] = [
   {
     number: 13,
     title: "Exercise: find the limits",
+    presentationPoints: ["Give the agent a task that depends on context it cannot access", "The agent is not stupid — it is blind", "The fix is not a better model — the fix is better context"],
     headline: "Exercise 3\n\nGive the agent a task\nwith hidden context.\nWatch it fail.",
     sections: [
       {
@@ -950,6 +962,7 @@ const module1Slides: Slide[] = [
   {
     number: 14,
     title: "The first safety rule",
+    presentationPoints: ["Do not open the agent and immediately ask 'Implement this feature'", "Start with: inspect, explain, do not change anything yet", "First understand, then plan, only then change"],
     headline: "Do not start with:\n\n\"implement this\"\n\nStart with:\n\n\"inspect and explain\"",
     sections: [
       {
@@ -983,6 +996,7 @@ const module1Slides: Slide[] = [
   {
     number: 15,
     title: "Controlled autonomy",
+    presentationPoints: ["The developer controls objective, scope, constraints, validation, and the final decision", "The developer is the pilot; the agent is a capable co-pilot"],
     headline: "Controlled autonomy\n\nThe agent helps.\nThe human approves.",
     sections: [
       {
@@ -1014,6 +1028,7 @@ const module1Slides: Slide[] = [
   {
     number: 16,
     title: "The base workflow",
+    presentationPoints: ["Four steps: Understand, Plan, Change, Validate", "Most problems happen because developers skip steps 1 and 2"],
     headline: "Base workflow\n\nUnderstand → Plan → Change → Validate",
     sections: [
       {
@@ -1051,6 +1066,7 @@ const module1Slides: Slide[] = [
   {
     number: 17,
     title: "Exercise: your first controlled task",
+    presentationPoints: ["Pick a small task, execute the four-step workflow with no shortcuts", "Let the agent read and explain before changing anything"],
     headline: "Exercise 4\n\nUnderstand → Plan →\nChange → Validate.\nDo it once, properly.",
     sections: [
       {
@@ -1094,6 +1110,7 @@ const module1Slides: Slide[] = [
   {
     number: 18,
     title: "Takeaway",
+    presentationPoints: ["AI Coding Agents can read, edit, run, and iterate inside your project", "Vibe-coding is for prototypes; AI-assisted development is for real products", "Always start with 'inspect and explain', never with 'implement this'"],
     headline: "Main idea\n\nThe agent accelerates.\nThe developer is accountable\nfor quality.",
     sections: [
       {
