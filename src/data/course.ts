@@ -629,7 +629,7 @@ const module1Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "We can use AI for code in two very different ways, and it is important to be conscious about which mode we are in.",
+        text: "The previous slide showed the spectrum from vibe-coding to AI-assisted development. In practice, this splits into two distinct modes — and the mistake is using the wrong mode for the wrong situation.",
       },
       {
         type: "subheading",
@@ -1166,7 +1166,7 @@ const module2Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "The most common mistake developers make with AI coding agents is jumping straight to implementation. They open the tool, type 'add a button' or 'fix the bug', and let the agent go. Without context, the agent guesses — confidently, plausibly, and often wrongly.",
+        text: "In Module 1, you learned what AI coding agents are, where they excel, and where they fail. You practised the base workflow: understand, plan, change, validate. Now we turn that into a repeatable technique. The most common mistake developers make is jumping straight to implementation — typing 'add a button' or 'fix the bug' without context. The agent guesses — confidently, plausibly, and often wrongly.",
       },
       {
         type: "subheading",
@@ -1304,7 +1304,7 @@ const module2Slides: Slide[] = [
   },
   {
     number: 4,
-    title: "R — Recon: inspect before editing",
+    title: "Read before writing",
     presentationPoints: ["Reading before writing is the most effective technique for controlling agents", "It forces the agent to build an accurate mental model before editing", "Don't assume it's not implemented — search the codebase first"],
     headline: "Read before write\n\n\"Read and explain.\nDo not change yet.\"",
     sections: [
@@ -1379,7 +1379,7 @@ const module2Slides: Slide[] = [
   },
   {
     number: 6,
-    title: "A — Architecture: plan before implementing",
+    title: "Plan before implementing",
     presentationPoints: ["After reading, the agent proposes a plan — not code, a description of intent", "Fixing a wrong plan costs zero lines of code", "Never let the agent proceed without your explicit approval"],
     headline: "Plan before code\n\nFiles to change.\nApproach.\nRisks.",
     sections: [
@@ -1460,9 +1460,9 @@ const module2Slides: Slide[] = [
   },
   {
     number: 8,
-    title: "L + P — Loop and Patch",
+    title: "One task per loop",
     presentationPoints: ["One slice at a time — validate each before starting the next", "Giant prompts are hard to review, test, and roll back", "The ideal slice produces a diff you can read in under two minutes"],
-    headline: "Steps 3+4: Loop & Patch\n\nOne slice at a time.\nSmall. Scoped. Reviewable.",
+    headline: "One task per loop\n\nOne slice at a time.\nSmall. Scoped. Reviewable.",
     sections: [
       {
         type: "paragraph",
@@ -1506,7 +1506,7 @@ const module2Slides: Slide[] = [
   },
   {
     number: 9,
-    title: "H — Harden: verify everything",
+    title: "Back-pressure: tests as the gate",
     presentationPoints: ["After every change: typecheck, lint, tests, build, and diff review", "If typecheck fails, stop — never carry errors forward", "The diff is the most important check"],
     headline: "Back-pressure\n\nTests. Typecheck. Lint.\nDiff. Every time.",
     sections: [
@@ -1546,7 +1546,7 @@ const module2Slides: Slide[] = [
         type: "callout",
         variant: "exercise",
         title: "Hands-on: run a Ralph loop",
-        text: "Pick a real, small task in your project — add a field, fix a display bug, extract a utility function, write a missing test. Write a PROMPT.md, run the agent, verify with tests, and tune the prompt based on what went wrong.",
+        text: "Pick a real, small task in your project — add a field, fix a display bug, extract a utility function, write a missing test. Write a PROMPT.md, run the agent, verify with tests, and tune the prompt based on what went wrong.\n\nImportant: the next two slides cover the feedback loop and when to stop the agent. Read those first if you haven't, then come back to this exercise.",
       },
       {
         type: "subheading",
@@ -2240,25 +2240,25 @@ const module3Slides: Slide[] = [
       {
         type: "callout",
         variant: "rule",
-        title: "Layer 1: AGENTS.md — 30 minutes to set up",
+        title: "Layer 1: AGENTS.md — the foundation",
         text: "Stack, commands, architecture, conventions. The foundation that every project should have from day one. You built this in Exercise 1.",
       },
       {
         type: "callout",
         variant: "rule",
-        title: "Layer 2: Project Rules — 1 day to extract",
+        title: "Layer 2: Project Rules",
         text: "Specific constraints for components, styling, API calls, testing, accessibility, dependencies. You built these in Exercise 2.",
       },
       {
         type: "callout",
         variant: "rule",
-        title: "Layer 3: Skills — 1-2 days for the first three",
+        title: "Layer 3: Skills",
         text: "Reusable task recipes for common work: creating components, writing tests, adding API calls. You built one in Exercise 3. Add more as new task types arise.",
       },
       {
         type: "callout",
         variant: "rule",
-        title: "Layer 4: Operating Contracts — 1 hour",
+        title: "Layer 4: Operating Contracts",
         text: "The five essential contracts plus project-specific hard rules. The safety floor. You built these in Exercise 4.",
       },
       {
@@ -2269,7 +2269,7 @@ const module3Slides: Slide[] = [
       },
       {
         type: "paragraph",
-        text: "The investment compounds. Layer 1 takes 30 minutes and saves 5 minutes per session. By the time you have all five layers, every agent session starts at the level of your best developer — automatically, consistently, without repeating yourself.",
+        text: "The investment compounds. By the time you have all five layers, every agent session starts at the level of your best developer — automatically, consistently, without repeating yourself. But so far, all of this lives inside the codebase. The next topic — MCP — is how agents reach outside the codebase to access external systems.",
       },
     ],
   },
@@ -2460,7 +2460,7 @@ const module3Slides: Slide[] = [
     number: 16,
     title: "Exercise: plan your MCP setup",
     presentationPoints: ["Map which external systems your project depends on", "Start with one well-configured MCP server — usually the issue tracker"],
-    headline: "Exercise 6\n\nMap which external systems\nyour project needs.\nPlan the MCP configuration.",
+    headline: "Exercise 5\n\nMap which external systems\nyour project needs.\nPlan the MCP configuration.",
     sections: [
       {
         type: "callout",
@@ -2511,7 +2511,7 @@ const module3Slides: Slide[] = [
     number: 17,
     title: "Exercise: audit your context stack",
     presentationPoints: ["Audit AGENTS.md, rules, skills, and contracts against the actual codebase", "Stale context is dangerous context"],
-    headline: "Exercise 7\n\nAudit your project.\nWhat is missing?\nWhat is stale?",
+    headline: "Exercise 6\n\nAudit your project.\nWhat is missing?\nWhat is stale?",
     sections: [
       {
         type: "callout",
@@ -2877,7 +2877,7 @@ const module4Slides: Slide[] = [
         type: "callout",
         variant: "insight",
         title: "The recommended next step",
-        text: "If you want to be productive immediately, take AI Coding Harnesses next — it's the practical companion to what you just learned. If you want to go deeper on context architecture, take Context Engineering. Both build on the foundation you now have.",
+        text: "If you want to be productive immediately, take AI Coding Harnesses next — it's the practical companion to what you just learned. If you want to go deeper on context architecture, take Context Engineering. Both build on the foundation you now have.\n\nBefore you go: the Bonus Module covers orchestration — what happens when a single agent isn't enough. Subagents, parallel workflows, and the orchestrator-workers pattern.",
       },
     ],
   },
@@ -2896,7 +2896,7 @@ const module5Slides: Slide[] = [
     sections: [
       {
         type: "paragraph",
-        text: "Anthropic's research with dozens of production teams found that the most successful implementations use simple, composable patterns — not complex multi-agent frameworks. Before reaching for agents, understand the five workflow patterns that solve most problems.",
+        text: "In Modules 1-4, you mastered working with a single agent — the Ralph technique, project context, and the capstone build. But what happens when one agent isn't enough? Anthropic's research with dozens of production teams found that the most successful implementations use simple, composable patterns — not complex multi-agent frameworks. Before reaching for multiple agents, understand the five workflow patterns that solve most problems.",
       },
       {
         type: "comparison",
